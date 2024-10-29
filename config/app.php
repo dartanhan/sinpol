@@ -52,9 +52,14 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://127.0.0.1'),
 
-    'asset_url' => env('ASSET_URL', null),
+    'asset_url' => env('ASSET_URL', 'http://127.0.0.1/sinpol/public'),
+
+    'data_site_key' => env('DATA_SITE_KEY',null),
+
+    'data_secret_key' => env('DATA_SECRET_KEY',null),  
+
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +85,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt_BR',
 
     /*
     |--------------------------------------------------------------------------

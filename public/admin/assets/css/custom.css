@@ -1,0 +1,114 @@
+/* styles.css */
+.resize-image{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.product-card img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.product-card h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.product-card p {
+    font-size: 1.1em;
+    color: #555;
+}
+
+.product-card button {
+    display: block;
+    margin: 10px auto;
+}
+
+.product-card {
+    max-width: 300px;
+    max-height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra */
+}
+
+/** Galeria*/
+.product-list-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.product-card-gallery img {
+    width: 100%; /* Ajusta a largura da imagem ao tamanho do .product-card-gallery */
+    height: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.product-card-gallery{
+    max-width: 105px;
+    max-height: 105px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 2px;
+    padding: 2px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra */
+}
+.resize-image-gallery{
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    cursor: pointer;
+}
+/* Estilo padrão do input */
+.error-input {
+    border: 1px solid #ff0000; /* Borda vermelha */
+}
+
+/* Estilo do input quando preenchido corretamente */
+.success-input {
+    border: 1px solid #ccc; /* Borda padrão (cinza) */
+}
+
+.tooltip-container[data-status="0"] .tooltip-inner {
+    background-color: red;
+}
+
+.tooltip-container[data-status="1"] .tooltip-inner {
+    background-color: green;
+}
+.custom-icon-size {
+    font-size: 2em; /* Ajuste o valor conforme necessário */
+}
+.datatable thead th {
+     background-color: #343a40;
+     color: #ffffff;
+ }
+.modal-conteudo{
+    height: 420px;
+    overflow-y: auto;
+}
+.img-thumbnail{
+    /*display: none;*/
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    text-align: center;
+}
+.img-thumbnail-none{
+    display: none;
+}
