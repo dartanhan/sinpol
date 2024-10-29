@@ -126,7 +126,7 @@
                                             <div class="form-row">
                                                 <div class="card" style="height: 420px;overflow-y: auto;">
                                                     <section class="product-list-gallery">
-                                                        < @foreach($images as $image)
+                                                        @foreach($images as $image)
                                                             <div class="product-card-gallery">
                                                                 <img src="{{URL::asset('storage/posts/files/'.$image->path)}}" class="resize-image-gallery" title="Inserir Image">
                                                             </div>

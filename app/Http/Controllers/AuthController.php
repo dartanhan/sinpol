@@ -12,18 +12,6 @@ use ReCaptcha\ReCaptcha;
 
 class AuthController extends Controller
 {
-
-    public function dashboard() {
-
-        if(Auth::check() === true){
-            $user_data = User::where("id",auth()->user()->id)->first();
-
-            return view('admin.dashboard', compact('user_data'));
-        }
-        return redirect()->route('admin.login');
-
-    }
-
     function showLoginForm() {
         //return view('admin.formLogin');
         return view('auth.login');
@@ -31,7 +19,7 @@ class AuthController extends Controller
 
     function login(Request $request) {
 
-        $secret = env('DATA_SECRET_KEY');
+        $secret = config('app.data_secret_key');
         $recaptchaResponse = $_POST['g-recaptcha-response'];
 
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$recaptchaResponse");
@@ -66,7 +54,7 @@ class AuthController extends Controller
             $request->session()->regenerateToken();
         }
 
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 
     function register(){
@@ -76,7 +64,7 @@ class AuthController extends Controller
 
             return view('admin.registro', compact('user_data','usuarios'));
         }
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
 
     }
 
@@ -111,7 +99,7 @@ class AuthController extends Controller
             if ($criado)
                 return redirect()->route('admin.register')->with('success', 'Usuário registrado com sucesso.');
         }else{
-            return redirect()->route('admin.login');
+            return redirect()->route('login');
         }
     }
 

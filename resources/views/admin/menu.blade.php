@@ -55,7 +55,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="route('upload.index')">
+                        <a href="{{route('upload.index')}}">
                             <i class="bi bi-images"></i><span>Galeria de Imagens</span>
                         </a>
                     </li>

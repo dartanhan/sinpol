@@ -28,7 +28,7 @@ class NoticiaController extends Controller
             return  view('admin.noticia',compact('noticias','images','user_data'));
 
         }
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 
     public function store(){

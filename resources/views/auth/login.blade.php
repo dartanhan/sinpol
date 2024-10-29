@@ -12,7 +12,7 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('admin.login.do') }}">
+        <form method="POST" action="{{ route('login.do') }}">
             @csrf
 
             <!-- Email Address -->
@@ -33,7 +33,7 @@
             </div>
 
             <div class="mt-4">
-                <div class="g-recaptcha" data-sitekey="{{ env('DATA_SITE_KEY') }}"></div>
+                <div class="g-recaptcha" data-sitekey="{{ config('app.data_site_key') }}"></div>
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -51,3 +51,4 @@
         </form>
     </x-auth-card>
 </x-guest-layout>
+

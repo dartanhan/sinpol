@@ -56,6 +56,11 @@ return [
 
     'asset_url' => env('ASSET_URL', 'http://127.0.0.1/sinpol/public'),
 
+    'data_site_key' => env('DATA_SITE_KEY',null),
+
+    'data_secret_key' => env('DATA_SECRET_KEY',null),  
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
