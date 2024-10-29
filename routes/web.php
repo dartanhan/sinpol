@@ -36,18 +36,20 @@ Route::post('/admin/login/do',[AuthController::class,'login'])->name('login.do')
  * Admin
 */
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin',config('jetstream.auth_session')], function(){
-  Route::get('/logout',[AuthController::class,'logout'])->name('admin.logout');
-  Route::get('/register',[AuthController::class,'register'])->name('admin.register');
-  Route::post('/store',[AuthController::class,'store'])->name('admin.store');
+    Route::get('/logout',[AuthController::class,'logout'])->name('admin.logout');
+    Route::get('/register',[AuthController::class,'register'])->name('admin.register');
+    Route::post('/store',[AuthController::class,'store'])->name('admin.store');
 
-  
-  Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
-  
-  Route::resource('noticia',NoticiaController::class);
 
-  Route::resource('upload',  UploadController::class);
-  Route::post('/upload-imagem', [UploadController::class, 'store'])->name('uploadImagem');
-  Route::post('/upload/tmp-upload', [UploadController::class, 'tmpUpload'])->name('tmpUpload');
-  Route::delete('/upload/tmp-delete', [UploadController::class, 'tmpDelete'])->name('tmpDelete');
+    Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
+
+    Route::post('/noticia/atualizar-status', [NoticiaController::class, 'atualizarStatus'])->name('atualizar-status');
+    Route::post('/noticia/atualizar-destaque', [NoticiaController::class, 'atualizarDestaque'])->name('atualizar-destaque');
+    Route::resource('noticia',NoticiaController::class);
+
+    Route::resource('upload',  UploadController::class);
+    Route::post('/upload-imagem', [UploadController::class, 'store'])->name('uploadImagem');
+    Route::post('/upload/tmp-upload', [UploadController::class, 'tmpUpload'])->name('tmpUpload');
+    Route::delete('/upload/tmp-delete', [UploadController::class, 'tmpDelete'])->name('tmpDelete');
 
 });

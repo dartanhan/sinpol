@@ -108,7 +108,7 @@
                                                         data-toggle="modal"
                                                         style="margin-right: auto;">Abrir Galeria de Imagens </button>
                                                     </span>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                                                 <button type="submit" class="btn btn-primary">Salvar</button>
                                             </div>
                                         </div>
@@ -196,7 +196,6 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Titulo</th>
                                 <th scope="col">SubTitulo</th>
-                                <th scope="col">Conteudo</th>
                                 <th scope="col">Inativo/Ativo</th>
                                 <th scope="col">Destaque</th>
                                 <th scope="col">Criado em:</th>
@@ -217,20 +216,20 @@
                                     <th scope="row">{{$noticia->id}}</th>
                                     <td>{{$noticia->titulo}}</td>
                                     <td>{{$noticia->subtitulo == "" ? "-" : $noticia->subtitulo}}</td>
-                                    <td>
-                                           <a href="#" class="ler-mais"
-                                            data-toggle="modal"
-                                            data-target="#modalConteudoNoticia"
-                                            data-conteudo="{{ $noticia->conteudo }}"
-                                            data-img-destaque = "{{isset($imgPath) == true ? "../public/storage/posts/files/".$imgPath : ''}}">
+{{--                                    <td>--}}
+{{--                                           <a href="#" class="ler-mais"--}}
+{{--                                            data-toggle="modal"--}}
+{{--                                            data-target="#modalConteudoNoticia"--}}
+{{--                                            data-conteudo="{{ $noticia->conteudo }}"--}}
+{{--                                            data-img-destaque = "{{isset($imgPath) == true ? "../public/storage/posts/files/".$imgPath : ''}}">--}}
 
-                                            <i class="bi bi-eye-fill custom-icon-size text-success"
-                                               data-toggle="tooltip"
-                                               data-placement="top"
-                                               title="Visualizar a Notícia">
-                                            </i>
-                                        </a>
-                                    </td>
+{{--                                            <i class="bi bi-eye-fill custom-icon-size text-success"--}}
+{{--                                               data-toggle="tooltip"--}}
+{{--                                               data-placement="top"--}}
+{{--                                               title="Visualizar a Notícia">--}}
+{{--                                            </i>--}}
+{{--                                        </a>--}}
+{{--                                    </td>--}}
                                     <td class="align-middle" style="text-align: center;">
                                         <div class="form-check form-switch mt-2"  style="display: inline-block; vertical-align: middle;cursor: pointer">
                                             <input class="form-check-input statusSwitch" style="text-align: center;cursor: pointer"
@@ -272,6 +271,18 @@
                                                data-rota="{{route('noticia.edit',$noticia->id,'/edit')}}"
                                                data-rota-update="{{route('noticia.update',$noticia->id)}}">
                                             </i>
+                                            <a href="#" class="ler-mais"
+                                                data-toggle="modal"
+                                                data-target="#modalConteudoNoticia"
+                                                data-conteudo="{{ $noticia->conteudo }}"
+                                                data-img-destaque = "{{isset($imgPath) == true ? "../public/storage/posts/files/".$imgPath : ''}}">
+
+                                                <i class="bi bi-eye-fill custom-icon-size text-success"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="Visualizar a Notícia">
+                                                </i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

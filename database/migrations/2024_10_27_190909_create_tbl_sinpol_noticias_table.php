@@ -14,13 +14,13 @@ class CreateTblSinpolNoticiasTable extends Migration
     public function up()
     {
         Schema::create('tbl_sinpol_noticias', function (Blueprint $table) {
-            $table->id();
-
+            $table->id()->autoIncrement();
             $table->timestamp('data');
-            $table->string('titulo');
-            $table->text('conteudo');
-            $table->integer('imagem_id');
-            $table->boolean('status');
+            $table->string('titulo',200);
+            $table->string('subtitulo',255);
+            $table->longText('conteudo');
+            $table->integer('imagem_id')->nullable(true);
+            $table->boolean('status')->default(false);
 
             $table->timestamps();
         });
