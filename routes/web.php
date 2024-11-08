@@ -6,6 +6,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\BeneficioController;
+use App\Http\Controllers\ConvenioController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\SocialMediaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +24,8 @@ use App\Http\Controllers\UploadController;
 
 
 Route::get('/',[HomeController::class,'index'])->name('home.home');
+Route::get('/home/{pagina}/{slug?}',[HomeController::class,'single'])->name('home.single');
+
 
 //Route::get('/dashboard', function () {
  //  return view('dashboard');
@@ -36,18 +43,35 @@ Route::post('/admin/login/do',[AuthController::class,'login'])->name('login.do')
  * Admin
 */
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin',config('jetstream.auth_session')], function(){
-  Route::get('/logout',[AuthController::class,'logout'])->name('admin.logout');
-  Route::get('/register',[AuthController::class,'register'])->name('admin.register');
-  Route::post('/store',[AuthController::class,'store'])->name('admin.store');
+    Route::get('/logout',[AuthController::class,'logout'])->name('admin.logout');
+    Route::get('/register',[AuthController::class,'register'])->name('admin.registro');
+    Route::post('/store',[AuthController::class,'store'])->name('admin.store');
 
-  
-  Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
-  
-  Route::resource('noticia',NoticiaController::class);
 
-  Route::resource('upload',  UploadController::class);
-  Route::post('/upload-imagem', [UploadController::class, 'store'])->name('uploadImagem');
-  Route::post('/upload/tmp-upload', [UploadController::class, 'tmpUpload'])->name('tmpUpload');
-  Route::delete('/upload/tmp-delete', [UploadController::class, 'tmpDelete'])->name('tmpDelete');
+    Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
+
+    Route::post('/noticia/atualizar-status', [NoticiaController::class, 'atualizarStatus'])->name('atualizar-status');
+    Route::post('/noticia/atualizar-destaque', [NoticiaController::class, 'atualizarDestaque'])->name('atualizar-destaque');
+    Route::post('/noticia/removeImageGallery', [NoticiaController::class, 'removeImageGallery'])->name('remove-galery-image');
+    Route::resource('noticia',NoticiaController::class);
+
+    Route::post('/video/atualizar-status', [VideoController::class, 'atualizarStatus'])->name('atualizar-status-video');
+    Route::resource('video',VideoController::class);
+
+    Route::post('/beneficio/atualizar-status', [BeneficioController::class, 'atualizarStatus'])->name('atualizar-status-beneficio');
+    Route::resource('beneficio',BeneficioController::class);
+
+    Route::post('/convenio/atualizar-status', [ConvenioController::class, 'atualizarStatus'])->name('atualizar-status-convenio');
+    Route::resource('convenio',ConvenioController::class);
+
+    Route::post('/socialmedia/atualizar-status', [SocialMediaController::class, 'atualizarStatus'])->name('atualizar-status-socialmedia');
+    Route::resource('socialmedia',SocialMediaController::class);
+
+    Route::resource('usuario',UsuarioController::class);
+
+    Route::resource('upload',  UploadController::class);
+    Route::post('/upload-imagem', [UploadController::class, 'store'])->name('uploadImagem');
+    Route::post('/upload/tmp-upload', [UploadController::class, 'tmpUpload'])->name('tmpUpload');
+    Route::delete('/upload/tmp-delete', [UploadController::class, 'tmpDelete'])->name('tmpDelete');
 
 });

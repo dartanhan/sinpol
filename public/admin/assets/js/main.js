@@ -33,7 +33,7 @@
   }
 
   /**
-   * Easy on scroll event listener 
+   * Easy on scroll event listener
    */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
@@ -194,11 +194,13 @@
     menubar: 'file edit view insert format tools table help',
     toolbar: "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl",
     autosave_ask_before_unload: true,
+      toolbar_sticky_offset: isSmallScreen ? 102 : 108,
     autosave_interval: '30s',
     autosave_prefix: '{path}{query}-{id}-',
     autosave_restore_when_empty: false,
     autosave_retention: '2m',
     image_advtab: true,
+    language: 'pt_BR',
     link_list: [{
         title: 'My page 1',
         value: 'https://www.tiny.cloud'

@@ -58,7 +58,7 @@ return [
 
     'data_site_key' => env('DATA_SITE_KEY',null),
 
-    'data_secret_key' => env('DATA_SECRET_KEY',null),  
+    'data_secret_key' => env('DATA_SECRET_KEY',null),
 
 
     /*
@@ -72,7 +72,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------

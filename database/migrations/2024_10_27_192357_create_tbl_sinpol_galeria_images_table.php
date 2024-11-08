@@ -16,8 +16,8 @@ class CreateTblSinpolGaleriaImagesTable extends Migration
         Schema::create('tbl_sinpol_galeria_images', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('path',255);
-            $table->unsignedBigInteger('file_id');           
-            $table->foreign('file_id')->references('id')->on('tbl_sindaut_convencao');
+           // $table->unsignedBigInteger('file_id');
+            ///$table->foreign('file_id')->references('id')->on('tbl_sinpol_convencoes');
             $table->timestamps();
         });
     }

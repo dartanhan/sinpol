@@ -61,8 +61,18 @@ class UploadController extends Controller
 
         $temp_file = TemporaryFile::where('folder',$this->request->image)->first();
 
+        $tempPath = 'posts/tmp/'.$temp_file->folder.'/'.$temp_file->file;
+        $destPath = 'posts/files/'.$temp_file->file;
+
         if($temp_file){
-            Storage::copy('posts/tmp/'.$temp_file->folder.'/'.$temp_file->file,'posts/files/'.$temp_file->file);
+            if (Storage::exists($tempPath)) {
+                Storage::copy($tempPath, $destPath);
+            } else {
+                // Exibe uma mensagem ou manipula o erro
+                throw new \Exception("O arquivo não foi encontrado em: " . $tempPath);
+            }
+
+           // Storage::copy('posts/tmp/'.$temp_file->folder.'/'.$temp_file->file,'posts/files/'.$temp_file->file);
 
             GaleriaImagem::create([
                        'path' =>  $temp_file->file

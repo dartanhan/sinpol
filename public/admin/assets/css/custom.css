@@ -112,3 +112,6 @@
 .img-thumbnail-none{
     display: none;
 }
+.imagem-selecao{
+    cursor: pointer;
+}

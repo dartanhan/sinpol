@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +38,16 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        // Verifica se o erro é de CSRF (TokenMismatch)
+        if ($exception instanceof TokenMismatchException) {
+            // Redireciona o usuário para a página de login com uma mensagem de aviso
+            return redirect()->route('showLoginForm')->with('error', 'Sua sessão expirou. Por favor, faça login novamente.');
+        }
+
+        return parent::render($request, $exception);
     }
 }
