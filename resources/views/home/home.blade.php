@@ -1,99 +1,82 @@
 @extends('layouts')
 
+
+@section('breakingNews')
+    @include('home.breakingNews')
+@endsection
+
+@section('featuredNews')
+    @include('home.featuredNews')
+@endsection
+
+@section('newsWith')
+    @include('home.newsWith')
+@endsection
+
+
 @section('content')
+
 <div class="row">
-            <div class="col-lg-7 px-0">
-                <div class="owl-carousel main-carousel position-relative">
-                    <div class="position-relative overflow-hidden" style="height: 500px;">
-                        <img class="img-fluid h-100" src="{{URL::asset('img/news-800x500-1.jpg')}}" style="object-fit: cover;">
-                        <div class="overlay">
-                            <div class="mb-2">
-                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                    href="">Business</a>
-                                <a class="text-white" href="">Jan 01, 2045</a>
-                            </div>
-                            <a class="h2 m-0 text-white text-uppercase font-weight-bold" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
-                        </div>
+    <div class="col-lg-7 px-0">
+        <div class="owl-carousel main-carousel position-relative">
+            @foreach($noticiasPrincipais as $key => $noticia)
+            <div class="position-relative overflow-hidden" style="height: 500px;">
+                @foreach($noticia['imagens'] as $key => $imagem)
+                    @if(!empty($imagem) && strlen($imagem->path) > 0)
+                        <img class="img-fluid h-100" src="{{ URL::asset("storage/posts/files/".$imagem->path) }}" style="object-fit: cover;">
+                        @break
+                    @endif
+                @endforeach
+                <div class="overlay">
+                    <div class="mb-2">
+                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                           href="{{route('home.single',['pagina' => 'noticia','slug' => $noticia->slug])}}">Notícia</a>
+                        <a class="text-white text-uppercase font-weight-semi-bold p-2 mr-2"
+                           href="{{route('home.single',['pagina' => 'noticia','slug' => $noticia->slug])}}">
+                                {{$noticia->titulo}} - {{$noticia->created_at}}
+                        </a>
                     </div>
-                    <div class="position-relative overflow-hidden" style="height: 500px;">
-                        <img class="img-fluid h-100" src="{{URL::asset('img/news-800x500-2.jpg')}}" style="object-fit: cover;">
-                        <div class="overlay">
-                            <div class="mb-2">
-                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                    href="">Business</a>
-                                <a class="text-white" href="">Jan 01, 2045</a>
-                            </div>
-                            <a class="h2 m-0 text-white text-uppercase font-weight-bold" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
-                        </div>
-                    </div>
-                    <div class="position-relative overflow-hidden" style="height: 500px;">
-                        <img class="img-fluid h-100" src="{{URL::asset('img/news-800x500-3.jpg')}}" style="object-fit: cover;">
-                        <div class="overlay">
-                            <div class="mb-2">
-                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                    href="">Business</a>
-                                <a class="text-white" href="">Jan 01, 2045</a>
-                            </div>
-                            <a class="h2 m-0 text-white text-uppercase font-weight-bold" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
-                        </div>
-                    </div>
+                    {!! substr(strip_tags($noticia->subtitulo), 0, 150) !!} <!-- Exibe os primeiros 100 caracteres do conteúdo -->
+                    @if(strlen(strip_tags($noticia->subtitulo)) > 150)
+                        <a class="h2 m-0 text-white text-uppercase font-weight-bold" href="{{route('home.single',['pagina' => 'noticia','slug' => $noticia->slug])}}">
+                            [...]
+                        </a>
+                    @endif
                 </div>
             </div>
-            <div class="col-lg-5 px-0">
-                <div class="row mx-0">
-                    <div class="col-md-6 px-0">
-                        <div class="position-relative overflow-hidden" style="height: 250px;">
-                            <img class="img-fluid w-100 h-100" src="{{URL::asset('img/news-700x435-1.jpg')}}" style="object-fit: cover;">
-                            <div class="overlay">
-                                <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                        href="">Business</a>
-                                    <a class="text-white" href=""><small>Jan 01, 2045</small></a>
-                                </div>
-                                <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="">Lorem ipsum dolor sit amet elit...</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 px-0">
-                        <div class="position-relative overflow-hidden" style="height: 250px;">
-                            <img class="img-fluid w-100 h-100" src="{{URL::asset('img/news-700x435-2.jpg')}}" style="object-fit: cover;">
-                            <div class="overlay">
-                                <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                        href="">Business</a>
-                                    <a class="text-white" href=""><small>Jan 01, 2045</small></a>
-                                </div>
-                                <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="">Lorem ipsum dolor sit amet elit...</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 px-0">
-                        <div class="position-relative overflow-hidden" style="height: 250px;">
-                            <img class="img-fluid w-100 h-100" src="{{URL::asset('img/news-700x435-3.jpg')}}" style="object-fit: cover;">
-                            <div class="overlay">
-                                <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                        href="">Business</a>
-                                    <a class="text-white" href=""><small>Jan 01, 2045</small></a>
-                                </div>
-                                <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="">Lorem ipsum dolor sit amet elit...</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 px-0">
-                        <div class="position-relative overflow-hidden" style="height: 250px;">
-                            <img class="img-fluid w-100 h-100" src="{{URL::asset('img/news-700x435-4.jpg')}}" style="object-fit: cover;">
-                            <div class="overlay">
-                                <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                        href="">Business</a>
-                                    <a class="text-white" href=""><small>Jan 01, 2045</small></a>
-                                </div>
-                                <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="">Lorem ipsum dolor sit amet elit...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
+    </div>
+    <div class="col-lg-5 px-0">
+        <div class="row mx-0">
+            @foreach($noticiasSecundarias as $key => $noticiaSecundaria)
+
+                <div class="col-md-6 px-0">
+                    <div class="position-relative overflow-hidden" style="height: 250px;">
+                        @foreach($noticiaSecundaria['imagens'] as $key => $imagem)
+                            @if(!empty($imagem) && strlen($imagem->path) > 0)
+                                <img class="img-fluid w-100 h-100" src="{{ URL::asset("storage/posts/files/".$imagem->path) }}" style="object-fit: cover;">
+                            @break
+                            @endif
+                        @endforeach
+                        <div class="overlay">
+                            <div class="mb-2">
+                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                    href="{{route('home.single',['pagina' => 'noticia','slug' => $noticiaSecundaria->slug])}}">Notícias</a>
+                                <a class="text-white" href="{{route('home.single',['pagina' => 'noticia','slug' => $noticiaSecundaria->slug])}}">
+                                    <small>{{$noticiaSecundaria->created_at}}</small>
+                                </a>
+                            </div>
+
+                            <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold"
+                               href="{{route('home.single',['pagina' => 'noticia','slug' => $noticiaSecundaria->slug])}}">
+                                {!! substr(strip_tags($noticiaSecundaria->subtitulo), 0, 30) !!}...
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
 @endsection

@@ -14,35 +14,48 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="route('beneficio.index')">
+                <a class="nav-link collapsed" href="{{route('beneficio.index')}}">
                     <i class="bi bi-gift"></i>
                     <span>Benefícios</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="route('convencao.index')">
-                    <i class="bi bi-people"></i>
-                    <span>Convenção Coleteiva</span>
+                <a class="nav-link collapsed" data-bs-target="#components-convenio-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-person-check"></i><span>Convênios</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
+                <ul id="components-convenio-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+{{--                    <li>--}}
+{{--                        <a href="{{route('convenio.index')}}">--}}
+{{--                            <i class="bi bi-plus-circle"></i>--}}
+{{--                            <span>Como Obter</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+                    <li>
+                        <a href="{{route('convenio.index')}}">
+                            <i class="bi bi-shop"></i><span>Estabelecimentos</span>
+                        </a>
+                    </li>
+
+                </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="route('depjuridico.index')">
-                    <i class="bi bi-briefcase-fill"></i>
-                    <span>Departamento Jurídico</span>
+                <a class="nav-link collapsed" href="{{route('socialmedia.index')}}">
+                    <i class="bi bi-whatsapp"></i>
+                    <span>Social Media</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="route('historia.index')">
-                    <i class="bi bi-book"></i>
-                    <span>História</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="route('homologacao.index')">
-                    <i class="bi bi-tools"></i>
-                    <span>Homologação</span>
-                </a>
-            </li> 
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link collapsed" href="route('historia.index')">--}}
+{{--                    <i class="bi bi-book"></i>--}}
+{{--                    <span>História</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link collapsed" href="route('homologacao.index')">--}}
+{{--                    <i class="bi bi-tools"></i>--}}
+{{--                    <span>Homologação</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Noticias</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -59,15 +72,21 @@
                             <i class="bi bi-images"></i><span>Galeria de Imagens</span>
                         </a>
                     </li>
-                    
+
                 </ul>
             </li>
-            <!-- End Components Nav -->  
-             <!-- Register Page Nav -->        
+            <!-- End Components Nav -->
+             <!-- Register Page Nav -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('admin.register')}}">
+                <a class="nav-link collapsed" href="{{route('admin.registro')}}">
                     <i class="bi bi-person-plus"></i>
                     <span>Registro</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('video.index')}}">
+                    <i class="bi bi-camera"></i>
+                    <span>Vídeos</span>
                 </a>
             </li>
             <!-- End Register Page Nav -->

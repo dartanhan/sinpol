@@ -3,17 +3,17 @@
 
 <head>
     <meta charset="utf-8">
-    <title>BizNews - Free News Website Template</title>
+    <title>SINPOL - Sindicato dos Funcionários da Polícia Civil</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="{{URL::asset('img/favicon.ico')}}" rel="icon">
+    <link href="{{URL::asset('img/logo_sinpol.ico')}}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
@@ -44,30 +44,9 @@
             </nav>
         </div>
         <div class="col-lg-3 text-right d-none d-md-block">
-            <nav class="navbar navbar-expand-sm bg-dark p-0">
-                <ul class="navbar-nav ml-auto mr-n2">
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-twitter"></small></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-facebook-f"></small></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-linkedin-in"></small></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-instagram"></small></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-google-plus-g"></small></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-youtube"></small></a>
-                    </li>
-                </ul>
-            </nav>
+            @include('home.socialmedia')
         </div>
-    </div>  
+    </div>
 </div>
 
     <div class="row d-none d-lg-block">
@@ -80,9 +59,9 @@
 
     <!-- Navbar Start -->
     <div class="container-fluid p-0">
-    
+
         @include('home.menu')
-   
+
     </div>
     <!-- Navbar End -->
 
@@ -95,22 +74,18 @@
 
 
     <!-- Breaking News Start -->
-    <div class="container-fluid bg-dark py-3 mb-3">
-        @include('home.breakingNews')
-    </div>
+        @yield('breakingNews')
     <!-- Breaking News End -->
 
 
     <!-- Featured News Slider Start -->
-    <div class="container-fluid pt-5 mb-3">
-        @include('home.featuredNews')
-    </div>
+        @yield('featuredNews')
     <!-- Featured News Slider End -->
 
 
     <!-- News With Sidebar Start -->
     <div class="container-fluid">
-        @include('home.newsWith')
+        @yield('newsWith')
     </div>
     <!-- News With Sidebar End -->
 
@@ -120,8 +95,8 @@
         @include('home.footer')
     </div>
     <div class="container-fluid py-4 px-sm-3 px-md-5" style="background: #111111;">
-        <p class="m-0 text-center">&copy; <a href="#">Sinpol - Sindicato dos Funcionários da Polícia Civil do Estado do Rio de Janeiro </a>. All Rights Reserved. 
-		
+        <p class="m-0 text-center">&copy; <a href="#">Sinpol - Sindicato dos Funcionários da Polícia Civil do Estado do Rio de Janeiro </a>. All Rights Reserved.
+
 		<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
 		<!-- Design by <a href="https://htmlcodex.com">HTML Codex</a></p> -->
     </div>

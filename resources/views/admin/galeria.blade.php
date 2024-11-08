@@ -75,8 +75,9 @@
             <section class="product-list">
                 @foreach($images as $image)
                     @php
+                        /** @var TYPE_NAME $image */
                         $extension = pathinfo($image->path, PATHINFO_EXTENSION);
-                    
+
                         // Mapeamento das extensões para tipos de arquivo
                         $fileTypes = [
                             'pdf' => 'pdf',
@@ -87,16 +88,24 @@
                             // Adicione outras extensões conforme necessário
                         ];
                     @endphp
-                    
+
                     @if(isset($fileTypes[$extension]))
                         <div class="product-card">
                             <img src="{{URL::asset('images/'.$fileTypes[$extension].'.png')}}" class="resize-image">
-                            <button class="btn btn-xs btn-danger" title="Remover Image">Deletar</button>
+                            <button class="btn btn-xs btn-danger btnRemove" title="Remover Image"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    data-id="{{$image->id}}"
+                                    data-rota="{{route('remove-galery-image')}}">Deletar</button>
                         </div>
                     @else
                         <div class="product-card">
                             <img src="{{URL::asset('storage/posts/files/'.$image->path)}}" class="resize-image">
-                            <button class="btn btn-xs btn-danger" title="Remover Image">Deletar</button>
+                            <button class="btn btn-xs btn-danger btnRemove" title="Remover Arquivo"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    data-id="{{$image->id}}"
+                                    data-rota="{{route('remove-galery-image')}}">Deletar</button>
                         </div>
                     @endif
                 @endforeach
@@ -113,5 +122,6 @@
 @endpush
 @push("scripts")
     <script src="{{URL::asset('admin/assets/js/file-pond-custom.js')}}"></script>
+    <script src="{{URL::asset('admin/assets/js/custom.js')}}"></script>
 @endpush
 

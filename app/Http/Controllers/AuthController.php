@@ -13,6 +13,7 @@ use ReCaptcha\ReCaptcha;
 class AuthController extends Controller
 {
     function showLoginForm() {
+
         //return view('admin.formLogin');
         return view('auth.login');
     }
@@ -87,7 +88,7 @@ class AuthController extends Controller
 
             if ($validator->fails()) {
                 $error = $validator->errors()->first();
-                return redirect()->route('admin.register')->with('danger', $error);
+                return redirect()->route('admin.registro')->with('danger', $error);
             }
 
             $criado = User::create([
@@ -97,10 +98,12 @@ class AuthController extends Controller
             ]);
 
             if ($criado)
-                return redirect()->route('admin.register')->with('success', 'Usuário registrado com sucesso.');
+                return redirect()->route('admin.registro')->with('success', 'Usuário registrado com sucesso.');
         }else{
             return redirect()->route('login');
         }
     }
+
+
 
 }
