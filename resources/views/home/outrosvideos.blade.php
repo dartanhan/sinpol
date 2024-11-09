@@ -2,42 +2,42 @@
 
 @section('content')
 
-    <!-- Breaking News Start -->
-    <div class="container-fluid mt-5 mb-3 pt-3">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-12">
-                    <div class="d-flex justify-content-between">
-                        <div class="section-title border-right-0 mb-0" style="width: 180px;">
-                            <h4 class="m-0 text-uppercase font-weight-bold">Notícias</h4>
-                        </div>
-                        <div class="owl-carousel tranding-carousel position-relative d-inline-flex align-items-center bg-white border border-left-0"
-                             style="width: calc(100% - 180px); padding-right: 100px;">
-                            @foreach($noticiasBreakNews as $key => $noticiasBreakNew)
-                                <div class="text-truncate">
-                                    <a class="text-secondary text-uppercase font-weight-semi-bold"
-                                       href="{{route('home.single',[ 'pagina' => 'noticia', 'slug' => $noticiasBreakNew->slug])}}">
-                                        {{$noticiasBreakNew->subtitulo}}
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Breaking News End -->
+{{--    <!-- Breaking News Start -->--}}
+{{--    <div class="container-fluid mt-5 mb-3 pt-3">--}}
+{{--        <div class="container">--}}
+{{--            <div class="row align-items-center">--}}
+{{--                <div class="col-12">--}}
+{{--                    <div class="d-flex justify-content-between">--}}
+{{--                        <div class="section-title border-right-0 mb-0" style="width: 180px;">--}}
+{{--                            <h4 class="m-0 text-uppercase font-weight-bold">Notícias</h4>--}}
+{{--                        </div>--}}
+{{--                        <div class="owl-carousel tranding-carousel position-relative d-inline-flex align-items-center bg-white border border-left-0"--}}
+{{--                             style="width: calc(100% - 180px); padding-right: 100px;">--}}
+{{--                            @foreach($noticiasBreakNews as $key => $noticiasBreakNew)--}}
+{{--                                <div class="text-truncate">--}}
+{{--                                    <a class="text-secondary text-uppercase font-weight-semi-bold"--}}
+{{--                                       href="{{route('home.single',[ 'pagina' => 'noticia', 'slug' => $noticiasBreakNew->slug])}}">--}}
+{{--                                        {{$noticiasBreakNew->subtitulo}}--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <!-- Breaking News End -->--}}
 
 
     <!-- News With Sidebar Start -->
-    <div class="container">
+    <div class="container mt-5 mb-3 pt-3">
         <div class="row">
             <div class="col-lg-8">
                 <div class="row">
                     <div class="col-12">
                         <div class="section-title">
-                            <h4 class="m-0 text-uppercase font-weight-bold">Outras Notícias</h4>
+                            <h4 class="m-0 text-uppercase font-weight-bold">Outros Vídeos</h4>
                         </div>
                     </div>
 
@@ -84,7 +84,7 @@
                             <div class="col-12 mt-4">
                                 <div class="d-flex justify-content-center">
                                     <nav aria-label="Page navigation">
-                                        {{ $noticias->links('pagination::bootstrap-4') }}
+                                        {{ $videos->links('pagination::bootstrap-4') }}
                                     </nav>
                                 </div>
                             </div>
