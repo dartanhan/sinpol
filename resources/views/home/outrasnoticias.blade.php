@@ -55,9 +55,11 @@
                                         <div class="mb-2">
                                             <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
                                                href="{{ route('home.home') }}">Notícias</a>
-                                            <a class="text-body" href=""><small>{{ $noticia->created_at }}</small></a>
+                                            <a class="text-body"><small>{{ $noticia->created_at }}</small></a>
                                         </div>
-                                        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="">
+                                        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold"
+                                           href="{{route('home.single',
+                                            ['pagina' => 'noticia','slug' => $noticia->slug])}}">
                                             {!! substr(strip_tags($noticia->subtitulo), 0, 25) !!}...
                                         </a>
                                         <p class="m-0">{!! substr(strip_tags($noticia->subtitulo), 0, 150) !!}...</p>
