@@ -214,7 +214,7 @@
                                 <th scope="col">Slug</th>
                                 <th scope="col">SubTitulo</th>
                                 <th scope="col">Inativo/Ativo</th>
-                                <th scope="col">Destaque</th>
+{{--                                <th scope="col">Destaque</th>--}}
                                 <th scope="col">Criado em:</th>
                                 <th scope="col">Atualizado em:</th>
                                 <th scope="col" colspan="2" width="200px" style="width: 200px">Ações</th>
@@ -248,18 +248,18 @@
                                                    {{$noticia->status == 0 ? "" : "checked"}}>
                                         </div>
                                     </td>
-                                    <td class="align-middle">
-                                        <div class="form-check form-switch mt-2" style="display: inline-block; vertical-align: middle;cursor: pointer">
-                                            <input class="form-check-input destaqueSwitch" style="text-align: center;cursor: pointer"
-                                                   type="checkbox"
-                                                   data-toggle="tooltip"
-                                                   data-placement="top"
-                                                   title="{{$noticia->destaque == 0 ? "Notíca não é Destaque." : "Notíca está ativa como Destaque"}}"
-                                                   data-id="{{$noticia->id}}"
-                                                   data-rota="{{route('atualizar-destaque')}}"
-                                                {{$noticia->destaque == 0 ? "" : "checked"}}>
-                                        </div>
-                                    </td>
+{{--                                    <td class="align-middle">--}}
+{{--                                        <div class="form-check form-switch mt-2" style="display: inline-block; vertical-align: middle;cursor: pointer">--}}
+{{--                                            <input class="form-check-input destaqueSwitch" style="text-align: center;cursor: pointer"--}}
+{{--                                                   type="checkbox"--}}
+{{--                                                   data-toggle="tooltip"--}}
+{{--                                                   data-placement="top"--}}
+{{--                                                   title="{{$noticia->destaque == 0 ? "Notíca não é Destaque." : "Notíca está ativa como Destaque"}}"--}}
+{{--                                                   data-id="{{$noticia->id}}"--}}
+{{--                                                   data-rota="{{route('atualizar-destaque')}}"--}}
+{{--                                                {{$noticia->destaque == 0 ? "" : "checked"}}>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
                                     <td class="align-middle">{{$noticia->created_at}}</td>
                                     <td class="align-middle">{{$noticia->updated_at_formatted}}</td>
                                     <td class="align-middle align-center">

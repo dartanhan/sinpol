@@ -41,7 +41,7 @@ class HomeController extends Controller
     {
         $this->noticias = $this->noticias->with('imagens','user')
             ->where('status',1)
-            ->where('destaque',1)
+            //->where('destaque',1)
             ->orderBy('id', 'desc')->get();
 
         $noticiasPrincipais = $this->noticias->take(3); // Primeiras 3 notícias
