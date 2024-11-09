@@ -1253,7 +1253,9 @@ document.querySelectorAll('.btn-editar-usuario').forEach(btn => {
  * Limpa o modal
  * */
 $('.btnModalSocialMedia').on('click', function(e) {
+
     // Limpar o conteúdo do modal
+    document.getElementById('titulo').removeAttribute('readonly');
     $("#titulo").val("");
     $("#link").val("");
 
@@ -1331,7 +1333,7 @@ document.querySelectorAll('.btn-editar-socialmedia').forEach(btn => {
         const rota = $(this).data('rota');
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const meuFormulario = document.getElementById('socialmediaForm');
-
+        document.getElementById('titulo').setAttribute('readonly', true);
         // Remova o input _method existente, se houver
         const existingMethodInput = meuFormulario.querySelector('input[name="_method"]');
         if (existingMethodInput) {
@@ -1347,7 +1349,7 @@ document.querySelectorAll('.btn-editar-socialmedia').forEach(btn => {
         })
             .then(response => response.json())
             .then(response => {
-                console.log(response);
+               // console.log(response);
 
                 if (response.success) {
 
