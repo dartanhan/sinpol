@@ -122,7 +122,7 @@
                                                                 data-toggle="modal"
                                                                 style="margin-right: auto;">Abrir Galeria de Imagens </button>
                                                             </span>
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                                                         <button type="submit" class="btn btn-primary">Salvar</button>
                                                     </div>
                                                 </div>
