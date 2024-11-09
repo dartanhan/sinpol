@@ -33,15 +33,12 @@
                            href="{{route('home.single',['pagina' => 'noticia','slug' => $noticia->slug])}}">Notícia</a>
                         <a class="text-white text-uppercase font-weight-semi-bold p-2 mr-2"
                            href="{{route('home.single',['pagina' => 'noticia','slug' => $noticia->slug])}}">
-                                {{$noticia->titulo}} - {{$noticia->created_at}}
+                               {{$noticia->created_at}}
                         </a>
                     </div>
-                    {!! substr(strip_tags($noticia->subtitulo), 0, 150) !!} <!-- Exibe os primeiros 100 caracteres do conteúdo -->
-                    @if(strlen(strip_tags($noticia->subtitulo)) > 150)
                         <a class="h2 m-0 text-white text-uppercase font-weight-bold" href="{{route('home.single',['pagina' => 'noticia','slug' => $noticia->slug])}}">
-                            [...]
+                            {!! substr(strip_tags($noticia->titulo), 0, 40) !!} ...
                         </a>
-                    @endif
                 </div>
             </div>
             @endforeach
@@ -56,7 +53,6 @@
                         @foreach($noticiaSecundaria['imagens'] as $key => $imagem)
                             @if(!empty($imagem) && strlen($imagem->path) > 0)
                                 <img class="img-fluid w-100 h-100" src="{{ URL::asset("storage/posts/files/".$imagem->path) }}" style="object-fit: cover;">
-                            @break
                             @endif
                         @endforeach
                         <div class="overlay">
@@ -70,7 +66,7 @@
 
                             <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold"
                                href="{{route('home.single',['pagina' => 'noticia','slug' => $noticiaSecundaria->slug])}}">
-                                {!! substr(strip_tags($noticiaSecundaria->subtitulo), 0, 30) !!}...
+                                {!! substr(strip_tags($noticiaSecundaria->titulo), 0, 30) !!}...
                             </a>
                         </div>
                     </div>

@@ -56,10 +56,10 @@
                                                     <div class="form-row">
                                                         <div class="form-group d-flex align-items-start" style="gap: 20px;">
                                                             <div class="w-50" style="text-align: left;">
-                                                                <label for="titulo"><strong>Máximo de 80 Caracteres</strong></label>
+                                                                <label for="titulo"><strong>Máximo de 60 Caracteres</strong></label>
                                                                 <input type="text" name="titulo" id="titulo"
                                                                        class="form-control"
-                                                                       placeholder="Título da Notícia" maxlength="80"
+                                                                       placeholder="Título da Notícia" maxlength="60"
                                                                        data-toggle="tooltip"
                                                                        data-placement="top"
                                                                        title="Título da Notícia">
