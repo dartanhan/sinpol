@@ -124,12 +124,7 @@ class HomeController extends Controller
             case 'outrosvideos':
                 $videos = Video::where('status',1)->orderBy('id', 'desc')->paginate(5);
 
-                $noticias = $this->noticias->with('imagens','user')
-                    ->where('status',1)
-                    ->where('destaque',1)
-                    ->orderBy('id', 'desc')->paginate(4);
-
-                $data = ['noticias' =>$noticias,
+                $data = [
                     'noticiasBreakNews' =>  $this->noticiasBreakNews,
                     'noticiasPopulares' => $this->noticiasPopulares,
                     'ultimasNoticias' => $this->ultimasNoticias,
