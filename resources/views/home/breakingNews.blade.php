@@ -10,7 +10,7 @@
                             <div class="text-truncate">
                                 <a class="text-white text-uppercase font-weight-semi-bold"
                                    href="{{route('home.single',[ 'pagina' => 'noticia', 'slug' => $noticiasBreakNew->slug])}}">
-                                    {{$noticiasBreakNew->subtitulo}}
+                                    {{$noticiasBreakNew->titulo}}
                                 </a>
                             </div>
                         @endforeach

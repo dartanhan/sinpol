@@ -45,7 +45,7 @@ class HomeController extends Controller
 
         $noticiasPrincipais = $this->noticias->take(3); // Primeiras 3 notícias
         $noticiasSecundarias = $this->noticias->skip(3)->take(4); // Próximas 4 notícias que não estão nas principais
-        $noticiasBreakNews = $this->noticias->skip(7)->sortByDesc('created_at')->take(5);
+        //$noticiasBreakNews = Noticia::get()->skip(7)->sortByDesc('created_at')->take(5);
         $noticiasDestaques  = $this->noticias->skip(3)->take(10);
         $noticiaSingle = $this->noticias->take(1);
 
@@ -53,7 +53,7 @@ class HomeController extends Controller
                                         'noticiasDestaques' => $noticiasDestaques,
                                         'noticiasPrincipais' => $noticiasPrincipais,
                                         'noticiasSecundarias' => $noticiasSecundarias,
-                                        'noticiasBreakNews'=>$noticiasBreakNews,
+                                        'noticiasBreakNews'=>$this->noticiasBreakNews,
                                         'noticiaSingle' =>$noticiaSingle,
                                         'noticiasPopulares' => $this->noticiasPopulares,
                                         'videos' => $this->videos,
