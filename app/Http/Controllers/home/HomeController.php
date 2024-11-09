@@ -31,7 +31,6 @@ class HomeController extends Controller
         $this->socialmedias = SocialMedia::where('status',1)->orderBy('id', 'desc')->get();
 
     }
-
     /**
      * Display a listing of the resource.
      *

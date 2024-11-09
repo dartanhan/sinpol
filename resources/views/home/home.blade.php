@@ -13,7 +13,6 @@
     @include('home.newsWith')
 @endsection
 
-
 @section('content')
 
 <div class="row">
