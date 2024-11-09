@@ -137,9 +137,9 @@
             <!-- Ads End -->
 
             <!-- Newsletter Start -->
-{{--            <div class="mb-3">--}}
-{{--                @include('home.newsLetter')--}}
-{{--            </div>--}}
+            <div class="mb-3">
+                @include('home.newsLetter')
+            </div>
             <!-- Newsletter End -->
 
             <!-- Tags Start -->

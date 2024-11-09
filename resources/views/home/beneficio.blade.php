@@ -64,7 +64,7 @@
                 <!-- End Ads -->
                     <!-- Newsletter Start -->
                     <div class="mb-3">
-                        {{--                    @include('home.newsLetter')--}}
+                        @include('home.newsLetter')
                     </div>
                     <!-- Newsletter End -->
                 </div>

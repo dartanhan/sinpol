@@ -27,7 +27,7 @@ class Noticia extends Model
 
     public function getCreatedAtAttribute()
     {
-        return date('d/m/Y H:i:s', strtotime($this->attributes['created_at']));
+        return date('M d, Y H:i:s', strtotime($this->attributes['created_at']));
     }
 
 //    public function getUpdatedAtAttribute()
@@ -43,6 +43,6 @@ class Noticia extends Model
 
     public function getCreatedAtFormattedAttribute()
     {
-        return Carbon::parse($this->attributes['updated_at'])->format('d/m/Y');
+        return Carbon::parse($this->attributes['created_at'])->format('M d, Y');
     }
 }
