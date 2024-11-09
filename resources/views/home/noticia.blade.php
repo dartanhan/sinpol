@@ -47,7 +47,7 @@
                             <a class="text-body">{{$noticiaSingle->created_at}}</a>
                         </div>
                         <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">
-                            {!! substr(strip_tags($noticiaSingle->titulo), 0, 40) !!} ...
+                            {!! $noticiaSingle->titulo !!}
                         </h1>
                         <p>{!! $noticiaSingle->conteudo!!}</p>
                     </div>
