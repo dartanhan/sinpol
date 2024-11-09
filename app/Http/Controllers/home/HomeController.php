@@ -29,6 +29,7 @@ class HomeController extends Controller
         $this->noticiasPopulares = Noticia::orderBy('qtd_views', 'desc')->take(3)->get();
         $this->videos =  Video::where('status',true)->take(3)->get();
         $this->socialmedias = SocialMedia::where('status',1)->orderBy('id', 'desc')->get();
+
     }
 
     /**
@@ -120,8 +121,23 @@ class HomeController extends Controller
                     'ultimasNoticias' => $this->ultimasNoticias,
                     'videos' => $this->videos];
                 break;
+            case 'outrosvideos':
+                $videos = Video::where('status',1)->orderBy('id', 'desc')->paginate(5);
+
+                $noticias = $this->noticias->with('imagens','user')
+                    ->where('status',1)
+                    ->where('destaque',1)
+                    ->orderBy('id', 'desc')->paginate(5);
+
+                $data = ['noticias' =>$noticias,
+                    'noticiasBreakNews' =>  $this->noticiasBreakNews,
+                    'noticiasPopulares' => $this->noticiasPopulares,
+                    'ultimasNoticias' => $this->ultimasNoticias,
+                    'videos' => $videos,
+                    'socialmedias' =>$this->socialmedias];
+                break;
             default :
-                $data .= ['socialmedias' =>$this->socialmedias];
+              //  $data .= ['socialmedias' =>$this->socialmedias];
         }
 
         return view('home.'.$pagina, $data);

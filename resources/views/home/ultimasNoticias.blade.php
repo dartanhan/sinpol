@@ -17,7 +17,8 @@
                             <a class="text-body"><small>{{$ultimasNoticia->createdatformatted}}</small></a>
                         </div>
                         <a class="h6 m-0 text-secondary text-uppercase font-weight-bold"
-                           href="{{route('home.single',['pagina' => 'noticia','slug' => $ultimasNoticia->slug])}}">
+                           href="{{route('home.single',['pagina' => 'noticia','slug' => $ultimasNoticia->slug])}}"
+                           data-toggle="tooltip" data-placement="top" title="{{ !empty($ultimasNoticia->subtitulo) ? $ultimasNoticia->subtitulo : $ultimasNoticia->titulo }}">
 
                             @if(!empty($ultimasNoticia->subtitulo))
                                 {!! substr(strip_tags($ultimasNoticia->subtitulo), 0,25) !!}...
