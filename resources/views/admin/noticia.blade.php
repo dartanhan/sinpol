@@ -228,7 +228,6 @@
                                             $imgPath = $imagem->path;
                                         @endphp
                                 @endforeach
-
                                 <tr>
                                     <th class="align-middle">{{$noticia->id}}</th>
                                     <td class="align-middle">{{$noticia->titulo}}</td>

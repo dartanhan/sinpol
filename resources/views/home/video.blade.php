@@ -7,7 +7,6 @@
                     <i class="fab fa-youtube mr-1"></i><span>Todos</span>
                 </a>
             </div>
-
             @foreach($videos as $key => $video)
                 <div class="bg-white text-center border border-top-0 p-3">
                     <div class="mb-2">
