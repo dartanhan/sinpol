@@ -6,12 +6,13 @@
                 <p class="font-weight-medium"><i class="fa fa-envelope mr-2"></i>sindicatosinpol@gmail.com</p>
                 <h6 class="mt-4 mb-3 text-white text-uppercase font-weight-bold">Siga-nos</h6>
                 <div class="d-flex justify-content-start">
-                    @foreach($socialmedias as $key => $socialmedia)
-                        <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="{{$socialmedia->link}}" target="_blank">
-                            <i class="fab fa-{{$socialmedia->slug}}"></i>
-                        </a>
-
-                    @endforeach
+                    @if(isset($socialmedias) && $socialmedias->isNotEmpty() )
+                        @foreach($socialmedias as $key => $socialmedia)
+                            <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="{{$socialmedia->link}}" target="_blank">
+                                <i class="fab fa-{{$socialmedia->slug}}"></i>
+                            </a>
+                        @endforeach
+                    @endif
 {{--                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-twitter"></i></a>--}}
 {{--                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>--}}
 {{--                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>--}}

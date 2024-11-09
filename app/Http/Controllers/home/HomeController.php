@@ -56,7 +56,8 @@ class HomeController extends Controller
                                         'noticiasBreakNews'=>$noticiasBreakNews,
                                         'noticiaSingle' =>$noticiaSingle,
                                         'noticiasPopulares' => $this->noticiasPopulares,
-                                        'videos' => $this->videos]);
+                                        'videos' => $this->videos,
+                                        'socialmedias' =>$this->socialmedias]);
     }
 
     public function single($pagina,$slug=null)
@@ -119,6 +120,8 @@ class HomeController extends Controller
                     'ultimasNoticias' => $this->ultimasNoticias,
                     'videos' => $this->videos];
                 break;
+            default :
+                $data .= ['socialmedias' =>$this->socialmedias];
         }
 
         return view('home.'.$pagina, $data);
