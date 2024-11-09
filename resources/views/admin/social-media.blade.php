@@ -37,7 +37,7 @@
                         @endif
                         <div class="container text-center ">
                             <!-- Botão para abrir o modal -->
-                            <button type="button" class="btn btn-primary mt-3 btnModalSocialmedia" data-toggle="modal"
+                            <button type="button" class="btn btn-primary mt-3 btnModalSocialMedia" data-toggle="modal"
                                     data-target="#modalSocialMedia" data-rota="{{route('socialmedia.store')}}">
                                    Salvar novo Social Media
                             </button>
