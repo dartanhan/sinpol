@@ -47,10 +47,7 @@
                             <a class="text-body">{{$noticiaSingle->created_at}}</a>
                         </div>
                         <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">
-                            {!! substr(strip_tags($noticiaSingle->titulo), 0, 50) !!} <!-- Exibe os primeiros 100 caracteres do conteúdo -->
-                            @if(strlen(strip_tags($noticiaSingle->titulo)) > 50)
-                               [...]
-                            @endif
+                            {!! substr(strip_tags($noticiaSingle->titulo), 0, 40) !!} ...
                         </h1>
                         <p>{!! $noticiaSingle->conteudo!!}</p>
                     </div>
