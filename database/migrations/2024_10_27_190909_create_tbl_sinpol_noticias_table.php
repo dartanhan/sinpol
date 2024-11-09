@@ -15,10 +15,9 @@ class CreateTblSinpolNoticiasTable extends Migration
     {
         Schema::create('tbl_sinpol_noticias', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->timestamp('data');
             $table->string('titulo',200);
             $table->string('slug',255);
-            $table->string('subtitulo',255);
+            $table->string('subtitulo',255)->nullable(true);
             $table->longText('conteudo');
             $table->integer('imagem_id')->nullable(true);
             $table->boolean('status')->default(false);
