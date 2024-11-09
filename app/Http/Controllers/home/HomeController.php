@@ -127,7 +127,7 @@ class HomeController extends Controller
                 $noticias = $this->noticias->with('imagens','user')
                     ->where('status',1)
                     ->where('destaque',1)
-                    ->orderBy('id', 'desc')->paginate(5);
+                    ->orderBy('id', 'desc')->paginate(4);
 
                 $data = ['noticias' =>$noticias,
                     'noticiasBreakNews' =>  $this->noticiasBreakNews,
