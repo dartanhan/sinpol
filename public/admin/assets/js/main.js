@@ -188,6 +188,7 @@
   const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
 
   tinymce.init({
+      license_key: 'op59c4spowh6qvoqd3swhyqb20pm5ixuql7rq6ir09186kp0',
     selector: 'textarea.tinymce_editor',
     plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons accordion',
     editimage_cors_hosts: ['picsum.photos'],
