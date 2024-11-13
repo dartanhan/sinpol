@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <title>SINPOL - Sindicato dos Funcionários da Polícia Civil</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
+    <meta content="Sindicato dos Funcionários da Polícia Civil" name="keywords">
+    <meta content="Sindicato dos Funcionários da Polícia Civil" name="description">
+    <link rel="canonical" href="https://sinpol.org.br/home">
 
     <!-- Favicon -->
     <link href="{{URL::asset('img/logo_sinpol.ico')}}" rel="icon">
