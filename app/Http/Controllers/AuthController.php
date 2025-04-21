@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use ReCaptcha\ReCaptcha;
 
 
 class AuthController extends Controller
@@ -18,31 +18,63 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    function login(Request $request) {
+    public function login(Request $request)
+    {
+        //dd($request->all());
+        // Validação básica dos campos
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email:rfc,dns|max:255',
+            'password' => 'required|string|min:6|max:100',
+            'g-recaptcha-response' => 'required|string',
+        ]);
 
-        $secret = config('app.data_secret_key');
-        $recaptchaResponse = $_POST['g-recaptcha-response'];
-
-        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$recaptchaResponse");
-        $responseKeys = json_decode($response, true);
-
-        if (intval($responseKeys["success"]) !== 1) {
-            return redirect()->back()->withInput()->withErrors(['Você é considerado um Bot / Spammer!']);
-        } else {
-            if(!filter_var($request->input("email") , FILTER_VALIDATE_EMAIL)){
-                return redirect()->back()->withInput()->withErrors(['Login informado não é valido!']);
-            }
-
-            $credentials = [
-                'email' => $request->input("email"),
-                'password' => $request->input("password")
-            ];
-
-            if(Auth::attempt($credentials)){
-                return redirect()->route('admin.dashboard');
-            }
-            return redirect()->back()->withInput()->withErrors(['Dados informados são inválidos!']);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        // ReCaptcha v3 via Guzzle
+        $secret =  env('NOCAPTCHA_SECRET');
+        $recaptcha = $request->input('g-recaptcha-response');
+
+        $client = new Client();
+
+        try {
+            $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
+                'form_params' => [
+                    'secret' => $secret,
+                    'response' => $recaptcha,
+                    'remoteip' => $request->ip()
+                ],
+                'verify' => true // pode colocar false temporariamente se o SSL estiver falhando ainda
+            ]);
+
+            $body = json_decode((string) $response->getBody(), true);
+
+            //if (!isset($body['success']) || $body['success'] !== true || $body['score'] < 0.5) {
+            if (!isset($body['success']) || $body['success'] !== true) {
+                return redirect()->back()->withInput()->withErrors([
+                    'recaptcha' => 'Você é considerado um bot ou spammer! Score: ' . ($body['score'] ?? 'sem score')
+                ]);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors([
+                'recaptcha' => 'Erro ao verificar reCAPTCHA: ' . $e->getMessage()
+            ]);
+        }
+
+        // Autenticação por email ou usuário
+        $loginField = $request->input('email');
+        $password = $request->input('password');
+
+        $credentials = filter_var($loginField, FILTER_VALIDATE_EMAIL)
+            ? ['email' => $loginField, 'password' => $password]
+            : ['login' => $loginField, 'password' => $password];
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->back()->withInput()->withErrors(['login' => 'Dados informados são inválidos!']);
     }
 
     function logout(Request $request) {

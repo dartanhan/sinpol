@@ -11,6 +11,7 @@ use App\Http\Controllers\BeneficioController;
 use App\Http\Controllers\ConvenioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\FichaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,23 +23,18 @@ use App\Http\Controllers\SocialMediaController;
 |
 */
 
+Route::middleware(['throttle:60,1'])->group(function () {
+    Route::get('/',[HomeController::class,'index'])->name('home.home');
+    Route::get('/home/{pagina}/{slug?}',[HomeController::class,'single'])->name('home.single');
+    Route::post('/ficha/enviar', [FichaController::class, 'enviar'])->name('ficha.enviar');
 
-Route::get('/',[HomeController::class,'index'])->name('home.home');
-Route::get('/home/{pagina}/{slug?}',[HomeController::class,'single'])->name('home.single');
-
-
-//Route::get('/dashboard', function () {
- //  return view('dashboard');
-//})->middleware(['auth'])->name('dashboard');
-
-//require __DIR__.'/auth.php';
-/***
- * Login
- */
-Route::get('/admin',[AuthController::class,'showLoginForm']);
-Route::get('/admin/login',[AuthController::class,'showLoginForm'])->name('login');
-Route::post('/admin/login/do',[AuthController::class,'login'])->name('login.do');
-
+    /***
+     * Login
+     */
+    Route::get('/admin',[AuthController::class,'showLoginForm']);
+    Route::get('/admin/login',[AuthController::class,'showLoginForm'])->name('login');
+    Route::post('/admin/login/do',[AuthController::class,'login'])->name('login.do');
+});
 /**
  * Admin
 */
