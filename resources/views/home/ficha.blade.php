@@ -268,12 +268,12 @@
                                         </div>
                                     </div>
                                     <!-- reCAPTCHA -->
-{{--                                    <div class="mb-3">--}}
-{{--                                        {!! \Anhskohbo\NoCaptcha\Facades\NoCaptcha::display() !!}--}}
-{{--                                        @error('g-recaptcha-response')--}}
-{{--                                        <span class="text-danger">{{ $message }}</span>--}}
-{{--                                        @enderror--}}
-{{--                                    </div>--}}
+                                    <div class="mb-3">
+                                        {!! \Anhskohbo\NoCaptcha\Facades\NoCaptcha::display() !!}
+                                        @error('g-recaptcha-response')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
 
 {{--                                    <div class="text-end">--}}
 {{--                                        <button type="submit" id="btnEnviar" class="btn btn-success px-4" disabled>--}}
