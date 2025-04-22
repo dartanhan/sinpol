@@ -281,10 +281,6 @@
                                             <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                                         </button>
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-warning mb-3" onclick="preencherCamposTeste()">
-                                        Preencher formulário automaticamente (teste)
-                                    </button>
-
                                 </form>
                             </div>
                         </div>
