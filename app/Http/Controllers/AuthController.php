@@ -33,7 +33,7 @@ class AuthController extends Controller
         }
 
         // ReCaptcha v3 via Guzzle
-        $secret =  env('NOCAPTCHA_SECRET');
+        $secret =  env('DATA_SECRET_KEY');
         $recaptcha = $request->input('g-recaptcha-response');
 
         $client = new Client();
@@ -49,11 +49,11 @@ class AuthController extends Controller
             ]);
 
             $body = json_decode((string) $response->getBody(), true);
-
+            dd($secret,$recaptcha,$body);
             //if (!isset($body['success']) || $body['success'] !== true || $body['score'] < 0.5) {
             if (!isset($body['success']) || $body['success'] !== true) {
                 return redirect()->back()->withInput()->withErrors([
-                    'recaptcha' => 'Você é considerado um bot ou spammer! Score: ' . ($body['score'] ?? 'sem score')
+                    'recaptcha' => 'Você é considerado um bot ou spammer!'
                 ]);
             }
         } catch (\Exception $e) {
