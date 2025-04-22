@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Anhskohbo\NoCaptcha\NoCaptcha;
+use Illuminate\Support\Facades\Http;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,8 +25,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extendImplicit('captcha', function($attribute, $value, $parameters, $validator) {
-            return app('captcha')->verifyResponse($value, request()->ip());
-        });
+        Validator::extend('recaptcha', function ($attribute, $value, $parameters, $validator) {
+            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => env('DATA_SECRET_KEY'),
+                'response' => $value,
+                'remoteip' => request()->ip(),
+            ]);
+
+            return $response->json('success') === true;
+        }, 'Falha na verificação do reCAPTCHA.');
     }
 }

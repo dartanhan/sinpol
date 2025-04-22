@@ -65,7 +65,7 @@ class FichaRequest extends FormRequest
             'arquivos.*' => 'file|max:5120',
 
             // reCAPTCHA
-            'g-recaptcha-response' => 'required|captcha',
+            'g-recaptcha-response' => 'required|recaptcha',
             'autorizacao_desconto' => 'accepted',
         ];
     }
