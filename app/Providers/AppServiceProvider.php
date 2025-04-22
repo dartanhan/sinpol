@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Anhskohbo\NoCaptcha\NoCaptcha;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Validator::extendImplicit('captcha', function($attribute, $value, $parameters, $validator) {
+            return app('captcha')->verifyResponse($value, request()->ip());
+        });
     }
 }

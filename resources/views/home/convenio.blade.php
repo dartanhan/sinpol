@@ -71,6 +71,10 @@
                         @include('home.newsLetter')
                     </div>
                     <!-- Newsletter End -->
+
+                    <div class="mb-3">
+                        @include('components.ficha')
+                    </div>
                 </div>
             </div>
         </div>

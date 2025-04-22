@@ -141,7 +141,9 @@
                 @include('home.newsLetter')
             </div>
             <!-- Newsletter End -->
-
+            <div class="mb-3">
+                @include('components.ficha')
+            </div>
             <!-- Tags Start -->
 {{--            <div class="mb-3">--}}
 {{--                <div class="section-title mb-0">--}}

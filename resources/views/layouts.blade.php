@@ -8,6 +8,7 @@
     <meta content="Sindicato dos Funcionários da Polícia Civil" name="keywords">
     <meta content="Sindicato dos Funcionários da Polícia Civil" name="description">
     <link rel="canonical" href="https://sinpol.org.br/home">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <!-- Favicon -->
     <link href="{{URL::asset('img/logo_sinpol.ico')}}" rel="icon">
@@ -116,6 +117,8 @@
 
     <!-- Template Javascript -->
     <script src="{{URL::asset('js/main.js')}}"></script>
+
+    @stack("scripts")
 </body>
 
 </html>

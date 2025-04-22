@@ -58,15 +58,18 @@
                     <div class="mb-3">
                         @include('home.ultimasNoticias')
                     </div>
-                <!-- Popular News End -->
-                <!-- Ads Start -->
-                @include('home.video')
-                <!-- End Ads -->
+                    <!-- Popular News End -->
+                    <!-- Ads Start -->
+                    @include('home.video')
+                    <!-- End Ads -->
                     <!-- Newsletter Start -->
                     <div class="mb-3">
                         @include('home.newsLetter')
                     </div>
                     <!-- Newsletter End -->
+                    <div class="mb-3">
+                        @include('components.ficha')
+                    </div>
                 </div>
             </div>
         </div>

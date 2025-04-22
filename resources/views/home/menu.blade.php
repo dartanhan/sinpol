@@ -36,7 +36,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Outros</a>
                 <div class="dropdown-menu rounded-0 m-0">
                     <a href="#" class="dropdown-item">Principais Links</a>
-                    <a href="#" class="dropdown-item">Administração</a>
+{{--                    <a href="#" class="dropdown-item">Administração</a>--}}
                 </div>
             </div>
             <a href="#" class="nav-item nav-link">Contato</a>

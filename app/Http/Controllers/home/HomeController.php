@@ -130,6 +130,16 @@ class HomeController extends Controller
                     'videos' => $videos,
                     'socialmedias' =>$this->socialmedias];
                 break;
+            case 'ficha':
+                $videos = Video::where('status',1)->orderBy('id', 'desc')->paginate(5);
+
+                $data = [
+                    'noticiasBreakNews' =>  $this->noticiasBreakNews,
+                    'noticiasPopulares' => $this->noticiasPopulares,
+                    'ultimasNoticias' => $this->ultimasNoticias,
+                    'videos' => $videos,
+                    'socialmedias' =>$this->socialmedias];
+                break;
             default :
               //  $data .= ['socialmedias' =>$this->socialmedias];
         }
