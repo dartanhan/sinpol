@@ -268,22 +268,22 @@
                                         </div>
                                     </div>
                                     <!-- reCAPTCHA -->
-                                    <div class="mb-3">
-                                        {!! NoCaptcha::display() !!}
-                                        @error('g-recaptcha-response')
-                                        <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+{{--                                    <div class="mb-3">--}}
+{{--                                        {!! \Anhskohbo\NoCaptcha\Facades\NoCaptcha::display() !!}--}}
+{{--                                        @error('g-recaptcha-response')--}}
+{{--                                        <span class="text-danger">{{ $message }}</span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
 
-                                    <div class="text-end">
-                                        <button type="submit" id="btnEnviar" class="btn btn-success px-4" disabled>
-                                            <span id="btnTexto">Enviar</span>
-                                            <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                                        </button>
-                                    </div>
-                                    <button type="button" class="btn btn-sm btn-warning mb-3" onclick="preencherCamposTeste()">
-                                        Preencher formulário automaticamente (teste)
-                                    </button>
+{{--                                    <div class="text-end">--}}
+{{--                                        <button type="submit" id="btnEnviar" class="btn btn-success px-4" disabled>--}}
+{{--                                            <span id="btnTexto">Enviar</span>--}}
+{{--                                            <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>--}}
+{{--                                        </button>--}}
+{{--                                    </div>--}}
+{{--                                    <button type="button" class="btn btn-sm btn-warning mb-3" onclick="preencherCamposTeste()">--}}
+{{--                                        Preencher formulário automaticamente (teste)--}}
+{{--                                    </button>--}}
 
                                 </form>
                             </div>
