@@ -49,7 +49,7 @@ class AuthController extends Controller
             ]);
 
             $body = json_decode((string) $response->getBody(), true);
-            dd($secret,$recaptcha,$body);
+
             //if (!isset($body['success']) || $body['success'] !== true || $body['score'] < 0.5) {
             if (!isset($body['success']) || $body['success'] !== true) {
                 return redirect()->back()->withInput()->withErrors([
