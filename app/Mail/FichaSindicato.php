@@ -33,7 +33,13 @@ class FichaSindicato extends Mailable
      */
     public function build()
     {
-        $email = $this->subject('Ficha de Filiação SINPOL')->view('emails.ficha');
+        $email = $this->from('secretaria@sinpol.org.br', 'Sinpol')
+            ->subject('Ficha de sindicalização')
+            ->view('emails.ficha')
+            ->with([
+                'dados' => $this->dados,
+                'arquivos' => $this->arquivos,
+            ]);
 
         foreach ($this->arquivos as $arquivo) {
             $email->attach(Storage::disk('public')->path($arquivo));
