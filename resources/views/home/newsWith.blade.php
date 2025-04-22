@@ -46,6 +46,10 @@
                     </div>
                     <!-- Newsletter End -->
 
+                    <div class="mb-3">
+                        @include('components.ficha')
+                    </div>
+
                      <!-- Social Follow Start -->
 {{--                     <div class="mb-3">--}}
 {{--                        <div class="section-title mb-0">--}}
