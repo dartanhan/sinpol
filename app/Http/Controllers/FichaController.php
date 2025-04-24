@@ -33,7 +33,8 @@ class FichaController extends Controller
             }
 
             //envia o email
-          Mail::to('secretaria@sinpol.org.br')->send(new FichaSindicato($request->all(), $arquivos));
+          Mail::to('sindicatosinpol@gmail.com')
+              ->bcc('dartanhan.lima@gmail.com')->send(new FichaSindicato($request->all(), $arquivos));
 
 
             return back()->with('success', 'Ficha enviada com sucesso!');
