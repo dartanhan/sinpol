@@ -15,9 +15,10 @@ use Throwable;
 
 class UsuarioController extends Controller
 {
-    protected $request,$usuario;
+    protected $request, $usuario;
 
-    public function __construct(Request $request, User $usuario){
+    public function __construct(Request $request, User $usuario)
+    {
         $this->request = $request;
         $this->usuario = $usuario;
     }
@@ -29,12 +30,13 @@ class UsuarioController extends Controller
      * @param $id
      * @return RedirectResponse | JsonResponse
      */
-    public function update($id){
+    public function update($id)
+    {
 
         try {
             $validator = Validator::make($this->request->all(), [
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ], [
                 'name.required' => 'O campo Nome é obrigatório.',
@@ -54,19 +56,19 @@ class UsuarioController extends Controller
             $data = $this->usuario->find($id);
 
             $data->name = $this->request->input('name');
-            $data->email =  $this->request->input('email');
+            $data->email = $this->request->input('email');
             $data->password = Hash::make($this->request->input('password'));
 
 
             if ($data->save()) {
                 // return response()->json(['success'=> true, 'message' => 'Notícia atualizada com sucesso'], 200);
-                return redirect()->route('admin.registro')->with('success','Atualização efetuada com sucesso.');
+                return redirect()->route('admin.registro')->with('success', 'Atualização efetuada com sucesso.');
             } else {
                 //return response()->json(['success'=> false,'message' => 'Erro ao atualizar o status'], 500);
-                return redirect()->route('admin.registro')->with('danger','Erro ao atualizar.');
+                return redirect()->route('admin.registro')->with('danger', 'Erro ao atualizar.');
             }
-        } catch (Throwable  $th){
-            return response()->json(['success' => false, 'message' => "Error não esperado em usuário : " . $th->getMessage()],500);
+        } catch (Throwable $th) {
+            return response()->json(['success' => false, 'message' => "Error não esperado em usuário : " . $th->getMessage()], 500);
         }
     }
 
@@ -75,7 +77,8 @@ class UsuarioController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function edit($id){
+    public function edit($id)
+    {
 
         $usuario = $this->usuario->find($id);
 
@@ -90,7 +93,8 @@ class UsuarioController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function destroy($id){
+    public function destroy($id)
+    {
         try {
 
             $data = $this->usuario->find($id);
@@ -101,10 +105,10 @@ class UsuarioController extends Controller
 
             $data->delete();
 
-            return response()->json(['success' => true, 'message' => 'Usuário excluído com sucesso'],200);
+            return response()->json(['success' => true, 'message' => 'Usuário excluído com sucesso'], 200);
 
-        } catch (Throwable  $th){
-            return response()->json(['success' => false, 'message' => "Error não esperado em usuário : " . $th->getMessage()],500);
+        } catch (Throwable $th) {
+            return response()->json(['success' => false, 'message' => "Error não esperado em usuário : " . $th->getMessage()], 500);
         }
     }
 
