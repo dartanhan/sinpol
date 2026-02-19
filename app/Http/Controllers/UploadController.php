@@ -15,21 +15,23 @@ use App\Models\User;
 
 class UploadController extends Controller
 {
-    protected $request,$temporaryFile,$galeriaImagem;
+    protected $request, $temporaryFile, $galeriaImagem;
 
-    public function __construct(Request $request, TemporaryFile $temporaryFile, GaleriaImagem $galeriaImagem){
+    public function __construct(Request $request, TemporaryFile $temporaryFile, GaleriaImagem $galeriaImagem)
+    {
 
         $this->request = $request;
         $this->temporaryFile = $temporaryFile;
         $this->galeriaImagem = $galeriaImagem;
     }
-    public function index(){
-        if(Auth::check() === true){
-            $user_data = User::where("id",auth()->user()->id)->first();
+    public function index()
+    {
+        if (Auth::check() === true) {
+            $user_data = User::where("id", auth()->user()->id)->first();
 
-            $images = $this->galeriaImagem->orderBy('id','desc')->paginate(10);
+            $images = $this->galeriaImagem->orderBy('id', 'desc')->paginate(10);
 
-            return  view('admin.galeria',compact('images','user_data'));
+            return view('admin.galeria', compact('images', 'user_data'));
         }
         return redirect()->route('login');
     }
@@ -50,21 +52,22 @@ class UploadController extends Controller
         $noticia->titulo = $dados['titulo'] !== null ? $dados['titulo'] : '';
         $noticia->conteudo = $conteudoFiltrado;
         $noticia->status = true;
-        $noticia->data =  now();
+        $noticia->data = now();
         $noticia->save();
 
         return redirect()->back()->with('success', 'Dados salvos com sucesso');
 
     }
 
-    public function store(){
+    public function store()
+    {
 
-        $temp_file = TemporaryFile::where('folder',$this->request->image)->first();
+        $temp_file = TemporaryFile::where('folder', $this->request->image)->first();
 
-        $tempPath = 'posts/tmp/'.$temp_file->folder.'/'.$temp_file->file;
-        $destPath = 'posts/files/'.$temp_file->file;
+        $tempPath = 'posts/tmp/' . $temp_file->folder . '/' . $temp_file->file;
+        $destPath = 'posts/files/' . $temp_file->file;
 
-        if($temp_file){
+        if ($temp_file) {
             if (Storage::exists($tempPath)) {
                 Storage::copy($tempPath, $destPath);
             } else {
@@ -72,49 +75,69 @@ class UploadController extends Controller
                 throw new \Exception("O arquivo não foi encontrado em: " . $tempPath);
             }
 
-           // Storage::copy('posts/tmp/'.$temp_file->folder.'/'.$temp_file->file,'posts/files/'.$temp_file->file);
+            // Storage::copy('posts/tmp/'.$temp_file->folder.'/'.$temp_file->file,'posts/files/'.$temp_file->file);
 
             GaleriaImagem::create([
-                       'path' =>  $temp_file->file
+                'path' => $temp_file->file
             ]);
-            Storage::deleteDirectory('posts/tmp/'.$temp_file->folder);
+            Storage::deleteDirectory('posts/tmp/' . $temp_file->folder);
             $temp_file->delete();
-            return redirect()->route('upload.index')->with('success','Upload efetuado com sucesso!');
+            return redirect()->route('upload.index')->with('success', 'Upload efetuado com sucesso!');
         }
-        return redirect()->route('upload.index')->with('danger','Favor informe o arquivo para upload!');
+        return redirect()->route('upload.index')->with('danger', 'Favor informe o arquivo para upload!');
     }
 
-    public function tmpUpload(){
+    public function tmpUpload()
+    {
 
-        if($this->request->hasFile('image')){
+        if ($this->request->hasFile('image')) {
             $image = $this->request->file('image');
             $nome_unico = Str::uuid() . '.' . $image->getClientOriginalExtension();
-            $folder = uniqid('posts',true);
-            $image->storeAs('posts/tmp/'.$folder,$nome_unico,'public');
+            $folder = uniqid('posts', true);
+            $image->storeAs('posts/tmp/' . $folder, $nome_unico, 'public');
             $this->temporaryFile->folder = $folder;
-            $this->temporaryFile->file =  $nome_unico;
+            $this->temporaryFile->file = $nome_unico;
 
             $this->temporaryFile->save();
             return $folder;
         }
-    return '';
+        return '';
     }
 
-    public function tmpDelete(){
-        $temp_file = TemporaryFile::where('folder',$this->request->getContent())->first();
+    public function tmpDelete()
+    {
+        $temp_file = TemporaryFile::where('folder', $this->request->getContent())->first();
 
-        if($temp_file){
-            Storage::deleteDirectory('posts/tmp/'.$temp_file->folder);
+        if ($temp_file) {
+            Storage::deleteDirectory('posts/tmp/' . $temp_file->folder);
             $temp_file->delete();
             return response('');
         }
     }
 
-    public function show(){
+    public function show()
+    {
         $this->tmpDelete();
     }
 
-    public function destroy(){
+    public function uploadTinyMCE()
+    {
+        if ($this->request->hasFile('file')) {
+            $image = $this->request->file('file');
+            $nome_unico = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            // Salva na pasta pública storage/posts/files para fácil acesso
+            $image->storeAs('posts/files', $nome_unico, 'public');
+
+            // Retorna o JSON esperado pelo TinyMCE
+            return response()->json([
+                'location' => '/storage/posts/files/' . $nome_unico
+            ]);
+        }
+        return response()->json(['error' => 'Nenhum arquivo enviado.'], 400);
+    }
+
+    public function destroy()
+    {
         $this->tmpDelete();
     }
 }
