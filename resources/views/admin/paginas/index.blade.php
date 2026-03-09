@@ -90,22 +90,25 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     <form action="{{route('pagina.store')}}" method="POST" enctype="multipart/form-data" id="paginaForm">
                         @csrf
-                        <div class="form-group mb-3">
-                            <label for="titulo">Título Identificador (ex: História)</label>
-                            <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título da Página"
-                                required>
-                            <small class="form-text text-muted">A URL (slug) será gerada automaticamente a partir do título
-                                (ex: historia).</small>
-                        </div>
+                        @if (auth("web")->user()->admin)
+                            <div class="form-group mb-3">
+                                <label for="titulo">Título Identificador (ex: História)</label>
+                                <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título da Página"
+                                    required>
+                                <small class="form-text text-muted">A URL (slug) será gerada automaticamente a partir do título
+                                    (ex: historia).</small>
+                            </div>
 
-                        <div class="form-group mb-3">
-                            <label for="slug">Slug (URL)</label>
-                            <input type="text" class="form-control" name="slug" id="slug" placeholder="Slug automático"
-                                readonly>
-                        </div>
+                            <div class="form-group mb-3">
+                                <label for="slug">Slug (URL)</label>
+                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Slug automático"
+                                    readonly>
+                            </div>
+                        @endif
 
                         <div class="card">
                             <div class="card-header bg-primary text-white">

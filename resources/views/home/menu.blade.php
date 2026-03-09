@@ -46,8 +46,6 @@
                     {{-- <a href="#" class="dropdown-item">Administração</a>--}}
                 </div>
             </div>
-            <a href="{{route('home.single', ['pagina' => 'contato', 'slug' => ''])}}"
-                class="nav-item nav-link">Contato</a>
 
             <a href="{{route('home.single', ['pagina' => 'ficha', 'slug' => ''])}}"
                 class="nav-item nav-link">Filie-se</a>
