@@ -22,7 +22,7 @@
     }
 </style>
 <div class="section-title mb-0">
-    <h4 class="m-0 text-uppercase font-weight-bold piscar-destaque">SINDICALIZE-SE</h4>
+    <h4 class="m-0 text-uppercase font-weight-bold piscar-destaque">FILIE-SE</h4>
 </div>
 <div class="bg-white text-center border border-top-0 p-3">
     <p>Desejo filiar-me ao SINPOL!</p>

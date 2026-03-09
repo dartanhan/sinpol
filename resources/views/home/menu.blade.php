@@ -46,7 +46,11 @@
                     {{-- <a href="#" class="dropdown-item">Administração</a>--}}
                 </div>
             </div>
-            <a href="#" class="nav-item nav-link">Contato</a>
+            <a href="{{route('home.single', ['pagina' => 'contato', 'slug' => ''])}}"
+                class="nav-item nav-link">Contato</a>
+
+            <a href="{{route('home.single', ['pagina' => 'ficha', 'slug' => ''])}}"
+                class="nav-item nav-link">Filie-se</a>
         </div>
         <!-- <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
             <input type="text" class="form-control border-0" placeholder="Keyword">
