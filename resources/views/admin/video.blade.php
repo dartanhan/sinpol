@@ -139,15 +139,25 @@
                                         {{$video->subtitulo == "" ? "-" : $video->subtitulo }}
                                     </td>
                                     <td class="align-middle">
-                                        <a href="{{$video->link}}" target="_blank">
-                                            <iframe width="250" height="150"
-                                                    src="{{$video->link}}"
-                                                    title="{{$video->titulo}}"
+                                        @php
+                                            $embed_url = $video->link;
+                                            if (strpos($embed_url, 'youtube.com/watch?v=') !== false) {
+                                                $embed_url = str_replace('youtube.com/watch?v=', 'youtube.com/embed/', $embed_url);
+                                                // Remove outros parâmetros como &t= ou &feature= se houver
+                                                $embed_url = explode('&', $embed_url)[0];
+                                            } elseif (strpos($embed_url, 'youtu.be/') !== false) {
+                                                $embed_url = str_replace('youtu.be/', 'youtube.com/embed/', $embed_url);
+                                            }
+                                        @endphp
+                                        <div class="border rounded shadow-sm overflow-hidden" style="width: 250px; height: 150px;">
+                                            <iframe width="100%" height="100%"
+                                                    src="{{ $embed_url }}"
+                                                    title="{{ $video->titulo }}"
                                                     frameborder="0"
                                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                     allowfullscreen>
                                             </iframe>
-                                        </a>
+                                        </div>
                                     </td>
                                     <td class="align-middle" style="text-align: center;">
                                         <div class="form-check form-switch mt-2"  style="display: inline-block; vertical-align: middle;cursor: pointer">
@@ -173,7 +183,7 @@
                                             </i>
                                             <span data-toggle="tooltip" data-placement="top" title="Editar">
                                                <i class="bi bi-pencil-square custom-icon-size text-info btn-editar-video" style="cursor: pointer"
-                                                   data-rota="{{route('video.edit',$video->id,'/edit')}}"
+                                                   data-rota="{{route('video.edit',$video->id)}}"
                                                    data-rota-update="{{route('video.update',$video->id)}}"
                                                    data-toggle="modal"
                                                    data-target="#modalVideo">

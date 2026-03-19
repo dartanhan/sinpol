@@ -16,15 +16,24 @@
                             {!! substr($video->titulo,0,20) !!}...
                         </a>
                     </div>
-                    <a href="{{$video->link}}" target="_blank">
-                        <iframe width="100%" height="180"
-                                src="{{$video->link}}"
-                                title="{{$video->titulo}}"
+                    @php
+                        $embed_url = $video->link;
+                        if (strpos($embed_url, 'youtube.com/watch?v=') !== false) {
+                            $embed_url = str_replace('youtube.com/watch?v=', 'youtube.com/embed/', $embed_url);
+                            $embed_url = explode('&', $embed_url)[0];
+                        } elseif (strpos($embed_url, 'youtu.be/') !== false) {
+                            $embed_url = str_replace('youtu.be/', 'youtube.com/embed/', $embed_url);
+                        }
+                    @endphp
+                    <div class="overflow-hidden" style="width: 100%; height: 180px;">
+                        <iframe width="100%" height="100%"
+                                src="{{ $embed_url }}"
+                                title="{{ $video->titulo }}"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen>
                         </iframe>
-                    </a>
+                    </div>
                 </div>
             @endforeach
         </div>
