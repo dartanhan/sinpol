@@ -118,12 +118,13 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Titulo</th>
-                                <th scope="col">Link</th>
+                                <th scope="col" style="max-width: 250px;">Link</th>
+                                <th scope="col">Imagem</th>
                                 <th scope="col">Slug</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Criado em:</th>
                                 <th scope="col">Atualizado em:</th>
-                                <th scope="col" colspan="2" width="200px" style="width: 200px">Ações</th>
+                                <th scope="col" colspan="2" width="150px" style="width: 150px">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,7 +132,16 @@
                                 <tr>
                                     <th class="align-middle">{{$socialMedia->id}}</th>
                                     <th class="align-middle">{{$socialMedia->titulo}}</th>
-                                    <td class="align-middle">{{$socialMedia->link}}</td>
+                                    <td class="align-middle text-truncate" style="max-width: 250px;" title="{{$socialMedia->link}}">
+                                        {{$socialMedia->link}}
+                                    </td>
+                                    <td class="align-middle">
+                                        @if($socialMedia->imagem)
+                                            <img src="{{ asset('images/social_media/'.$socialMedia->imagem) }}" alt="" style="width: 60px; height: 60px; object-fit: cover;" class="img-thumbnail">
+                                        @else
+                                            <i class="bi bi-image text-muted" style="font-size: 24px;"></i>
+                                        @endif
+                                    </td>
                                     <td class="align-middle">{{$socialMedia->slug}}</td>
                                     <td class="align-middle" style="text-align: center;">
                                         <div class="form-check form-switch mt-2"  style="display: inline-block; vertical-align: middle;cursor: pointer">
