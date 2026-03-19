@@ -13,8 +13,8 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item">Notícias</li>
-                <li class="breadcrumb-item active">Criar Notícia</li>
+                <li class="breadcrumb-item">Vídeos</li>
+                <li class="breadcrumb-item active">Gerenciar Vídeos</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -135,7 +135,7 @@
                                     <th class="align-middle">{{$video->id}}</th>
                                     <td class="align-middle">{{$video->titulo}}</td>
                                     <td class="align-middle">{{$video->slug}}</td>
-                                    <td class="align-middle" style="width: 250px">
+                                    <td class="align-middle text-truncate" style="max-width: 200px;" data-toggle="tooltip" data-placement="top" title="{{ $video->subtitulo }}">
                                         {{$video->subtitulo == "" ? "-" : $video->subtitulo }}
                                     </td>
                                     <td class="align-middle">
