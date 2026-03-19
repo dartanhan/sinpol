@@ -24,44 +24,73 @@
                 @endif
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Mapas</h5>
-                        <button type="button" class="btn btn-primary mt-3 btnModalMapa" data-toggle="modal"
-                            data-target="#modalMapa" data-rota="{{route('mapas.store')}}">
-                            Novo Mapa
-                        </button>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title m-0">Gerenciar Mapas e Endereços</h5>
+                            <button type="button" class="btn btn-primary btnModalMapa shadow-sm" data-toggle="modal"
+                                data-target="#modalMapa" data-rota="{{route('mapas.store')}}">
+                                <i class="bi bi-plus-circle me-1"></i> Adicionar Novo Mapa
+                            </button>
+                        </div>
 
-                        <table class="table datatable">
-                            <thead>
+                        <table class="table datatable table-hover align-middle">
+                            <thead class="table-dark">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Link</th>
-                                    <th scope="col">Ativo</th>
-                                    <th scope="col">Criado em</th>
-                                    <th scope="col">Ações</th>
+                                    <th scope="col" width="50">#</th>
+                                    <th scope="col" width="200">Visualização</th>
+                                    <th scope="col">Link / Endereço</th>
+                                    <th scope="col" width="100">Status</th>
+                                    <th scope="col" width="120">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($mapas as $mapa)
+                                    @php
+                                        $map_link = $mapa->link;
+                                        $embed_url = "";
+                                        if (strpos($map_link, '/maps/d/') !== false) {
+                                            $embed_url = str_replace(['/viewer', '/edit'], '/embed', $map_link);
+                                            $embed_url = preg_replace('/\/u\/\d+\//', '/', $embed_url);
+                                        } elseif (strpos($map_link, 'http') === 0) {
+                                            $embed_url = $map_link . (strpos($map_link, '?') !== false ? '&' : '?') . 'output=embed';
+                                        } else {
+                                            $embed_url = "https://maps.google.com/maps?q=" . urlencode($map_link) . "&hl=pt&z=14&output=embed";
+                                        }
+                                    @endphp
                                     <tr>
                                         <th scope="row">{{$mapa->id}}</th>
-                                        <td>{{$mapa->link}}</td>
+                                        <td>
+                                            <div class="border rounded overflow-hidden shadow-sm" style="width: 180px; height: 100px;">
+                                                <iframe width="100%" height="100%" frameborder="0" src="{{ $embed_url }}"></iframe>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-truncate" style="max-width: 400px;" title="{{$mapa->link}}">
+                                                <i class="bi bi-geo-alt text-primary me-1"></i> {{$mapa->link}}
+                                            </div>
+                                            <small class="text-muted">Criado em: {{ \Carbon\Carbon::parse($mapa->created_at)->format('d/m/Y H:i') }}</small>
+                                        </td>
                                         <td>
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input statusSwitchMapa" type="checkbox"
                                                     data-rota="{{route('atualizar-status-mapa')}}"
-                                                    data-id="{{$mapa->id}}" @if($mapa->status) checked @endif>
+                                                    data-id="{{$mapa->id}}" @if($mapa->status) checked @endif
+                                                    title="Ativar/Desativar no site">
                                             </div>
                                         </td>
-                                        <td>{{$mapa->created_at}}</td>
                                         <td>
-                                            <i class="bi bi-pencil-square custom-icon-size text-info btn-editar-mapa"
-                                                style="cursor: pointer" data-rota="{{route('mapas.edit', $mapa->id)}}"
-                                                data-rota-update="{{route('mapas.update', $mapa->id)}}" data-toggle="modal"
-                                                data-target="#modalMapa">
-                                            </i>
-                                            <i class="bi bi-trash custom-icon-size text-danger btn-excluir-mapa"
-                                                style="cursor: pointer"
-                                                data-rota="{{route('mapas.destroy', $mapa->id)}}"></i>
+                                            <div class="btn-group shadow-sm">
+                                                <button class="btn btn-sm btn-outline-info btn-editar-mapa" 
+                                                    data-rota="{{route('mapas.edit', $mapa->id)}}"
+                                                    data-rota-update="{{route('mapas.update', $mapa->id)}}" 
+                                                    data-toggle="modal"
+                                                    data-target="#modalMapa">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger btn-excluir-mapa"
+                                                    data-rota="{{route('mapas.destroy', $mapa->id)}}">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -79,25 +108,32 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalMapaLabel">Gerenciar Mapa</h5>
-                    <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalMapaLabel">
+                        <i class="bi bi-map-fill me-2"></i>Gerenciar Mapa
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <form action="{{route('mapas.store')}}" method="POST" id="mapaForm">
                         @csrf
 
-                        <div class="form-group mb-3">
-                            <label for="link">Link do Google Maps</label>
-                            <input type="text" class="form-control" name="link" id="link" placeholder="Cole aqui o link do Google Maps" required>
+                        <div class="form-group mb-4">
+                            <label for="link" class="form-label font-weight-bold">Link ou Endereço do Google Maps</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-light"><i class="bi bi-link-45deg"></i></span>
+                                <input type="text" class="form-control" name="link" id="link" 
+                                    placeholder="Ex: Delegacia Legal, Rua Tals, RJ ou Link do Google Maps" required>
+                            </div>
+                            <small class="text-secondary d-block mt-1">
+                                <i class="bi bi-info-circle-fill me-1"></i> Dica: O sistema aceita endereços comuns ou links completos de compartilhamento do Google Maps.
+                            </small>
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        <div class="text-end border-top pt-3">
+                            <button type="button" class="btn btn-light me-2" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary px-4 shadow-sm">Salvar Informações</button>
                         </div>
                     </form>
                 </div>

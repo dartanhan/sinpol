@@ -20,185 +20,150 @@
     </div><!-- End Page Title -->
 
     <section class="section">
-        <div class="row">
-            <div>
-                <div class="card">
-                    <div class="card-body mt-3">
-                        @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
-                        @if(session('danger'))
-                            <div class="alert alert-danger">
-                                {{ session('danger') }}
-                            </div>
-                        @endif
-                        <div class="container text-center ">
-                            <!-- Botão para abrir o modal -->
-                            <button type="button" class="btn btn-primary mt-3 btnModalVideo" data-toggle="modal"
-                                    data-target="#modalVideo" data-rota="{{route('video.store')}}">
-                                   Salvar novo Vídeo
-                            </button>
+        @if(session('danger'))
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-exclamation-octagon me-1"></i>
+                {{ session('danger') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </section>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="modalVideo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-xl modal-lg modal-md" role="document">
-                                    <form method="POST" action="{{route('video.store')}}" name="videoForm" id="videoForm" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-primary text-white">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Salvar novo Vídeo</h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-row">
-                                                        <div class="form-group d-flex align-items-start" style="gap: 20px;">
-                                                            <div class="w-75" style="text-align: left;">
-                                                            <label for="titulo"><strong>Máximo de 150 Caracteres</strong></label>
-                                                            <input type="text" name="link" id="link"
-                                                                   class="form-control"
-                                                                   placeholder="Link do Vídeo" maxlength="150"
-                                                                   data-toggle="tooltip"
-                                                                   data-placement="top"
-                                                                   title="Link do Vídeo">
-                                                        </div>
-                                                            <div class="w-50" style="text-align: left;">
-                                                                <label for="titulo"><strong>Máximo de 150 Caracteres</strong></label>
-                                                                <input type="text" name="titulo" id="titulo"
-                                                                       class="form-control"
-                                                                       placeholder="Título do Vídeo" maxlength="150"
-                                                                       data-toggle="tooltip"
-                                                                       data-placement="top"
-                                                                       title="Título do Vídeo">
-                                                            </div>
-                                                            <div class="w-50" style="text-align: left;">
-                                                                <label for="slug"><strong>Slug</strong></label>
-                                                                <input type="text" name="slug" id="slug" readonly
-                                                                       class="form-control"
-                                                                       placeholder="Slug do Video" maxlength="150"
-                                                                       data-toggle="tooltip"
-                                                                       data-placement="top"
-                                                                       title="Slug da Video">
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="form-group  mt-3"  style="text-align: left;">
-                                                        <label><strong>Máximo de 250 Caracteres</strong></label>
-                                                        <textarea type="text" name="subtitulo" id="subtitulo"
-                                                                  class="form-control"
-                                                                  placeholder="SubTítulo do Vídeo" maxlength="250"
-                                                                  data-toggle="tooltip"
-                                                                  data-placement="top"
-                                                                  title="Subtítulo"></textarea>
-                                                    </div>
-
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                                        <button type="submit" class="btn btn-primary">Salvar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                    </form>
+    <!-- Modal Video -->
+    <div class="modal fade" id="modalVideo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form method="POST" action="{{route('video.store')}}" name="videoForm" id="videoForm" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-content shadow-lg border-0">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            <i class="bi bi-play-btn-fill me-2"></i>Gerenciar Vídeo
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-12 text-start">
+                                <label for="link" class="form-label font-weight-bold">Link do YouTube</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="bi bi-youtube text-danger"></i></span>
+                                    <input type="text" name="link" id="link" class="form-control" 
+                                           placeholder="Ex: https://www.youtube.com/watch?v=..." required>
                                 </div>
                             </div>
+                            <div class="col-md-6 text-start">
+                                <label for="titulo" class="form-label font-weight-bold">Título do Vídeo</label>
+                                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Título que aparecerá no site" required>
+                            </div>
+                            <div class="col-md-6 text-start">
+                                <label for="slug" class="form-label font-weight-bold">Slug</label>
+                                <input type="text" name="slug" id="slug" readonly class="form-control bg-light" placeholder="Gerado automaticamente">
+                            </div>
+                            <div class="col-md-12 text-start mt-3">
+                                <label for="subtitulo" class="form-label font-weight-bold">Subtítulo / Descrição Curta</label>
+                                <textarea name="subtitulo" id="subtitulo" class="form-control" rows="3" placeholder="Breve resumo sobre o vídeo"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer border-top-0 pt-4 px-0">
+                            <button type="button" class="btn btn-light me-2 px-4" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary px-5 shadow-sm">Salvar Vídeo</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </section>
-    <div class="row">
+    </div>
+    <div class="row mt-4">
         <div class="col-lg-12">
-            <div class="card">
-                <section>
-                    <table class="table datatable table-responsive table-hover table-striped text-center ">
-                        <thead>
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="card-title m-0 p-0">Gerenciar Vídeos</h5>
+                        <button type="button" class="btn btn-primary btnModalVideo px-4 shadow-sm" data-toggle="modal"
+                                data-target="#modalVideo" data-rota="{{route('video.store')}}">
+                            <i class="bi bi-plus-circle me-1"></i> Adicionar Novo Vídeo
+                        </button>
+                    </div>
+
+                    <table class="table datatable table-hover align-middle">
+                        <thead class="table-dark">
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Titulo</th>
-                                <th scope="col">Slug</th>
-                                <th scope="col">SubTitulo</th>
-                                <th scope="col">Vídeo</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Criado em:</th>
-                                <th scope="col">Atualizado em:</th>
-                                <th scope="col" colspan="2" width="200px" style="width: 200px">Ações</th>
+                                <th scope="col" width="50">#</th>
+                                <th scope="col" width="250">Miniatura</th>
+                                <th scope="col">Informações do Vídeo</th>
+                                <th scope="col" width="100">Status</th>
+                                <th scope="col" width="120">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($videos as $video)
                                 <tr>
-                                    <th class="align-middle">{{$video->id}}</th>
-                                    <td class="align-middle">{{$video->titulo}}</td>
-                                    <td class="align-middle">{{$video->slug}}</td>
-                                    <td class="align-middle text-truncate" style="max-width: 200px;" data-toggle="tooltip" data-placement="top" title="{{ $video->subtitulo }}">
-                                        {{$video->subtitulo == "" ? "-" : $video->subtitulo }}
-                                    </td>
-                                    <td class="align-middle">
+                                    <th scope="row">{{$video->id}}</th>
+                                    <td>
                                         @php
                                             $embed_url = $video->link;
                                             if (strpos($embed_url, 'youtube.com/watch?v=') !== false) {
                                                 $embed_url = str_replace('youtube.com/watch?v=', 'youtube.com/embed/', $embed_url);
-                                                // Remove outros parâmetros como &t= ou &feature= se houver
                                                 $embed_url = explode('&', $embed_url)[0];
                                             } elseif (strpos($embed_url, 'youtu.be/') !== false) {
                                                 $embed_url = str_replace('youtu.be/', 'youtube.com/embed/', $embed_url);
                                             }
                                         @endphp
-                                        <div class="border rounded shadow-sm overflow-hidden" style="width: 250px; height: 150px;">
-                                            <iframe width="100%" height="100%"
-                                                    src="{{ $embed_url }}"
-                                                    title="{{ $video->titulo }}"
-                                                    frameborder="0"
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowfullscreen>
-                                            </iframe>
+                                        <div class="border rounded overflow-hidden shadow-sm" style="width: 220px; height: 120px;">
+                                            <iframe width="100%" height="100%" src="{{ $embed_url }}" 
+                                                    frameborder="0" allowfullscreen></iframe>
                                         </div>
                                     </td>
-                                    <td class="align-middle" style="text-align: center;">
-                                        <div class="form-check form-switch mt-2"  style="display: inline-block; vertical-align: middle;cursor: pointer">
-                                            <input class="form-check-input statusSwitch" style="text-align: center;cursor: pointer"
-                                                   type="checkbox"
-                                                   data-toggle="tooltip"
-                                                   data-placement="top"
-                                                   title="{{$video->status == 0 ? "Bloqueado, sem visualização no site." : "Liberado, para visualização no site."}}"
+                                    <td>
+                                        <div class="fw-bold text-dark">{{$video->titulo}}</div>
+                                        <div class="text-muted small text-truncate" style="max-width: 300px;" title="{{ $video->subtitulo }}">
+                                            {{$video->subtitulo ?: 'Sem descrição'}}
+                                        </div>
+                                        <small class="text-info">{{$video->slug}}</small>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch d-flex justify-content-center">
+                                            <input class="form-check-input statusSwitch" type="checkbox"
+                                                   data-toggle="tooltip" data-placement="top"
+                                                   title="{{$video->status == 0 ? "Bloqueado" : "Liberado"}}"
                                                    data-id="{{$video->id}}"
                                                    data-rota="{{route('atualizar-status-video')}}"
                                                    {{$video->status == 0 ? "" : "checked"}}>
                                         </div>
                                     </td>
-                                    <td class="align-middle">{{$video->created_at}}</td>
-                                    <td class="align-middle">{{$video->updated_at_formatted}}</td>
-                                    <td class="align-middle align-center">
-                                        <div class="d-flex">
-                                            <i class="bi bi-trash custom-icon-size text-danger btn-excluir" style="cursor: pointer"
-                                               data-toggle="tooltip"
-                                               data-placement="top"
-                                               title="Excluir"
-                                               data-rota="{{route('video.destroy',$video->id)}}">
-                                            </i>
-                                            <span data-toggle="tooltip" data-placement="top" title="Editar">
-                                               <i class="bi bi-pencil-square custom-icon-size text-info btn-editar-video" style="cursor: pointer"
-                                                   data-rota="{{route('video.edit',$video->id)}}"
-                                                   data-rota-update="{{route('video.update',$video->id)}}"
-                                                   data-toggle="modal"
-                                                   data-target="#modalVideo">
-                                               </i>
-                                            </span>
+                                    <td>
+                                        <div class="btn-group shadow-sm">
+                                            <button class="btn btn-sm btn-outline-info btn-editar-video" 
+                                                data-rota="{{route('video.edit',$video->id)}}"
+                                                data-rota-update="{{route('video.update',$video->id)}}"
+                                                data-toggle="modal" data-target="#modalVideo"
+                                                title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger btn-excluir"
+                                                data-rota="{{route('video.destroy',$video->id)}}"
+                                                title="Excluir">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
                                         </div>
                                     </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </section>
-                    </div>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
+    </div>
         @endsection
         @push("styles")
             <link rel="stylesheet" type="text/css" href="{{URL::asset('admin/assets/css/custom.css')}}">
