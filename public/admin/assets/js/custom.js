@@ -1333,7 +1333,7 @@ document.querySelectorAll('.btn-editar-socialmedia').forEach(btn => {
         const rota = $(this).data('rota');
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const meuFormulario = document.getElementById('socialmediaForm');
-        document.getElementById('titulo').setAttribute('readonly', true);
+        
         // Remova o input _method existente, se houver
         const existingMethodInput = meuFormulario.querySelector('input[name="_method"]');
         if (existingMethodInput) {
