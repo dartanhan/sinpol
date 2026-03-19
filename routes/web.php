@@ -14,6 +14,8 @@ use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\DiretoriaController;
 use App\Http\Controllers\PaginaController;
 use App\Http\Controllers\FichaController;
+use App\Http\Controllers\SecaoPostController;
+use App\Http\Controllers\MapaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +29,7 @@ use App\Http\Controllers\FichaController;
 
 Route::middleware(['throttle:60,1'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.home');
+    Route::redirect('/home/admin', '/admin');
     Route::get('/home/{pagina}/{slug?}', [HomeController::class, 'single'])->name('home.single');
     Route::post('/ficha/enviar', [FichaController::class, 'enviar'])->name('ficha.enviar');
 
@@ -78,5 +81,21 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin', config('jetst
     Route::post('/upload/tmp-upload', [UploadController::class, 'tmpUpload'])->name('tmpUpload');
     Route::post('/upload/tinymce', [UploadController::class, 'uploadTinyMCE'])->name('uploadTinyMCE');
     Route::delete('/upload/tmp-delete', [UploadController::class, 'tmpDelete'])->name('tmpDelete');
+
+    // Mapeando as 7 secoes para o SecaoPostController
+    $secoes_site = ['sinpol-animal', 'sinpol-mulher', 'sinpol-permutas', 'classificados-sinpol', 'sinpol-fiscaliza', 'sinpol-na-rua', 'sinpol-denuncias'];
+    foreach($secoes_site as $secao) {
+        Route::group(['prefix' => $secao, 'as' => $secao.'.'], function() use ($secao) {
+            Route::get('/', [SecaoPostController::class, 'index'])->defaults('tipo', $secao)->name('index');
+            Route::post('/', [SecaoPostController::class, 'store'])->defaults('tipo', $secao)->name('store');
+            Route::post('/atualizar-status', [SecaoPostController::class, 'atualizarStatus'])->defaults('tipo', $secao)->name('atualizar-status');
+            Route::put('/{id}', [SecaoPostController::class, 'update'])->defaults('tipo', $secao)->name('update');
+            Route::get('/{id}/edit', [SecaoPostController::class, 'edit'])->defaults('tipo', $secao)->name('edit');
+            Route::delete('/{id}', [SecaoPostController::class, 'destroy'])->defaults('tipo', $secao)->name('destroy');
+        });
+    }
+
+    Route::post('/mapas/atualizar-status', [MapaController::class, 'atualizarStatus'])->name('atualizar-status-mapa');
+    Route::resource('mapas', MapaController::class);
 
 });

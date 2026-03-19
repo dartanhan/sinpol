@@ -1,6 +1,20 @@
 @extends('layouts')
 
 @section('content')
+    @php
+        $titulos_secao = [
+            'sinpol-animal' => 'SINPOL ANIMAL',
+            'sinpol-mulher' => 'SINPOL MULHER',
+            'sinpol-permutas' => 'SINPOL PERMUTAS',
+            'classificados-sinpol' => 'CLASSIFICADOS DO SINPOL',
+            'sinpol-fiscaliza' => 'SINPOL FISCALIZA',
+            'sinpol-na-rua' => 'SINPOL NA RUA',
+            'sinpol-denuncias' => 'SINPOL DENÚNCIAS'
+        ];
+        $tipo_str = (string) $tipo_secao;
+        $titulo_formatado = isset($titulos_secao[$tipo_str]) ? $titulos_secao[$tipo_str] : ucfirst(str_replace('-', ' ', $tipo_str));
+    @endphp
+
     <!-- Breaking News Start -->
     <div class="container-fluid mt-5 mb-3 pt-3">
         <div class="container">
@@ -27,57 +41,48 @@
         </div>
     </div>
     <!-- Breaking News End -->
-    <!-- News With Sidebar Start -->
+
     <div class="container-fluid mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <!-- News Detail Start -->
                     <div class="position-relative mb-3">
-
                         <div class="bg-white border border-top-0 p-4">
-                            @if(isset($pagina) && $pagina)
-                                <div class="mb-3">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                        href="{{route('home.home')}}">Institucional</a>
-                                    <a class="text-body">{{$pagina->created_at}}</a>
-                                </div>
-                                <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">
-                                    {{$pagina->titulo}}
-                                </h1>
-                                <div>{!! $pagina->conteudo!!}</div>
+                            <h1 class="mb-5 text-secondary text-uppercase font-weight-bold text-center">
+                                {{ $titulo_formatado }}
+                            </h1>
+                            
+                            @if(isset($secoes_posts) && count($secoes_posts) > 0)
+                                @foreach($secoes_posts as $post)
+                                    <div class="mb-5 pb-4 border-bottom">
+                                        <div>{!! $post->conteudo !!}</div>
+                                        <small class="text-muted d-block mt-3 text-right"><i>Publicado em: {{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}</i></small>
+                                    </div>
+                                @endforeach
                             @else
                                 <div class="alert alert-warning">
-                                    Conteúdo não encontrado ou em manutenção.
+                                    Nenhum conteúdo publicado nesta seção no momento.
                                 </div>
                             @endif
                         </div>
                     </div>
-
                 </div>
                 <div class="col-lg-4">
-                    <!-- Ficha (Sindicalize-se) Start -->
                     <div class="mb-3">
                         @include('components.ficha')
                     </div>
-                    <!-- Ficha End -->
-                    <!-- Popular News Start -->
-                    <div class="mb-3">
-                        @include('home.ultimasNoticias')
-                    </div>
-                    <!-- Popular News End -->
-
-                    @include('home.redesSociais')
-                    @include('home.minnimapa')
-
-                    <!-- Ads Start -->
-                    @include('home.video')
-                    <!-- End Ads -->
-                    <!-- Newsletter Start -->
                     <div class="mb-3">
                         @include('home.newsLetter')
                     </div>
-                    <!-- Newsletter End -->
+                    <div class="mb-3">
+                        @include('home.ultimasNoticias')
+                    </div>
+                    
+                    @include('home.redesSociais')
+                    @include('home.minnimapa')
+
+                    @include('home.video')
+                    
                 </div>
             </div>
         </div>

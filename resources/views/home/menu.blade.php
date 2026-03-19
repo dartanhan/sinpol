@@ -10,45 +10,48 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
-        <div class="navbar-nav mr-auto py-0">
-            <a href="{{route('home.home')}}" class="nav-item nav-link active">Home</a>
-            <a href="{{route('home.single', ['pagina' => 'beneficio', 'slug' => ''])}}"
-                class="nav-item nav-link">Benefícios</a>
-            <a href="{{route('home.single', ['pagina' => 'como-chegar', 'slug' => ''])}}" class="nav-item nav-link">Como
-                Chegar</a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Convênios</a>
-                <div class="dropdown-menu rounded-0 m-0">
-                    {{-- <a href="#" class="dropdown-item">Como Obter</a>--}}
-                    <a href="{{route('home.single', ['pagina' => 'convenio', 'slug' => ''])}}"
-                        class="dropdown-item">Estabelecimentos</a>
+        <div class="d-flex flex-column w-100">
+            <!-- Primeira Linha: Institucional -->
+            <div class="navbar-nav mr-auto py-0 w-100 flex-wrap">
+                <a href="{{route('home.home')}}" class="nav-item nav-link active">Home</a>
+                <a href="{{route('home.single', ['pagina' => 'beneficio', 'slug' => ''])}}" class="nav-item nav-link">Benefícios</a>
+                <a href="{{route('home.single', ['pagina' => 'como-chegar', 'slug' => ''])}}" class="nav-item nav-link">Como Chegar</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Convênios</a>
+                    <div class="dropdown-menu rounded-0 m-0">
+                        <a href="{{route('home.single', ['pagina' => 'convenio', 'slug' => ''])}}" class="dropdown-item">Estabelecimentos</a>
+                    </div>
                 </div>
-            </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Diretoria</a>
-                <div class="dropdown-menu rounded-0 m-0">
-                    <a href="{{route('home.single', ['pagina' => 'diretoria', 'slug' => ''])}}"
-                        class="dropdown-item">Diretoria</a>
-                    <a href="#" class="dropdown-item">Eleição</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Diretoria</a>
+                    <div class="dropdown-menu rounded-0 m-0">
+                        <a href="{{route('home.single', ['pagina' => 'diretoria', 'slug' => ''])}}" class="dropdown-item">Diretoria</a>
+                        <a href="#" class="dropdown-item">Eleição</a>
+                    </div>
                 </div>
-            </div>
-            <a href="{{route('home.single', ['pagina' => 'fale-conosco', 'slug' => ''])}}"
-                class="nav-item nav-link">Fale Conosco</a>
-            <a href="{{route('home.single', ['pagina' => 'historia', 'slug' => ''])}}"
-                class="nav-item nav-link">História</a>
-            <a href="{{route('home.single', ['pagina' => 'outrasnoticias', 'slug' => ''])}}"
-                class="nav-item nav-link">Notícias</a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Outros</a>
-                <div class="dropdown-menu rounded-0 m-0">
-                    <a href="{{route('home.single', ['pagina' => 'principais-links', 'slug' => ''])}}"
-                        class="dropdown-item">Principais Links</a>
-                    {{-- <a href="#" class="dropdown-item">Administração</a>--}}
+                <a href="{{route('home.single', ['pagina' => 'fale-conosco', 'slug' => ''])}}" class="nav-item nav-link">Fale Conosco</a>
+                <a href="{{route('home.single', ['pagina' => 'historia', 'slug' => ''])}}" class="nav-item nav-link">História</a>
+                <a href="{{route('home.single', ['pagina' => 'outrasnoticias', 'slug' => ''])}}" class="nav-item nav-link">Notícias</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Outros</a>
+                    <div class="dropdown-menu rounded-0 m-0">
+                        <a href="{{route('home.single', ['pagina' => 'principais-links', 'slug' => ''])}}" class="dropdown-item">Principais Links</a>
+                        <a href="{{route('login')}}" class="dropdown-item">Administração</a>
+                    </div>
                 </div>
+                <a href="{{route('home.single', ['pagina' => 'ficha', 'slug' => ''])}}" class="nav-item nav-link">Filie-se</a>
             </div>
 
-            <a href="{{route('home.single', ['pagina' => 'ficha', 'slug' => ''])}}"
-                class="nav-item nav-link">Filie-se</a>
+            <!-- Segunda Linha: Novas Seções Especiais -->
+            <div class="navbar-nav mr-auto w-100 flex-wrap justify-content-lg-center" style="font-size: 0.85rem;">
+                <a href="{{route('home.single', ['pagina' => 'sinpol-animal', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL ANIMAL</a>
+                <a href="{{route('home.single', ['pagina' => 'sinpol-mulher', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL MULHER</a>
+                <a href="{{route('home.single', ['pagina' => 'sinpol-permutas', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL PERMUTAS</a>
+                <a href="{{route('home.single', ['pagina' => 'classificados-sinpol', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">CLASSIFICADOS DO SINPOL</a>
+                <a href="{{route('home.single', ['pagina' => 'sinpol-fiscaliza', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL FISCALIZA</a>
+                <a href="{{route('home.single', ['pagina' => 'sinpol-na-rua', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL NA RUA</a>
+                <a href="{{route('home.single', ['pagina' => 'sinpol-denuncias', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL DENÚNCIAS</a>
+            </div>
         </div>
         <!-- <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
             <input type="text" class="form-control border-0" placeholder="Keyword">

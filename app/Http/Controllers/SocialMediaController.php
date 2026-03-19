@@ -47,6 +47,12 @@ class SocialMediaController extends Controller
             'updated_at' => Carbon::now()
         ];
 
+        if ($this->request->hasFile('imagem')) {
+            $imageName = time() . '.' . $this->request->imagem->extension();
+            $this->request->imagem->move(public_path('images/social_media'), $imageName);
+            $data['imagem'] = $imageName;
+        }
+
         $retorno = $this->socialMedia->create($data);
 
         if(!$retorno){
@@ -69,6 +75,12 @@ class SocialMediaController extends Controller
             $socialMedia->link = $this->request->input('link');
             $socialMedia->slug = $this->request->input('slug');
             $socialMedia->updated_at = Carbon::now();
+
+            if ($this->request->hasFile('imagem')) {
+                $imageName = time() . '.' . $this->request->imagem->extension();
+                $this->request->imagem->move(public_path('images/social_media'), $imageName);
+                $socialMedia->imagem = $imageName;
+            }
 
             if ($socialMedia->save()) {
                 return redirect()->route('socialmedia.index')->with('success','Atualização efetuada com sucesso.');

@@ -88,6 +88,29 @@
                 </ul>
             </li>
             <!-- End Components Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#secoes-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-stack"></i><span>Páginas</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="secoes-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li><a href="{{route('sinpol-animal.index')}}"><i class="bi bi-circle"></i><span>SINPOL ANIMAL</span></a></li>
+                    <li><a href="{{route('sinpol-mulher.index')}}"><i class="bi bi-circle"></i><span>SINPOL MULHER</span></a></li>
+                    <li><a href="{{route('sinpol-permutas.index')}}"><i class="bi bi-circle"></i><span>SINPOL PERMUTAS</span></a></li>
+                    <li><a href="{{route('classificados-sinpol.index')}}"><i class="bi bi-circle"></i><span>CLASSIFICADOS DO SINPOL</span></a></li>
+                    <li><a href="{{route('sinpol-fiscaliza.index')}}"><i class="bi bi-circle"></i><span>SINPOL FISCALIZA</span></a></li>
+                    <li><a href="{{route('sinpol-na-rua.index')}}"><i class="bi bi-circle"></i><span>SINPOL NA RUA</span></a></li>
+                    <li><a href="{{route('sinpol-denuncias.index')}}"><i class="bi bi-circle"></i><span>SINPOL DENÚNCIAS</span></a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('mapas.index')}}">
+                    <i class="bi bi-map"></i>
+                    <span>Mapas</span>
+                </a>
+            </li>
+
             <!-- Register Page Nav -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{route('admin.registro')}}">

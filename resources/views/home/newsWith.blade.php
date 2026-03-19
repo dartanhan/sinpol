@@ -24,6 +24,9 @@
             </div>
             <!-- Popular News End -->
 
+            @include('home.redesSociais')
+            @include('home.minnimapa')
+
             <!-- Ads Start -->
             @include('home.video')
 

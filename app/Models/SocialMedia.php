@@ -9,7 +9,7 @@ class SocialMedia extends Model
 {
     use HasFactory;
     protected $table = 'tbl_sinpol_social_mideas';
-    protected $fillable = ['link', 'slug', 'status','titulo', 'updated_at', 'created_at'];
+    protected $fillable = ['link', 'slug', 'status','titulo', 'imagem', 'updated_at', 'created_at'];
 
     public function getCreatedAtAttribute()
     {
