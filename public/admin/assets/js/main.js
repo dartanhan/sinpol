@@ -304,7 +304,14 @@
   const datatables = select('.datatable', true)
   datatables.forEach(datatable => {
     new simpleDatatables.DataTable(datatable, {
-      perPageSelect: [5, 10, 15, ["All", -1]],
+      perPageSelect: [5, 10, 15, ["Todas", -1]],
+      labels: {
+        placeholder: "Pesquisar...",
+        perPage: "itens por página",
+        noRows: "Nenhum registro encontrado",
+        info: "Exibindo {start} a {end} de {rows} itens",
+        noResults: "Nenhum resultado corresponde à sua pesquisa",
+      },
       columns: [{
         select: 2,
         sortSequence: ["desc", "asc"]

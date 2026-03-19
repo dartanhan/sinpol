@@ -20,144 +20,133 @@
     </div><!-- End Page Title -->
 
     <section class="section">
-        <div class="row">
-            <div>
-                <div class="card">
-                    <div class="card-body mt-3">
-                        @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if(session('danger'))
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-exclamation-octagon me-1"></i>
+                {{ session('danger') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </section>
+
+    <!-- Modal Diretoria -->
+    <div class="modal fade" id="modalDiretoria" tabindex="-1" role="dialog" aria-labelledby="diretoriaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <form method="POST" action="{{route('diretoria.store')}}" name="diretoriaForm" id="diretoriaForm" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-content shadow-lg border-0">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="diretoriaModalLabel">
+                            <i class="bi bi-people me-2"></i>Gerenciar Diretoria
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4 text-start">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label for="titulo" class="form-label fw-bold">Título / Nome</label>
+                                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Página ou Membro da Diretoria" maxlength="150" required>
+                                <small class="text-muted">Máximo 150 caracteres.</small>
                             </div>
-                        @endif
-
-                        @if(session('danger'))
-                            <div class="alert alert-danger">
-                                {{ session('danger') }}
+                            <div class="col-md-4">
+                                <label for="slug" class="form-label fw-bold">Slug</label>
+                                <input type="text" name="slug" id="slug" readonly class="form-control bg-light" placeholder="Gerado automaticamente">
                             </div>
-                        @endif
-                        <div class="container text-center ">
-                            <!-- Botão para abrir o modal -->
-                            <button type="button" class="btn btn-primary mt-3 btnModalDiretoria" data-toggle="modal"
-                                data-target="#modalDiretoria" data-rota="{{route('diretoria.store')}}">
-                                Salvar nova Diretoria
-                            </button>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="modalDiretoria" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-xl modal-lg modal-md" role="document">
-                                    <form method="POST" action="{{route('diretoria.store')}}" name="diretoriaForm"
-                                        id="diretoriaForm" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-primary text-white">
-                                                <h5 class="modal-title" id="exampleModalLabel">Salvar nova Diretoria</h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-row">
-                                                    <div class="form-group d-flex align-items-start" style="gap: 20px;">
-                                                        <div class="w-50" style="text-align: left;">
-                                                            <label for="titulo"><strong>Máximo de 150
-                                                                    Caracteres</strong></label>
-                                                            <input type="text" name="titulo" id="titulo"
-                                                                class="form-control" placeholder="Título da Diretoria"
-                                                                maxlength="150" data-toggle="tooltip" data-placement="top"
-                                                                title="Título da Diretoria">
-                                                        </div>
-                                                        <div class="w-50" style="text-align: left;">
-                                                            <label for="slug"><strong>Slug</strong></label>
-                                                            <input type="text" name="slug" id="slug" readonly
-                                                                class="form-control" placeholder="Slug" maxlength="150"
-                                                                data-toggle="tooltip" data-placement="top" title="Slug">
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="form-group  mt-3" style="text-align: left;">
-                                                        <div class="card-header bg-primary text-white text-left">
-                                                            <label for="noticia"><b>Crie o conteúdo da Diretoria ao seu
-                                                                    estilo!</b></label>
-                                                        </div>
-                                                        <div class="card-body mt-3">
-                                                            <textarea class="tinymce_editor" name="tinymce_editor"
-                                                                id="tinymce_editor"></textarea>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Fechar</button>
-                                                        <button type="submit" class="btn btn-primary">Salvar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                            
+                            <div class="col-12 mt-3">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-light py-3">
+                                        <h6 class="m-0 fw-bold text-primary"><i class="bi bi-pencil-square me-2"></i>Conteúdo da Página</h6>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <textarea class="tinymce_editor" name="tinymce_editor" id="tinymce_editor"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal-footer border-top-0 pt-4 px-0">
+                            <button type="button" class="btn btn-light me-2 px-4" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary px-5 shadow-sm text-uppercase fw-bold">Salvar Diretoria</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </section>
-    <div class="row">
+    </div>
+
+    <div class="row mt-4">
         <div class="col-lg-12">
-            <div class="card">
-                <section>
-                    <table class="table datatable table-responsive table-hover table-striped text-center ">
-                        <thead>
+            <div class="card shadow-sm text-center">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="card-title m-0 p-0 text-uppercase">Gerenciar Diretoria</h5>
+                        <button type="button" class="btn btn-primary btnModalDiretoria px-4 shadow-sm" data-toggle="modal"
+                                data-target="#modalDiretoria" data-rota="{{route('diretoria.store')}}">
+                            <i class="bi bi-plus-circle me-1"></i> Nova Entrada
+                        </button>
+                    </div>
+
+                    <table class="table datatable table-hover align-middle">
+                        <thead class="table-dark">
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Titulo</th>
-                                <th scope="col">Slug</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Criado em:</th>
-                                <th scope="col">Atualizado em:</th>
-                                <th scope="col" colspan="2" width="200px" style="width: 200px">Ações</th>
+                                <th scope="col" width="50">#</th>
+                                <th scope="col" class="text-start">Título / Link Amigável</th>
+                                <th scope="col" width="100">Status</th>
+                                <th scope="col" width="150">Criado em</th>
+                                <th scope="col" width="120">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($diretorias as $diretoria)
                                 <tr>
-                                    <th class="align-middle">{{$diretoria->id}}</th>
-                                    <td class="align-middle">{{$diretoria->titulo}}</td>
-                                    <td class="align-middle">{{$diretoria->slug}}</td>
-                                    <td class="align-middle" style="text-align: center;">
-                                        <div class="form-check form-switch mt-2"
-                                            style="display: inline-block; vertical-align: middle;cursor: pointer">
-                                            <input class="form-check-input statusSwitch"
-                                                style="text-align: center;cursor: pointer" type="checkbox" data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="{{$diretoria->status == 0 ? "Bloqueado, sem visualização no site." : "Liberado, para visualização no site."}}"
-                                                data-id="{{$diretoria->id}}" data-rota="{{route('atualizar-status-diretoria')}}"
-                                                {{$diretoria->status == 0 ? "" : "checked"}}>
+                                    <th scope="row">{{$diretoria->id}}</th>
+                                    <td class="text-start">
+                                        <div class="fw-bold text-dark">{{$diretoria->titulo}}</div>
+                                        <small class="text-info">{{$diretoria->slug}}</small>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch d-flex justify-content-center">
+                                            <input class="form-check-input statusSwitch" type="checkbox"
+                                                   data-toggle="tooltip" data-placement="top"
+                                                   title="{{$diretoria->status == 0 ? "Inativo" : "Ativo"}}"
+                                                   data-id="{{$diretoria->id}}"
+                                                   data-rota="{{route('atualizar-status-diretoria')}}"
+                                                   {{$diretoria->status == 0 ? "" : "checked"}}>
                                         </div>
                                     </td>
-                                    <td class="align-middle">{{$diretoria->created_at}}</td>
-                                    <td class="align-middle">{{$diretoria->updated_at}}</td>
-                                    <td class="align-middle align-center">
-                                        <div class="d-flex">
-                                            <i class="bi bi-trash custom-icon-size text-danger btn-excluir"
-                                                style="cursor: pointer" data-toggle="tooltip" data-placement="top"
-                                                title="Excluir" data-rota="{{route('diretoria.destroy', $diretoria->id)}}">
-                                            </i>
-                                            <span data-toggle="tooltip" data-placement="top" title="Editar">
-                                                <i class="bi bi-pencil-square custom-icon-size text-info btn-editar-diretoria"
-                                                    style="cursor: pointer"
-                                                    data-rota="{{route('diretoria.edit', $diretoria->id)}}"
-                                                    data-rota-update="{{route('diretoria.update', $diretoria->id)}}"
-                                                    data-toggle="modal" data-target="#modalDiretoria">
-                                                </i>
-                                            </span>
+                                    <td>
+                                        <small class="text-muted">{{ \Carbon\Carbon::parse($diretoria->created_at)->format('d/m/Y H:i') }}</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group shadow-sm">
+                                            <button class="btn btn-sm btn-outline-info btn-editar-diretoria" 
+                                                data-rota="{{route('diretoria.edit',$diretoria->id)}}"
+                                                data-rota-update="{{route('diretoria.update',$diretoria->id)}}"
+                                                data-toggle="modal" data-target="#modalDiretoria"
+                                                title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger btn-excluir"
+                                                data-rota="{{route('diretoria.destroy',$diretoria->id)}}"
+                                                title="Excluir">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                </section>
+                </div>
             </div>
         </div>
     </div>

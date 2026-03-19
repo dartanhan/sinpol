@@ -35,53 +35,70 @@
                     </div>
                 @endif
 
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $tituloDaTela }}</h5>
-                        <button type="button" class="btn btn-primary mt-3 btnModalSecao" data-toggle="modal"
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="card-title m-0 p-0 text-uppercase">{{ $tituloDaTela }}</h5>
+                        <button type="button" class="btn btn-primary btnModalSecao px-4 shadow-sm" data-toggle="modal"
                             data-target="#modalSecao" data-rota="{{route($tipo.'.store')}}">
-                            Nova Entrada
+                            <i class="bi bi-plus-circle me-1"></i> Nova Entrada
                         </button>
-
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Título</th>
-                                    <th scope="col">Ativo</th>
-                                    <th scope="col">Criado em</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($posts as $post)
-                                    <tr>
-                                        <th scope="row">{{$post->id}}</th>
-                                        <td>{{$post->titulo}}</td>
-                                        <td>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input statusSwitch" type="checkbox"
-                                                    data-rota="{{route($tipo.'.atualizar-status')}}"
-                                                    data-id="{{$post->id}}" @if($post->status) checked @endif>
-                                            </div>
-                                        </td>
-                                        <td>{{$post->created_at}}</td>
-                                        <td>
-                                            <i class="bi bi-pencil-square custom-icon-size text-info btn-editar-secao"
-                                                style="cursor: pointer" data-rota="{{route($tipo.'.edit', $post->id)}}"
-                                                data-rota-update="{{route($tipo.'.update', $post->id)}}" data-toggle="modal"
-                                                data-target="#modalSecao">
-                                            </i>
-                                            <i class="bi bi-trash custom-icon-size text-danger btn-excluir-secao"
-                                                style="cursor: pointer"
-                                                data-rota="{{route($tipo.'.destroy', $post->id)}}"></i>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
                     </div>
+
+                    <table class="table datatable table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" width="50">#</th>
+                                <th scope="col">Título do Post</th>
+                                <th scope="col" width="100">Status</th>
+                                <th scope="col" width="150">Criado em</th>
+                                <th scope="col" width="120">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($posts as $post)
+                                <tr>
+                                    <th scope="row">{{$post->id}}</th>
+                                    <td>
+                                        <div class="fw-bold text-dark">{{$post->titulo}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch d-flex justify-content-center">
+                                            <input class="form-check-input statusSwitch" type="checkbox"
+                                                data-rota="{{route($tipo.'.atualizar-status')}}"
+                                                data-id="{{$post->id}}" @if($post->status) checked @endif
+                                                title="Ativar/Desativar no site">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y H:i') }}</small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group shadow-sm">
+                                            <button class="btn btn-sm btn-outline-info btn-editar-secao" 
+                                                data-rota="{{route($tipo.'.edit', $post->id)}}"
+                                                data-rota-update="{{route($tipo.'.update', $post->id)}}" 
+                                                data-toggle="modal" data-target="#modalSecao"
+                                                title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger btn-excluir-secao"
+                                                data-rota="{{route($tipo.'.destroy', $post->id)}}"
+                                                title="Excluir">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+            </div>
+        </div>
+    </div>
 
             </div>
         </div>
