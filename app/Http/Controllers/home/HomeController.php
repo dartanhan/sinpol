@@ -146,6 +146,25 @@ class HomeController extends Controller
                     'videos' => $this->videos
                 ];
                 break;
+            case 'sinpol-animal':
+            case 'sinpol-mulher':
+            case 'sinpol-permutas':
+            case 'classificados-sinpol':
+            case 'sinpol-fiscaliza':
+            case 'sinpol-na-rua':
+            case 'sinpol-denuncias':
+                $secoes_posts = \App\Models\SecaoPost::where('tipo', $pagina)->where('status', 1)->orderBy('id', 'desc')->get();
+                $data = [
+                    'secoes_posts' => $secoes_posts,
+                    'tipo_secao' => $pagina,
+                    'noticiasBreakNews' => $this->noticiasBreakNews,
+                    'noticiasPopulares' => $this->noticiasPopulares,
+                    'ultimasNoticias' => $this->ultimasNoticias,
+                    'videos' => $this->videos,
+                    'socialmedias' => $this->socialmedias
+                ];
+                return view('home.secao', $data);
+                break;
             case 'historia':
             case 'fale-conosco':
             case 'como-chegar':

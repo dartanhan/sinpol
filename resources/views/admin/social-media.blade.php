@@ -54,7 +54,7 @@
                                                 <div class="modal-body">
                                                     <div class="form-row">
                                                         <div class="form-group d-flex align-items-start" style="gap: 20px;">
-                                                            <div class="w-50" style="text-align: left;">
+                                                            <div class="w-33" style="text-align: left;">
                                                                 <label for="titulo"><strong>Máximo de 150 Caracteres</strong></label>
                                                                 <input type="text" name="titulo" id="titulo"
                                                                        class="form-control"
@@ -63,8 +63,8 @@
                                                                        data-placement="top"
                                                                        title="Titulo da Social Media">
                                                             </div>
-                                                            <div class="w-50" style="text-align: left;">
-                                                                <label for="titulo"><strong>Máximo de 255 Caracteres</strong></label>
+                                                            <div class="w-33" style="text-align: left;">
+                                                                <label for="link"><strong>Máximo de 255 Caracteres</strong></label>
                                                                 <input type="text" name="link" id="link"
                                                                        class="form-control"
                                                                        placeholder="Link Social Media" maxlength="255"
@@ -72,7 +72,7 @@
                                                                        data-placement="top"
                                                                        title="Link da Social Media">
                                                             </div>
-                                                            <div class="w-50" style="text-align: left;">
+                                                            <div class="w-33" style="text-align: left;">
                                                                 <label for="slug"><strong>Slug</strong></label>
                                                                 <input type="text" name="slug" id="slug" readonly
                                                                        class="form-control"
@@ -80,6 +80,16 @@
                                                                        data-toggle="tooltip"
                                                                        data-placement="top"
                                                                        title="Slug">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group d-flex align-items-start mt-3" style="gap: 20px;">
+                                                            <div class="w-100" style="text-align: left;">
+                                                                <label for="imagem"><strong>Imagem da Rede Social</strong></label>
+                                                                <input type="file" name="imagem" id="imagem"
+                                                                       class="form-control" accept="image/*"
+                                                                       data-toggle="tooltip"
+                                                                       data-placement="top"
+                                                                       title="Imagem da Social Media">
                                                             </div>
                                                         </div>
 
@@ -147,7 +157,7 @@
                                             </i>
                                             <span data-toggle="tooltip" data-placement="top" title="Editar">
                                                <i class="bi bi-pencil-square custom-icon-size text-info btn-editar-socialmedia" style="cursor: pointer"
-                                                   data-rota="{{route('socialmedia.edit',$socialMedia->id,'/edit')}}"
+                                                   data-rota="{{route('socialmedia.edit',$socialMedia->id)}}"
                                                    data-rota-update="{{route('socialmedia.update',$socialMedia->id)}}"
                                                    data-toggle="modal"
                                                    data-target="#modalSocialMedia">

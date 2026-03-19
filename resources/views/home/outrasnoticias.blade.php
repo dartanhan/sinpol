@@ -125,25 +125,28 @@
             <!-- Social Follow End -->
 
             <!-- Popular News Start -->
-            <div class="mb-3">
-                @include('home.ultimasNoticias')
-            </div>
-            <!-- Popular News End -->
-
-            <!-- Ads Start -->
-            <div class="mb-3">
-                @include('home.video')
-            </div>
-            <!-- Ads End -->
-
+             <div class="mb-3">
+                @include('components.ficha')
+            </div> 
             <!-- Newsletter Start -->
             <div class="mb-3">
                 @include('home.newsLetter')
             </div>
             <!-- Newsletter End -->
             <div class="mb-3">
-                @include('components.ficha')
+                @include('home.ultimasNoticias')
             </div>
+            <!-- Popular News End -->
+           @include('home.redesSociais')
+            @include('home.minnimapa')
+            <!-- Ads Start -->
+            <div class="mb-3">
+                @include('home.video')
+            </div>
+            <!-- Ads End -->
+
+           
+            
             <!-- Tags Start -->
 {{--            <div class="mb-3">--}}
 {{--                <div class="section-title mb-0">--}}
