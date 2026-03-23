@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class SecaoPostController extends Controller
@@ -23,25 +24,41 @@ class SecaoPostController extends Controller
 
     public function index($tipo)
     {
-        if (Auth::check() === true) {
-            $user_data = User::where("id", auth()->user()->id)->first();
-            $posts = $this->secaoPost->where('tipo', $tipo)->orderBy('id', 'desc')->get();
-            return view('admin.secao_posts.index', compact('posts', 'user_data', 'tipo'));
+        try {
+            if (Auth::check() === true) {
+                $user_data = User::where("id", auth()->user()->id)->first();
+                $posts = $this->secaoPost->where('tipo', $tipo)->orderBy('id', 'desc')->get();
+
+                // Reparo de títulos antigos "Sem título"
+                foreach($posts as $post) {
+                    if (strpos($post->titulo, 'Sem título') === 0) {
+                        $post->titulo = $this->getFormatTitle($tipo);
+                        $post->save();
+                    }
+                }
+
+                return view('admin.secao_posts.index', compact('posts', 'user_data', 'tipo'));
+            }
+            return redirect()->route('login');
+        } catch (Throwable $th) {
+            Log::error("Erro no index do SecaoPostController ($tipo): " . $th->getMessage());
+            return redirect()->back()->with('danger', 'Erro ao carregar registros: ' . $th->getMessage());
         }
-        return redirect()->route('login');
     }
 
     public function store($tipo)
     {
         try {
+            $tituloPadrao = $this->getFormatTitle($tipo);
+
             $data = [
                 'tipo' => $tipo,
-                'titulo' => 'Sem título (' . date('d/m/Y H:i:s') . ')',
+                'titulo' => $tituloPadrao,
                 'conteudo' => $this->request->input('tinymce_editor'),
                 'status' => true,
             ];
 
-            if ($this->request->has('titulo') && !empty($this->request->input('titulo'))) {
+            if ($this->request->has('titulo') && !empty($this->request->input('titulo')) && $this->request->input('titulo') !== 'Sem título') {
                 $data['titulo'] = $this->request->input('titulo');
             }
 
@@ -53,14 +70,43 @@ class SecaoPostController extends Controller
 
             return redirect()->back()->with('success', 'Post criado com sucesso.');
         } catch (Throwable $th) {
+            Log::error("Erro no store do SecaoPostController ($tipo): " . $th->getMessage());
             return redirect()->back()->with('danger', 'Erro ao salvar: ' . $th->getMessage());
         }
     }
 
-    public function update($tipo, $id)
+    private function getFormatTitle($tipo)
+    {
+        $titulos = [
+            'sinpol-animal' => 'SINPOL ANIMAL',
+            'sinpol-mulher' => 'SINPOL MULHER',
+            'sinpol-permutas' => 'SINPOL PERMUTAS',
+            'classificados-sinpol' => 'CLASSIFICADOS DO SINPOL',
+            'sinpol-fiscaliza' => 'SINPOL FISCALIZA',
+            'sinpol-na-rua' => 'SINPOL NA RUA',
+            'sinpol-denuncias' => 'SINPOL DENÚNCIAS',
+            'sinpol-idoso' => 'SINPOL IDOSO',
+            'sinpol-esportes' => 'SINPOL ESPORTES',
+            'sinpol-peritos' => 'SINPOL PERITOS',
+            'diretoria' => 'DIRETORIA',
+            'historia' => 'HISTÓRIA',
+            'fale-conosco' => 'FALE CONOSCO',
+            'como-chegar' => 'COMO CHEGAR',
+            'principais-links' => 'PRINCIPAIS LINKS',
+            'convenio' => 'CONVÊNIOS'
+        ];
+
+        return isset($titulos[$tipo]) ? $titulos[$tipo] : strtoupper(str_replace('-', ' ', $tipo));
+    }
+
+    public function update($id, $tipo)
     {
         try {
             $post = $this->secaoPost->where('tipo', $tipo)->find($id);
+
+            if (!$post) {
+                 return redirect()->back()->with('danger', 'Registro não encontrado.');
+            }
 
             if ($this->request->has('titulo')) {
                 $post->titulo = $this->request->input('titulo');
@@ -74,20 +120,26 @@ class SecaoPostController extends Controller
                 return redirect()->back()->with('danger', 'Erro ao atualizar.');
             }
         } catch (Throwable $th) {
+            Log::error("Erro no update do SecaoPostController ($tipo, $id): " . $th->getMessage());
             return redirect()->back()->with('danger', 'Erro: ' . $th->getMessage());
         }
     }
 
-    public function edit($tipo, $id)
+    public function edit($id, $tipo)
     {
-        $post = $this->secaoPost->where('tipo', $tipo)->find($id);
-        if (!$post) {
-            abort(404);
+        try {
+            $post = $this->secaoPost->where('tipo', $tipo)->find($id);
+            if (!$post) {
+                return response()->json(['success' => false, 'message' => 'Registro não encontrado (Tipo: '.$tipo.', ID: '.$id.').'], 404);
+            }
+            return response()->json(['success' => true, 'data' => $post]);
+        } catch (Throwable $th) {
+            Log::error("Erro no edit do SecaoPostController ($tipo, $id): " . $th->getMessage());
+            return response()->json(['success' => false, 'message' => 'Erro interno: ' . $th->getMessage()], 500);
         }
-        return response()->json(['success' => true, 'data' => $post]);
     }
 
-    public function destroy($tipo, $id)
+    public function destroy($id, $tipo)
     {
         try {
             $post = $this->secaoPost->where('tipo', $tipo)->find($id);
@@ -97,21 +149,27 @@ class SecaoPostController extends Controller
             $post->delete();
             return response()->json(['success' => true, 'message' => 'Excluído com sucesso'], 200);
         } catch (Throwable $th) {
+            Log::error("Erro no destroy do SecaoPostController ($tipo, $id): " . $th->getMessage());
             return response()->json(['success' => false, 'message' => "Erro: " . $th->getMessage()], 500);
         }
     }
 
     public function atualizarStatus($tipo)
     {
-        $id = $this->request->input('id');
-        $status = $this->request->input('status');
+        try {
+            $id = $this->request->input('id');
+            $status = $this->request->input('status');
 
-        $post = $this->secaoPost->where('tipo', $tipo)->find($id);
-        if($post) {
-            $post->status = $status;
-            $post->save();
-            return response()->json(['success' => true, 'message' => 'Status atualizado.'], 200);
+            $post = $this->secaoPost->where('tipo', $tipo)->find($id);
+            if($post) {
+                $post->status = $status;
+                $post->save();
+                return response()->json(['success' => true, 'message' => 'Status atualizado.'], 200);
+            }
+            return response()->json(['success' => false, 'message' => 'Post não encontrado.'], 404);
+        } catch (Throwable $th) {
+            Log::error("Erro no atualizarStatus do SecaoPostController ($tipo): " . $th->getMessage());
+            return response()->json(['success' => false, 'message' => "Erro: " . $th->getMessage()], 500);
         }
-        return response()->json(['success' => false, 'message' => 'Post não encontrado.'], 404);
     }
 }

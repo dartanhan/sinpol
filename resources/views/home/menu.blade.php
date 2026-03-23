@@ -16,19 +16,8 @@
                 <a href="{{route('home.home')}}" class="nav-item nav-link active">Home</a>
                 <a href="{{route('home.single', ['pagina' => 'beneficio', 'slug' => ''])}}" class="nav-item nav-link">Benefícios</a>
                 <a href="{{route('home.single', ['pagina' => 'como-chegar', 'slug' => ''])}}" class="nav-item nav-link">Como Chegar</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Convênios</a>
-                    <div class="dropdown-menu rounded-0 m-0">
-                        <a href="{{route('home.single', ['pagina' => 'convenio', 'slug' => ''])}}" class="dropdown-item">Estabelecimentos</a>
-                    </div>
-                </div>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Diretoria</a>
-                    <div class="dropdown-menu rounded-0 m-0">
-                        <a href="{{route('home.single', ['pagina' => 'diretoria', 'slug' => ''])}}" class="dropdown-item">Diretoria</a>
-                        <a href="#" class="dropdown-item">Eleição</a>
-                    </div>
-                </div>
+                <a href="{{route('home.single', ['pagina' => 'convenio', 'slug' => ''])}}" class="nav-item nav-link">Convênios</a>
+                <a href="{{route('home.single', ['pagina' => 'diretoria', 'slug' => ''])}}" class="nav-item nav-link">Diretoria</a>
                 <a href="{{route('home.single', ['pagina' => 'fale-conosco', 'slug' => ''])}}" class="nav-item nav-link">Fale Conosco</a>
                 <a href="{{route('home.single', ['pagina' => 'historia', 'slug' => ''])}}" class="nav-item nav-link">História</a>
                 <a href="{{route('home.single', ['pagina' => 'outrasnoticias', 'slug' => ''])}}" class="nav-item nav-link">Notícias</a>
@@ -51,6 +40,9 @@
                 <a href="{{route('home.single', ['pagina' => 'sinpol-fiscaliza', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL FISCALIZA</a>
                 <a href="{{route('home.single', ['pagina' => 'sinpol-na-rua', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL NA RUA</a>
                 <a href="{{route('home.single', ['pagina' => 'sinpol-denuncias', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL DENÚNCIAS</a>
+                <a href="{{route('home.single', ['pagina' => 'sinpol-idoso', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL IDOSO</a>
+                <a href="{{route('home.single', ['pagina' => 'sinpol-esportes', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL ESPORTES</a>
+                <a href="{{route('home.single', ['pagina' => 'sinpol-peritos', 'slug' => ''])}}" class="nav-item nav-link px-lg-2 py-1">SINPOL PERITOS</a>
             </div>
         </div>
         <!-- <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">

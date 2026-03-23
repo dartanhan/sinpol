@@ -13,43 +13,14 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item">
+          {{--  <li class="nav-item">
                 <a class="nav-link collapsed" href="{{route('beneficio.index')}}">
                     <i class="bi bi-gift"></i>
                     <span>Benefícios</span>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('diretoria.index')}}">
-                    <i class="bi bi-people"></i>
-                    <span>Diretoria</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('pagina.index')}}">
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>Páginas Institucionais</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-convenio-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-person-check"></i><span>Convênios</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="components-convenio-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    {{-- <li>--}}
-                        {{-- <a href="{{route('convenio.index')}}">--}}
-                            {{-- <i class="bi bi-plus-circle"></i>--}}
-                            {{-- <span>Como Obter</span>--}}
-                            {{-- </a>--}}
-                        {{-- </li>--}}
-                    <li>
-                        <a href="{{route('convenio.index')}}">
-                            <i class="bi bi-shop"></i><span>Estabelecimentos</span>
-                        </a>
-                    </li>
+            </li>--}}
 
-                </ul>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{route('socialmedia.index')}}">
                     <i class="bi bi-whatsapp"></i>
@@ -101,6 +72,16 @@
                     <li><a href="{{route('sinpol-fiscaliza.index')}}"><i class="bi bi-circle"></i><span>SINPOL FISCALIZA</span></a></li>
                     <li><a href="{{route('sinpol-na-rua.index')}}"><i class="bi bi-circle"></i><span>SINPOL NA RUA</span></a></li>
                     <li><a href="{{route('sinpol-denuncias.index')}}"><i class="bi bi-circle"></i><span>SINPOL DENÚNCIAS</span></a></li>
+                    <li><a href="{{route('sinpol-idoso.index')}}"><i class="bi bi-circle"></i><span>SINPOL IDOSO</span></a></li>
+                    <li><a href="{{route('sinpol-esportes.index')}}"><i class="bi bi-circle"></i><span>SINPOL ESPORTES</span></a></li>
+                    <li><a href="{{route('sinpol-peritos.index')}}"><i class="bi bi-circle"></i><span>SINPOL PERITOS</span></a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="{{route('diretoria.index')}}"><i class="bi bi-circle"></i><span>DIRETORIA</span></a></li>
+                    <li><a href="{{route('historia.index')}}"><i class="bi bi-circle"></i><span>HISTÓRIA</span></a></li>
+                    <li><a href="{{route('fale-conosco.index')}}"><i class="bi bi-circle"></i><span>FALE CONOSCO</span></a></li>
+                    <li><a href="{{route('como-chegar.index')}}"><i class="bi bi-circle"></i><span>COMO CHEGAR</span></a></li>
+                    <li><a href="{{route('principais-links.index')}}"><i class="bi bi-circle"></i><span>PRINCIPAIS LINKS</span></a></li>
+                    <li><a href="{{route('convenio.index')}}"><i class="bi bi-circle"></i><span>CONVÊNIOS</span></a></li>
                 </ul>
             </li>
 

@@ -1,8 +1,8 @@
-/**
+    /**
  * ######################## AREA SECAO #####################
  * */
 $('.btnModalSecao').on('click', function (e) {
-    $("#titulo").val("");
+    // $("#titulo").val(""); // Mantém o título padrão definido no Blade
     tinymce.activeEditor.setContent("");
 
     $('#secaoForm').attr('action', $(this).data('rota'));

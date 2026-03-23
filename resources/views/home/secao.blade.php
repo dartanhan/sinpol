@@ -9,7 +9,16 @@
             'classificados-sinpol' => 'CLASSIFICADOS DO SINPOL',
             'sinpol-fiscaliza' => 'SINPOL FISCALIZA',
             'sinpol-na-rua' => 'SINPOL NA RUA',
-            'sinpol-denuncias' => 'SINPOL DENÚNCIAS'
+            'sinpol-denuncias' => 'SINPOL DENÚNCIAS',
+            'sinpol-idoso' => 'SINPOL IDOSO',
+            'sinpol-esportes' => 'SINPOL ESPORTES',
+            'sinpol-peritos' => 'SINPOL PERITOS',
+            'diretoria' => 'DIRETORIA',
+            'historia' => 'HISTÓRIA',
+            'fale-conosco' => 'FALE CONOSCO',
+            'como-chegar' => 'COMO CHEGAR',
+            'principais-links' => 'PRINCIPAIS LINKS',
+            'convenio' => 'CONVÊNIOS'
         ];
         $tipo_str = (string) $tipo_secao;
         $titulo_formatado = isset($titulos_secao[$tipo_str]) ? $titulos_secao[$tipo_str] : ucfirst(str_replace('-', ' ', $tipo_str));
@@ -48,20 +57,30 @@
                 <div class="col-lg-8">
                     <div class="position-relative mb-3">
                         <div class="bg-white border border-top-0 p-4">
-                            <h1 class="mb-5 text-secondary text-uppercase font-weight-bold text-center">
-                                {{ $titulo_formatado }}
-                            </h1>
-                            
                             @if(isset($secoes_posts) && count($secoes_posts) > 0)
                                 @foreach($secoes_posts as $post)
-                                    <div class="mb-5 pb-4 border-bottom">
-                                        <div>{!! $post->conteudo !!}</div>
-                                        <small class="text-muted d-block mt-3 text-right"><i>Publicado em: {{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}</i></small>
+                                    <div class="mb-5 pb-4 @if(!$loop->last) border-bottom @endif">
+                                        <div class="mb-3">
+                                            <span class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">
+                                                {{ $titulo_formatado }}
+                                            </span>
+                                            <a class="text-body" href="">{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y H:i:s') }}</a>
+                                        </div>
+                                        
+                                        @if($post->titulo && $post->titulo != 'Sem título' && $post->titulo != $titulo_formatado)
+                                            <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">
+                                                {!! $post->titulo !!}
+                                            </h1>
+                                        @endif
+
+                                        <div class="text-dark secao-conteudo">
+                                            {!! $post->conteudo !!}
+                                        </div>
                                     </div>
                                 @endforeach
                             @else
                                 <div class="alert alert-warning">
-                                    Nenhum conteúdo publicado nesta seção no momento.
+                                    Nenhum conteúdo publicado em <strong>{{ $titulo_formatado }}</strong> no momento.
                                 </div>
                             @endif
                         </div>
