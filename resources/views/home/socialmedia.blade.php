@@ -4,8 +4,8 @@
             @if(isset($socialmedias) && $socialmedias->isNotEmpty() )
                 @foreach($socialmedias as $key => $socialmedia)
                     <li class="nav-item">
-                        <a class="nav-link text-body" href="{{$socialmedia->link}}" target="_blank">
-                            <small class="fab fa-{{$socialmedia->slug}}"></small>
+                        <a class="nav-link text-body px-1" href="{{$socialmedia->link}}" target="_blank">
+                            <i class="fab fa-{{$socialmedia->slug}}" style="font-size: 11px !important;"></i>
                         </a>
                     </li>
                 @endforeach
