@@ -65,23 +65,22 @@
                     <i class="bi bi-stack"></i><span>Páginas</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="secoes-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li><a href="{{route('sinpol-animal.index')}}"><i class="bi bi-circle"></i><span>SINPOL ANIMAL</span></a></li>
-                    <li><a href="{{route('sinpol-mulher.index')}}"><i class="bi bi-circle"></i><span>SINPOL MULHER</span></a></li>
-                    <li><a href="{{route('sinpol-permutas.index')}}"><i class="bi bi-circle"></i><span>SINPOL PERMUTAS</span></a></li>
                     <li><a href="{{route('classificados-sinpol.index')}}"><i class="bi bi-circle"></i><span>CLASSIFICADOS DO SINPOL</span></a></li>
-                    <li><a href="{{route('sinpol-fiscaliza.index')}}"><i class="bi bi-circle"></i><span>SINPOL FISCALIZA</span></a></li>
-                    <li><a href="{{route('sinpol-na-rua.index')}}"><i class="bi bi-circle"></i><span>SINPOL NA RUA</span></a></li>
-                    <li><a href="{{route('sinpol-denuncias.index')}}"><i class="bi bi-circle"></i><span>SINPOL DENÚNCIAS</span></a></li>
-                    <li><a href="{{route('sinpol-idoso.index')}}"><i class="bi bi-circle"></i><span>SINPOL IDOSO</span></a></li>
-                    <li><a href="{{route('sinpol-esportes.index')}}"><i class="bi bi-circle"></i><span>SINPOL ESPORTES</span></a></li>
-                    <li><a href="{{route('sinpol-peritos.index')}}"><i class="bi bi-circle"></i><span>SINPOL PERITOS</span></a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a href="{{route('diretoria.index')}}"><i class="bi bi-circle"></i><span>DIRETORIA</span></a></li>
-                    <li><a href="{{route('historia.index')}}"><i class="bi bi-circle"></i><span>HISTÓRIA</span></a></li>
-                    <li><a href="{{route('fale-conosco.index')}}"><i class="bi bi-circle"></i><span>FALE CONOSCO</span></a></li>
                     <li><a href="{{route('como-chegar.index')}}"><i class="bi bi-circle"></i><span>COMO CHEGAR</span></a></li>
-                    <li><a href="{{route('principais-links.index')}}"><i class="bi bi-circle"></i><span>PRINCIPAIS LINKS</span></a></li>
                     <li><a href="{{route('convenio.index')}}"><i class="bi bi-circle"></i><span>CONVÊNIOS</span></a></li>
+                    <li><a href="{{route('diretoria.index')}}"><i class="bi bi-circle"></i><span>DIRETORIA</span></a></li>
+                    <li><a href="{{route('fale-conosco.index')}}"><i class="bi bi-circle"></i><span>FALE CONOSCO</span></a></li>
+                    <li><a href="{{route('historia.index')}}"><i class="bi bi-circle"></i><span>HISTÓRIA</span></a></li>
+                    <li><a href="{{route('principais-links.index')}}"><i class="bi bi-circle"></i><span>PRINCIPAIS LINKS</span></a></li>
+                    <li><a href="{{route('sinpol-animal.index')}}"><i class="bi bi-circle"></i><span>SINPOL ANIMAL</span></a></li>
+                    <li><a href="{{route('sinpol-denuncias.index')}}"><i class="bi bi-circle"></i><span>SINPOL DENÚNCIAS</span></a></li>
+                    <li><a href="{{route('sinpol-esportes.index')}}"><i class="bi bi-circle"></i><span>SINPOL ESPORTES</span></a></li>
+                    <li><a href="{{route('sinpol-fiscaliza.index')}}"><i class="bi bi-circle"></i><span>SINPOL FISCALIZA</span></a></li>
+                    <li><a href="{{route('sinpol-idoso.index')}}"><i class="bi bi-circle"></i><span>SINPOL IDOSO</span></a></li>
+                    <li><a href="{{route('sinpol-mulher.index')}}"><i class="bi bi-circle"></i><span>SINPOL MULHER</span></a></li>
+                    <li><a href="{{route('sinpol-na-rua.index')}}"><i class="bi bi-circle"></i><span>SINPOL NA RUA</span></a></li>
+                    <li><a href="{{route('sinpol-peritos.index')}}"><i class="bi bi-circle"></i><span>SINPOL PERITOS</span></a></li>
+                    <li><a href="{{route('sinpol-permutas.index')}}"><i class="bi bi-circle"></i><span>SINPOL PERMUTAS</span></a></li>
                 </ul>
             </li>
 
