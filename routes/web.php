@@ -62,17 +62,8 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin', config('jetst
     Route::post('/beneficio/atualizar-status', [BeneficioController::class, 'atualizarStatus'])->name('atualizar-status-beneficio');
     Route::resource('beneficio', BeneficioController::class);
 
-    Route::post('/convenio/atualizar-status', [ConvenioController::class, 'atualizarStatus'])->name('atualizar-status-convenio');
-    Route::resource('convenio', ConvenioController::class);
-
     Route::post('/socialmedia/atualizar-status', [SocialMediaController::class, 'atualizarStatus'])->name('atualizar-status-socialmedia');
     Route::resource('socialmedia', SocialMediaController::class);
-
-    Route::post('/diretoria/atualizar-status', [DiretoriaController::class, 'atualizarStatus'])->name('atualizar-status-diretoria');
-    Route::resource('diretoria', DiretoriaController::class);
-
-    Route::post('/pagina/atualizar-status', [PaginaController::class, 'atualizarStatus'])->name('atualizar-status-pagina');
-    Route::resource('pagina', PaginaController::class);
 
     Route::resource('usuario', UsuarioController::class);
 
@@ -82,8 +73,14 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin', config('jetst
     Route::post('/upload/tinymce', [UploadController::class, 'uploadTinyMCE'])->name('uploadTinyMCE');
     Route::delete('/upload/tmp-delete', [UploadController::class, 'tmpDelete'])->name('tmpDelete');
 
-    // Mapeando as 7 secoes para o SecaoPostController
-    $secoes_site = ['sinpol-animal', 'sinpol-mulher', 'sinpol-permutas', 'classificados-sinpol', 'sinpol-fiscaliza', 'sinpol-na-rua', 'sinpol-denuncias'];
+    // Mapeando as secoes para o SecaoPostController
+    $secoes_site = [
+        'sinpol-animal', 'sinpol-mulher', 'sinpol-permutas', 'classificados-sinpol', 
+        'sinpol-fiscaliza', 'sinpol-na-rua', 'sinpol-denuncias', 'sinpol-idoso', 
+        'sinpol-esportes', 'sinpol-peritos',
+        'diretoria', 'historia', 'fale-conosco', 'como-chegar', 'principais-links',
+        'convenio'
+    ];
     foreach($secoes_site as $secao) {
         Route::group(['prefix' => $secao, 'as' => $secao.'.'], function() use ($secao) {
             Route::get('/', [SecaoPostController::class, 'index'])->defaults('tipo', $secao)->name('index');

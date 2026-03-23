@@ -5,13 +5,10 @@ namespace App\Http\Controllers\home;
 use App\Http\Controllers\Controller;
 
 use App\Models\Beneficio;
-use App\Models\Convenio;
-use App\Models\Diretoria;
 use App\Models\Home;
 use App\Models\Noticia;
 use App\Models\SocialMedia;
 use App\Models\Video;
-use App\Models\Pagina;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -99,17 +96,7 @@ class HomeController extends Controller
                     'socialmedias' => $this->socialmedias
                 ];
                 break;
-            case 'convenio':
-                $convenios = Convenio::where('status', 1)->orderBy('id', 'desc')->get();
-                $data = [
-                    'convenios' => $convenios,
-                    'noticiasBreakNews' => $this->noticiasBreakNews,
-                    'noticiasPopulares' => $this->noticiasPopulares,
-                    'ultimasNoticias' => $this->ultimasNoticias,
-                    'videos' => $this->videos,
-                    'socialmedias' => $this->socialmedias
-                ];
-                break;
+
             case 'outrasnoticias':
                 $noticias = $this->noticias->with('imagens', 'user')
                     ->where('status', 1)
@@ -125,19 +112,8 @@ class HomeController extends Controller
                     'socialmedias' => $this->socialmedias
                 ];
                 break;
-            case 'diretoria':
-                $diretorias = Diretoria::where('status', 1)->orderBy('id', 'desc')->get();
-                $data = [
-                    'diretorias' => $diretorias,
-                    'noticiasBreakNews' => $this->noticiasBreakNews,
-                    'noticiasPopulares' => $this->noticiasPopulares,
-                    'ultimasNoticias' => $this->ultimasNoticias,
-                    'videos' => $this->videos,
-                    'socialmedias' => $this->socialmedias
-                ];
-                break;
-            case 'socialmedia':
 
+            case 'socialmedia':
                 $data = [
                     'socialmedias' => $this->socialmedias,
                     'noticiasBreakNews' => $this->noticiasBreakNews,
@@ -146,6 +122,7 @@ class HomeController extends Controller
                     'videos' => $this->videos
                 ];
                 break;
+
             case 'sinpol-animal':
             case 'sinpol-mulher':
             case 'sinpol-permutas':
@@ -153,6 +130,15 @@ class HomeController extends Controller
             case 'sinpol-fiscaliza':
             case 'sinpol-na-rua':
             case 'sinpol-denuncias':
+            case 'sinpol-idoso':
+            case 'sinpol-esportes':
+            case 'sinpol-peritos':
+            case 'diretoria':
+            case 'historia':
+            case 'fale-conosco':
+            case 'como-chegar':
+            case 'principais-links':
+            case 'convenio':
                 $secoes_posts = \App\Models\SecaoPost::where('tipo', $pagina)->where('status', 1)->orderBy('id', 'desc')->get();
                 $data = [
                     'secoes_posts' => $secoes_posts,
@@ -165,21 +151,7 @@ class HomeController extends Controller
                 ];
                 return view('home.secao', $data);
                 break;
-            case 'historia':
-            case 'fale-conosco':
-            case 'como-chegar':
-            case 'principais-links':
-                $conteudoPagina = Pagina::where('slug', $pagina)->where('status', 1)->first();
-                $data = [
-                    'pagina' => $conteudoPagina,
-                    'noticiasBreakNews' => $this->noticiasBreakNews,
-                    'noticiasPopulares' => $this->noticiasPopulares,
-                    'ultimasNoticias' => $this->ultimasNoticias,
-                    'videos' => $this->videos,
-                    'socialmedias' => $this->socialmedias
-                ];
-                return view('home.pagina', $data);
-                break;
+
             case 'ficha':
             case 'outrosvideos':
                 $videos = Video::where('status', 1)->orderBy('id', 'desc')->paginate(5);

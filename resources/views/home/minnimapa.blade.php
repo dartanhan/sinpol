@@ -10,13 +10,17 @@
             @php
                 $map_link = $mapa_ativo->link;
                 $embed_url = "";
+                $external_link = $map_link;
 
                 // Se for um link do Google My Maps (contém /maps/d/)
                 if (strpos($map_link, '/maps/d/') !== false) {
-                    // Transforma o link de visualização em link de incorporação (embed)
                     $embed_url = str_replace(['/viewer', '/edit'], '/embed', $map_link);
-                    // Remove parâmetros de usuário (/u/1, etc) se existirem para evitar erros de permissão
                     $embed_url = preg_replace('/\/u\/\d+\//', '/', $embed_url);
+                    
+                    // Para o link externo, tentamos converter para uma busca padrão se o usuário quiser Google Maps
+                    // Como MyMaps é uma camada diferente, o link direto sempre abrirá no MyMaps.
+                    // Uma alternativa é usar o título do mapa ou endereço, se disponível, mas aqui usaremos o link salvo.
+                    // Para forçar "Google Maps", o ideal é o usuário salvar um link de "Lugar" ou "Endereço".
                 } 
                 // Se for um link comum do Google Maps
                 elseif (strpos($map_link, 'http') === 0) {
@@ -25,6 +29,7 @@
                 // Se for apenas texto/endereço
                 else {
                     $embed_url = "https://maps.google.com/maps?q=" . urlencode($map_link) . "&hl=pt&z=14&output=embed";
+                    $external_link = "https://www.google.com/maps/search/?api=1&query=" . urlencode($map_link);
                 }
             @endphp
             <div style="width: 100%; height: 250px; overflow: hidden;" class="border rounded shadow-sm">
@@ -38,8 +43,8 @@
                 </iframe>
             </div>
             <div class="mt-2 text-center">
-                <a href="{{ $mapa_ativo->link }}" target="_blank" class="text-secondary font-weight-bold text-decoration-none">
-                    <i class="fas fa-external-link-alt mr-1"></i> Abrir no Google Maps
+                <a href="{{ $external_link }}" target="_blank" class="btn btn-sm btn-outline-primary font-weight-bold">
+                    <i class="fas fa-map-marker-alt mr-1"></i> Abrir no Google Maps
                 </a>
             </div>
         </div>

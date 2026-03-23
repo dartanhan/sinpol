@@ -60,13 +60,19 @@
 
 /* Table Headers */
 .table-dark {
-    --bs-table-bg: #212529;
-    --bs-table-color: #fff;
-    border-color: #373b3e;
+    background-color: #212529 !important;
+    color: #fff !important;
+}
+
+.table-dark thead th, 
+.table-dark thead td {
+    background-color: #212529 !important;
+    color: #fff !important;
+    border-color: #373b3e !important;
 }
 
 .datatable thead th {
-    padding: 12px 15px;
+    padding: 12px 15px !important;
     text-transform: uppercase;
     font-size: 0.75rem;
     letter-spacing: 1px;
