@@ -7,6 +7,7 @@ use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BeneficioController;
 use App\Http\Controllers\ConvenioController;
 use App\Http\Controllers\UsuarioController;
@@ -58,6 +59,9 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin', config('jetst
 
     Route::post('/video/atualizar-status', [VideoController::class, 'atualizarStatus'])->name('atualizar-status-video');
     Route::resource('video', VideoController::class);
+
+    Route::post('/banner/atualizar-status', [BannerController::class, 'atualizarStatus'])->name('atualizar-status-banner');
+    Route::resource('banner', BannerController::class);
 
     Route::post('/beneficio/atualizar-status', [BeneficioController::class, 'atualizarStatus'])->name('atualizar-status-beneficio');
     Route::resource('beneficio', BeneficioController::class);

@@ -23,6 +23,8 @@
                             $embed_url = explode('&', $embed_url)[0];
                         } elseif (strpos($embed_url, 'youtu.be/') !== false) {
                             $embed_url = str_replace('youtu.be/', 'youtube.com/embed/', $embed_url);
+                        } elseif (strpos($embed_url, 'youtube.com/shorts/') !== false) {
+                            $embed_url = str_replace('youtube.com/shorts/', 'youtube.com/embed/', $embed_url);
                         }
                     @endphp
                     <div class="overflow-hidden" style="width: 100%; height: 180px;">

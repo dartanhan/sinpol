@@ -89,16 +89,21 @@ class UploadController extends Controller
 
     public function tmpUpload()
     {
-
         if ($this->request->hasFile('image')) {
             $image = $this->request->file('image');
             $nome_unico = Str::uuid() . '.' . $image->getClientOriginalExtension();
             $folder = uniqid('posts', true);
+            
+            // Salva explicitamente no disco público para ser visível pelo BannerController
             $image->storeAs('posts/tmp/' . $folder, $nome_unico, 'public');
-            $this->temporaryFile->folder = $folder;
-            $this->temporaryFile->file = $nome_unico;
+            
+            $temp = new TemporaryFile();
+            $temp->folder = $folder;
+            $temp->file = $nome_unico;
+            $temp->save();
 
-            $this->temporaryFile->save();
+            \Illuminate\Support\Facades\Log::info("Upload Temporário OK: Folder {$folder}, File {$nome_unico}");
+            
             return $folder;
         }
         return '';

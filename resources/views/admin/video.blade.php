@@ -116,6 +116,8 @@
                                                 $embed_url = explode('&', $embed_url)[0];
                                             } elseif (strpos($embed_url, 'youtu.be/') !== false) {
                                                 $embed_url = str_replace('youtu.be/', 'youtube.com/embed/', $embed_url);
+                                            } elseif (strpos($embed_url, 'youtube.com/shorts/') !== false) {
+                                                $embed_url = str_replace('youtube.com/shorts/', 'youtube.com/embed/', $embed_url);
                                             }
                                         @endphp
                                         <div class="border rounded overflow-hidden shadow-sm" style="width: 220px; height: 120px;">
@@ -171,4 +173,23 @@
         @push("scripts")
             <script src="{{URL::asset('admin/assets/js/file-pond-custom.js')}}"></script>
             <script src="{{URL::asset('admin/assets/js/custom.js')}}"></script>
+            <script>
+                $(document).ready(function() {
+                    $('#link').on('input', function() {
+                        var url = $(this).val();
+                        if (url.includes('youtube.com/shorts/')) {
+                            var videoId = url.split('/shorts/')[1].split('?')[0];
+                            var newUrl = 'https://www.youtube.com/watch?v=' + videoId;
+                            $(this).val(newUrl);
+                            toastr.info('Link do YouTube Shorts convertido para formato compatível.');
+                        }
+                    });
+
+                    $('#videoForm').on('submit', function() {
+                        var btn = $(this).find('button[type="submit"]');
+                        btn.prop('disabled', true);
+                        btn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Salvando...');
+                    });
+                });
+            </script>
         @endpush

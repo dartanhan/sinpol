@@ -54,17 +54,27 @@
                                             </a>
                                         </div>
                                         <div class="bg-white text-center border border-top-0 p-3">
-
-                                        <a href="{{$video->link}}" target="_blank">
-                                            <iframe width="100%" height="180"
-                                                    src="{{$video->link}}"
-                                                    title="{{$video->titulo}}"
-                                                    frameborder="0"
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowfullscreen>
-                                            </iframe>
-                                        </a>
-                                    </div>
+                                            @php
+                                                $embed_url = $video->link;
+                                                if (strpos($embed_url, 'youtube.com/watch?v=') !== false) {
+                                                    $embed_url = str_replace('youtube.com/watch?v=', 'youtube.com/embed/', $embed_url);
+                                                    $embed_url = explode('&', $embed_url)[0];
+                                                } elseif (strpos($embed_url, 'youtu.be/') !== false) {
+                                                    $embed_url = str_replace('youtu.be/', 'youtube.com/embed/', $embed_url);
+                                                } elseif (strpos($embed_url, 'youtube.com/shorts/') !== false) {
+                                                    $embed_url = str_replace('youtube.com/shorts/', 'youtube.com/embed/', $embed_url);
+                                                }
+                                            @endphp
+                                            <a href="{{$video->link}}" target="_blank">
+                                                <iframe width="100%" height="180"
+                                                        src="{{$embed_url}}"
+                                                        title="{{$video->titulo}}"
+                                                        frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowfullscreen>
+                                                </iframe>
+                                            </a>
+                                        </div>
                                         <p class="m-0">{!! $video->titulo !!}</p>
                                     </div>
 {{--                                    <div class="d-flex justify-content-between bg-white border border-top-0 p-4">--}}

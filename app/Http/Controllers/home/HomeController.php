@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    protected $request, $home, $noticias, $ultimasNoticias, $noticiasBreakNews, $noticiasPopulares, $videos, $socialmedias;
+    protected $request, $home, $noticias, $ultimasNoticias, $noticiasBreakNews, $noticiasPopulares, $videos, $socialmedias, $banner;
 
     public function __construct(Request $request, Home $home, Noticia $noticias)
     {
@@ -29,7 +29,7 @@ class HomeController extends Controller
         $this->noticiasPopulares = Noticia::orderBy('qtd_views', 'desc')->take(3)->get();
         $this->videos = Video::where('status', true)->take(3)->get();
         $this->socialmedias = SocialMedia::where('status', 1)->orderBy('id', 'desc')->get();
-
+        $this->banner = \App\Models\Banner::where('status', 1)->orderBy('id', 'desc')->first();
     }
     /**
      * Display a listing of the resource.
@@ -58,7 +58,8 @@ class HomeController extends Controller
             'noticiaSingle' => $noticiaSingle,
             'noticiasPopulares' => $this->noticiasPopulares,
             'videos' => $this->videos,
-            'socialmedias' => $this->socialmedias
+            'socialmedias' => $this->socialmedias,
+            'banner' => $this->banner
         ]);
     }
 
@@ -149,6 +150,7 @@ class HomeController extends Controller
                     'videos' => $this->videos,
                     'socialmedias' => $this->socialmedias
                 ];
+                $data['banner'] = $this->banner;
                 return view('home.secao', $data);
                 break;
 
@@ -168,8 +170,7 @@ class HomeController extends Controller
             //  $data .= ['socialmedias' =>$this->socialmedias];
         }
 
+        $data['banner'] = $this->banner;
         return view('home.' . $pagina, $data);
-
     }
-
 }
