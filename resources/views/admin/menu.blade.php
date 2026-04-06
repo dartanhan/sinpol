@@ -6,7 +6,12 @@
     <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
-
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('banner.index')}}">
+                    <i class="bi bi-image"></i>
+                    <span>Banners</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link " href="{{route('admin.dashboard')}}">
                     <i class="bi bi-grid"></i>
@@ -104,6 +109,7 @@
                     <span>Vídeos</span>
                 </a>
             </li>
+            
             <!-- End Register Page Nav -->
             <!--li class="nav-item">
                         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">

@@ -53,7 +53,17 @@
 
     <div class="row d-none d-lg-block">
         <div>
-            <img src="{{URL::asset('img/banner2.jpg')}}" alt="Banner" class="img-banner">
+            @if(isset($banner) && $banner)
+                @if($banner->link)
+                    <a href="{{ $banner->link }}" target="_blank">
+                        <img src="{{ URL::asset('storage/banners/'.$banner->path) }}" alt="Banner" class="img-banner w-100">
+                    </a>
+                @else
+                    <img src="{{ URL::asset('storage/banners/'.$banner->path) }}" alt="Banner" class="img-banner w-100">
+                @endif
+            @else
+                <img src="{{URL::asset('img/banner2.jpg')}}" alt="Banner" class="img-banner w-100">
+            @endif
         </div>
     </div>
     <!-- Topbar End -->

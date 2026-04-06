@@ -9677,13 +9677,27 @@ h6,
 }
 
 .img-banner {
-
-  background-size: cover;         /* Ajusta a imagem para cobrir o contêiner */
-  background-position: center;    /* Centraliza a imagem */
   width: 100%;
-  height: 200px;                  /* Ajuste a altura conforme necessário */
-  background-repeat: no-repeat;   
+  height: 280px;            /* altura padrão desktop */
+  object-fit: cover;        /* recorta mantendo proporção, SEM distorcer */
+  object-position: center;  /* foco no centro da imagem */
+  display: block;
 }
+
+/* Tablet */
+@media (max-width: 992px) {
+  .img-banner {
+    height: 200px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .img-banner {
+    height: 140px;
+  }
+}
+
 .img-banner-cel {
 
   background-size: cover;         /* Ajusta a imagem para cobrir o contêiner */

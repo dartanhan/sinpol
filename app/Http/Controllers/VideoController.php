@@ -38,8 +38,15 @@ class VideoController extends Controller
     */
     public function store(){
 
+        $link = $this->request->input('link');
+        if (strpos($link, 'youtube.com/shorts/') !== false) {
+            $parts = explode('/shorts/', $link);
+            $videoId = explode('?', $parts[1])[0];
+            $link = 'https://www.youtube.com/watch?v=' . $videoId;
+        }
+
         $data = [
-            'link' => $this->request->input('link'),
+            'link' => $link,
             'titulo' => $this->request->input('titulo'),
             'subtitulo' => $this->request->input('subtitulo'),
             'status' => false,
@@ -64,9 +71,16 @@ class VideoController extends Controller
     public function update($id){
         $video = $this->video->find($id);
 
+        $link = $this->request->input('link');
+        if (strpos($link, 'youtube.com/shorts/') !== false) {
+            $parts = explode('/shorts/', $link);
+            $videoId = explode('?', $parts[1])[0];
+            $link = 'https://www.youtube.com/watch?v=' . $videoId;
+        }
+
         $video->titulo = $this->request->input('titulo');
         $video->subtitulo =  $this->request->input('subtitulo');
-        $video->link = $this->request->input('link');
+        $video->link = $link;
         $video->slug = $this->request->input('slug');
         $video->updated_at = Carbon::now();
 
