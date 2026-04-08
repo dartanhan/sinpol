@@ -50,6 +50,9 @@
                                         if (strpos($map_link, '/maps/d/') !== false) {
                                             $embed_url = str_replace(['/viewer', '/edit'], '/embed', $map_link);
                                             $embed_url = preg_replace('/\/u\/\d+\//', '/', $embed_url);
+                                        } elseif (preg_match('/\/maps\/place\/([^\/@]+)/', $map_link, $matches)) {
+                                            $address = str_replace('+', ' ', $matches[1]);
+                                            $embed_url = "https://maps.google.com/maps?q=" . urlencode($address) . "&hl=pt&z=14&output=embed";
                                         } elseif (strpos($map_link, 'http') === 0) {
                                             $embed_url = $map_link . (strpos($map_link, '?') !== false ? '&' : '?') . 'output=embed';
                                         } else {

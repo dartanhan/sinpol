@@ -16,12 +16,12 @@
                 if (strpos($map_link, '/maps/d/') !== false) {
                     $embed_url = str_replace(['/viewer', '/edit'], '/embed', $map_link);
                     $embed_url = preg_replace('/\/u\/\d+\//', '/', $embed_url);
-                    
-                    // Para o link externo, tentamos converter para uma busca padrão se o usuário quiser Google Maps
-                    // Como MyMaps é uma camada diferente, o link direto sempre abrirá no MyMaps.
-                    // Uma alternativa é usar o título do mapa ou endereço, se disponível, mas aqui usaremos o link salvo.
-                    // Para forçar "Google Maps", o ideal é o usuário salvar um link de "Lugar" ou "Endereço".
                 } 
+                // Se for um link de lugar específico do Google Maps (contém /maps/place/)
+                elseif (preg_match('/\/maps\/place\/([^\/@]+)/', $map_link, $matches)) {
+                    $address = str_replace('+', ' ', $matches[1]);
+                    $embed_url = "https://maps.google.com/maps?q=" . urlencode($address) . "&hl=pt&z=14&output=embed";
+                }
                 // Se for um link comum do Google Maps
                 elseif (strpos($map_link, 'http') === 0) {
                     $embed_url = $map_link . (strpos($map_link, '?') !== false ? '&' : '?') . 'output=embed';
