@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout title="SINPOL-RJ - Login">
     <style>
         .login-bg {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
