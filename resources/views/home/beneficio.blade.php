@@ -47,7 +47,9 @@
                                         [...]
                                     @endif
                                 </h1>
-                                <p>{!! $beneficio->conteudo!!}</p>
+                                <div class="text-dark beneficio-conteudo mb-5">
+                                    {!! $beneficio->conteudo !!}
+                                </div>
                             @endforeach
                         </div>
                     </div>

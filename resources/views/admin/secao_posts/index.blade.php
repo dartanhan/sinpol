@@ -55,54 +55,50 @@
 
         <div class="row mt-4">
             <div class="col-lg-12">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="card-title m-0 p-0 text-uppercase">{{ $tituloDaTela }}</h5>
-                            <button type="button" class="btn btn-primary btnModalSecao px-4 shadow-sm" data-toggle="modal"
-                                data-target="#modalSecao" data-rota="{{route($tipo.'.store')}}">
+                            <h5 class="card-title m-0 p-0 text-uppercase fw-bold text-primary">
+                                <i class="bi bi-stack me-2"></i>{{ $tituloDaTela }}
+                            </h5>
+                            <a href="{{ route($tipo.'.create') }}" class="btn btn-primary px-4 shadow-sm fw-bold">
                                 <i class="bi bi-plus-circle me-1"></i> Nova Entrada
-                            </button>
+                            </a>
                         </div>
 
                         <table class="table datatable table-hover align-middle">
-                            <thead class="table-dark">
+                            <thead class="table-light">
                                 <tr>
-                                    <th scope="col" width="50">#</th>
-                                    <th scope="col">Título do Post</th>
+                                    <th scope="col" width="50" class="text-center">#</th>
+                                    <th scope="col" class="text-start">Título do Post</th>
                                     <th scope="col" width="100" class="text-center">Status</th>
-                                    <th scope="col" width="150">Criado em</th>
-                                    <th scope="col" width="120">Ações</th>
+                                    <th scope="col" width="150" class="text-center">Criado em</th>
+                                    <th scope="col" width="120" class="text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($posts as $post)
                                     <tr>
-                                        <th scope="row">{{$post->id}}</th>
-                                        <td>
+                                        <th scope="row" class="text-center">{{$post->id}}</th>
+                                        <td class="text-start">
                                             <div class="fw-bold text-dark">{{$post->titulo}}</div>
                                             <small class="text-muted">ID: {{$post->id}}</small>
                                         </td>
-                                        <td>
-                                            <div class="form-check form-switch d-flex justify-content-center">
-                                                <input class="form-check-input statusSwitch" type="checkbox"
-                                                    data-rota="{{route($tipo.'.atualizar-status')}}"
-                                                    data-id="{{$post->id}}" @if($post->status) checked @endif
-                                                    title="Ativar/Desativar no site">
-                                            </div>
+                                        <td class="text-center">
+                                            @if($post->status == 1)
+                                                <span class="badge bg-success text-uppercase">Publicado</span>
+                                            @else
+                                                <span class="badge bg-secondary text-uppercase">Rascunho</span>
+                                            @endif
                                         </td>
-                                        <td>
-                                            <small class="text-muted">{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y H:i') }}</small>
+                                        <td class="text-center">
+                                            <small class="text-muted fw-semibold">{{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y H:i') }}</small>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <div class="btn-group shadow-sm">
-                                                <button class="btn btn-sm btn-outline-info btn-editar-secao" 
-                                                    data-rota="{{route($tipo.'.edit', $post->id)}}"
-                                                    data-rota-update="{{route($tipo.'.update', $post->id)}}" 
-                                                    data-toggle="modal" data-target="#modalSecao"
-                                                    title="Editar">
+                                                <a href="{{ route($tipo.'.edit', $post->id) }}" class="btn btn-sm btn-outline-info" title="Editar">
                                                     <i class="bi bi-pencil"></i>
-                                                </button>
+                                                </a>
                                                 <button class="btn btn-sm btn-outline-danger btn-excluir-secao"
                                                     data-rota="{{route($tipo.'.destroy', $post->id)}}"
                                                     title="Excluir">
@@ -119,43 +115,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Modal Secao -->
-    <div class="modal fade" id="modalSecao" tabindex="-1" role="dialog" aria-labelledby="modalSecaoLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content shadow-lg border-0">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="modalSecaoLabel">
-                        <i class="bi bi-pencil-square me-2"></i>Gerenciar {{ $tituloDaTela }}
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body p-4">
-                    <form action="{{route($tipo.'.store')}}" method="POST" enctype="multipart/form-data" id="secaoForm">
-                        @csrf
-
-                        <input type="hidden" name="titulo" id="titulo" value="{{ $tituloDaTela }}">
-
-                        <div class="card shadow-none border">
-                            <div class="card-header bg-light fw-bold">
-                                <i class="bi bi-type me-1"></i> Editor de Conteúdo - {{ $tituloDaTela }}
-                            </div>
-                            <div class="card-body p-0">
-                                <textarea id="tinymce_editor" name="tinymce_editor" class="tinymce_editor"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer border-top-0 pt-4 px-0">
-                            <button type="button" class="btn btn-light me-2 px-4" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary px-5 shadow-sm">Salvar Alterações</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push("styles")

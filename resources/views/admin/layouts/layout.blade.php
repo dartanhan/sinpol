@@ -41,6 +41,47 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+    <style>
+        .swal2-container {
+            z-index: 99999 !important;
+        }
+        /* Custom Premium Table Styling */
+        .table {
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            width: 100% !important;
+            margin-top: 15px !important;
+            border: 1px solid #eef2f5 !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
+        }
+        .table thead th {
+            background-color: #f6f9ff !important;
+            color: #4154f1 !important;
+            border-bottom: 2px solid #e0e6ed !important;
+            text-transform: uppercase !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px !important;
+            padding: 14px 16px !important;
+        }
+        .table tbody tr {
+            transition: all 0.2s ease !important;
+        }
+        .table tbody tr:hover {
+            background-color: #f8fafd !important;
+        }
+        .table tbody td, .table tbody th {
+            padding: 16px 16px !important;
+            border-bottom: 1px solid #edf2f7 !important;
+            color: #444444 !important;
+            font-size: 14px !important;
+            vertical-align: middle !important;
+        }
+        .table tbody tr:last-child td {
+            border-bottom: 0 !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -308,7 +349,7 @@
 <script src="{{URL::asset('/admin/assets/vendor/echarts/echarts.min.js')}}"></script>
 <script src="{{URL::asset('/admin/assets/vendor/quill/quill.js')}}"></script>
 <script src="{{URL::asset('/admin/assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
-<script src="{{URL::asset('/admin/assets/vendor/tinymce/tinymce.min.js')}}"></script>
+<script src="https://cdn.tiny.cloud/1/op59c4spowh6qvoqd3swhyqb20pm5ixuql7rq6ir09186kp0/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="{{URL::asset('/admin/assets/vendor/php-email-form/validate.js')}}"></script>
 <script src="{{URL::asset('/admin/assets/langs/pt_BR.js')}}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>

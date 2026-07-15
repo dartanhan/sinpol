@@ -1,138 +1,85 @@
-    /**
- * ######################## AREA SECAO #####################
- * */
-$('.btnModalSecao').on('click', function (e) {
-    // $("#titulo").val(""); // Mantém o título padrão definido no Blade
-    tinymce.activeEditor.setContent("");
-
-    $('#secaoForm').attr('action', $(this).data('rota'));
-
-    const meuFormulario = document.getElementById('secaoForm');
-    const existingMethodInput = meuFormulario.querySelector('input[name="_method"]');
-    if (existingMethodInput) {
-        meuFormulario.removeChild(existingMethodInput);
-    }
-});
-
 document.addEventListener('DOMContentLoaded', function () {
-    let secaoForm = document.getElementById('secaoForm');
-    if (secaoForm) {
-        secaoForm.addEventListener('submit', function (event) {
-            event.preventDefault();
+    // Excluir post com SweetAlert2
+    document.querySelectorAll('.btn-excluir-secao').forEach(function (element) {
+        element.addEventListener('click', function () {
+            const rota = this.getAttribute('data-rota');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            const tinymceContent = tinymce.get('tinymce_editor').getContent();
-            if (tinymceContent.trim() === "") {
-                Swal.fire({
-                    title: 'Atenção!',
-                    text: 'O Conteúdo está vazio!',
-                    icon: 'info',
-                    confirmButtonText: 'OK'
-                })
-                return;
-            }
-
-            tinymce.triggerSave(); // Sincroniza o editor com o textarea original
-            this.submit();
-        });
-    }
-});
-
-document.querySelectorAll('.btn-editar-secao').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        const rota = $(this).data('rota');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const meuFormulario = document.getElementById('secaoForm');
-
-        const existingMethodInput = meuFormulario.querySelector('input[name="_method"]');
-        if (existingMethodInput) {
-            meuFormulario.removeChild(existingMethodInput);
-        }
-
-        fetch(rota, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-            }
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response.success) {
-                    if (document.getElementById('titulo')) {
-                        document.getElementById('titulo').value = response.data.titulo;
-                    }
-                    tinymce.activeEditor.setContent(response.data.conteudo);
-
-                    meuFormulario.action = $(this).data('rota-update');
-
-                    const hiddenMethodInput = document.createElement('input');
-                    hiddenMethodInput.type = 'hidden';
-                    hiddenMethodInput.name = '_method';
-                    hiddenMethodInput.value = 'PUT';
-                    meuFormulario.appendChild(hiddenMethodInput);
-
-                } else {
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Deseja realmente excluir este conteúdo?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
                     Swal.fire({
-                        title: 'Error!',
-                        icon: 'error',
-                        html: response.message,
-                        showConfirmButton: true
+                        title: 'Excluindo...',
+                        html: 'Por favor, aguarde.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        }
+                    });
+
+                    const originalHtml = element.innerHTML;
+                    element.disabled = true;
+                    element.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+
+                    fetch(rota, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Excluído!',
+                                text: data.message || 'Excluído com sucesso.',
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            element.disabled = false;
+                            element.innerHTML = originalHtml;
+                            Swal.fire('Erro!', data.message || 'Erro ao excluir.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        element.disabled = false;
+                        element.innerHTML = originalHtml;
+                        Swal.fire('Erro!', 'Erro ao excluir.', 'error');
                     });
                 }
-            })
-            .catch(error => Swal.fire({
-                title: 'Error!',
-                icon: 'error',
-                html: error,
-                showConfirmButton: true
-            })
-            );
+            });
+        });
     });
-});
 
-document.querySelectorAll('.btn-excluir-secao').forEach(function (element) {
-    element.addEventListener('click', function () {
-        const rota = $(this).data('rota');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        let confirmation = confirm("Deseja realmente excluir este conteúdo?");
-        if (!confirmation) return;
+    // Alterar status com SweetAlert2
+    document.querySelectorAll('.statusSwitch').forEach(function (element) {
+        element.addEventListener('click', function () {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const rota = this.getAttribute('data-rota');
+            const id = this.getAttribute('data-id');
+            let status = this.checked ? 1 : 0;
 
-        fetch(rota, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.reload();
-                } else {
-                    alert("Erro ao excluir");
+            fetch(rota, {
+                method: 'POST',
+                body: JSON.stringify({ id: id, status: status }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
                 }
             })
-            .catch(error => alert("Erro ao excluir"));
-    });
-});
-
-document.querySelectorAll('.statusSwitch').forEach(function (element) {
-    element.addEventListener('click', function () {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const rota = $(this).data('rota');
-        const id = $(this).data('id');
-        let status = this.checked ? 1 : 0;
-
-        fetch(rota, {
-            method: 'POST',
-            body: JSON.stringify({ id: id, status: status }),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-            }
-        })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -140,11 +87,12 @@ document.querySelectorAll('.statusSwitch').forEach(function (element) {
                         title: 'Sucesso!',
                         html: data.message,
                         icon: 'success',
-                        timer: 1000
+                        timer: 1000,
+                        showConfirmButton: false
                     });
                 } else {
                     Swal.fire({
-                        title: 'Error!',
+                        title: 'Erro!',
                         icon: 'error',
                         html: data.message,
                         showConfirmButton: true
@@ -152,11 +100,11 @@ document.querySelectorAll('.statusSwitch').forEach(function (element) {
                 }
             })
             .catch(error => Swal.fire({
-                title: 'Error!',
+                title: 'Erro!',
                 icon: 'error',
-                html: error,
+                html: error.message || error,
                 showConfirmButton: true
-            })
-            );
+            }));
+        });
     });
 });

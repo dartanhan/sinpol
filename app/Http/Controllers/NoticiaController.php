@@ -41,7 +41,7 @@ class NoticiaController extends Controller
             'subtitulo' => $this->request->input('subtitulo'),
             'imagem_id' => $this->request->input('idImagemDestaque'),
             'conteudo' => $this->request->input('tinymce_editor'),
-            'status' => false,
+            'status' => $this->request->input('status', 1),
             'destaque' => $this->request->has('destaque'),
             'slug' => $this->request->input('slug'),
             'user_id' => Auth::user()->id,
@@ -58,7 +58,12 @@ class NoticiaController extends Controller
     }
 
     public function create(){
-
+        if(Auth::check() === true){
+            $user_data = User::where("id",auth()->user()->id)->first();
+            $images = $this->galleryImage->get();
+            return view('admin.noticias.create', compact('images', 'user_data'));
+        }
+        return redirect()->route('login');
     }
 
     public function destroy(int $id)
@@ -82,35 +87,42 @@ class NoticiaController extends Controller
 
     public function edit($id)
     {
-        //$noticia = Noticia::find($id);
-        $noticia = Noticia::with('imagens')->find($id);
+        if(Auth::check() === true){
+            $user_data = User::where("id",auth()->user()->id)->first();
+            $noticia = Noticia::with('imagens')->find($id);
 
-         if (!$noticia) {
-            abort(404); // Retorna um erro 404 se a notícia não for encontrada
+            if (!$noticia) {
+                return redirect()->route('noticia.index')->with('danger', 'Notícia não encontrada.');
+            }
+            $images = $this->galleryImage->get();
+            return view('admin.noticias.edit', compact('noticia', 'images', 'user_data'));
         }
-        return response()->json(['success' => true, 'data' => $noticia]);
+        return redirect()->route('login');
     }
 
     public function update($id)
     {
         $noticia = Noticia::find($id);
 
+        if (!$noticia) {
+            return redirect()->route('noticia.index')->with('danger', 'Notícia não encontrada.');
+        }
+
         $noticia->titulo = $this->request->input('titulo');
         $noticia->subtitulo =  $this->request->input('subtitulo');
         $noticia->conteudo =  $this->request->input('tinymce_editor');
         $noticia->imagem_id =  $this->request->input('idImagemDestaque');
         $noticia->destaque = $this->request->has('destaque');
+        $noticia->status = $this->request->input('status', 1);
         $noticia->slug = $this->request->input('slug');
         $noticia->updated_at = Carbon::now();
 
         $atualizacaoBemSucedida = $noticia->save();
 
         if ($atualizacaoBemSucedida) {
-           // return response()->json(['success'=> true, 'message' => 'Notícia atualizada com sucesso'], 200);
             return redirect()->route('noticia.index')->with('success','Notícia atualizada com sucesso.');
         } else {
-            //return response()->json(['success'=> false,'message' => 'Erro ao atualizar o status'], 500);
-            return redirect()->route('noticia.index')->with('danger','Erro ao atualizar o status.');
+            return redirect()->route('noticia.index')->with('danger','Erro ao atualizar a notícia.');
         }
 
     }

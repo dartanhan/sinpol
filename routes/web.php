@@ -28,6 +28,8 @@ use App\Http\Controllers\MapaController;
 |
 */
 
+
+
 Route::middleware(['throttle:60,1'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.home');
     Route::redirect('/home/admin', '/admin');
@@ -88,6 +90,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'admin', config('jetst
     foreach($secoes_site as $secao) {
         Route::group(['prefix' => $secao, 'as' => $secao.'.'], function() use ($secao) {
             Route::get('/', [SecaoPostController::class, 'index'])->defaults('tipo', $secao)->name('index');
+            Route::get('/create', [SecaoPostController::class, 'create'])->defaults('tipo', $secao)->name('create');
             Route::post('/', [SecaoPostController::class, 'store'])->defaults('tipo', $secao)->name('store');
             Route::post('/atualizar-status', [SecaoPostController::class, 'atualizarStatus'])->defaults('tipo', $secao)->name('atualizar-status');
             Route::put('/{id}', [SecaoPostController::class, 'update'])->defaults('tipo', $secao)->name('update');

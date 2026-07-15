@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Beneficio;
 use App\Models\User;
+use App\Models\GaleriaImagem;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,14 +25,35 @@ class BeneficioController extends Controller
         if(Auth::check() === true){
             $user_data = User::where("id",auth()->user()->id)->first();
 
-            $beneficios = $this->beneficio->orderBy('id', 'desc')->get();
+            if (!file_exists(public_path('storage'))) {
+                try {
+                    \Illuminate\Support\Facades\Artisan::call('storage:link');
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("Erro ao criar link simbólico de storage: " . $e->getMessage());
+                }
+            }
 
-            return  view('admin.beneficio',compact('beneficios','user_data'));
+            $beneficios = $this->beneficio->orderBy('id', 'desc')->get();
+            $images = GaleriaImagem::get();
+
+            return  view('admin.beneficio',compact('beneficios','user_data','images'));
 
         }
         return redirect()->route('login');
     }
 
+
+    /**
+     * Create
+     */
+    public function create(){
+        if(Auth::check() === true){
+            $user_data = User::where("id",auth()->user()->id)->first();
+            $images = GaleriaImagem::get();
+            return view('admin.beneficio_create', compact('user_data', 'images'));
+        }
+        return redirect()->route('login');
+    }
 
     /**
      * Salvar
@@ -41,7 +63,7 @@ class BeneficioController extends Controller
         $data = [
             'titulo' => $this->request->input('titulo'),
             'conteudo' =>  $this->request->input('tinymce_editor'),
-            'status' => false,
+            'status' => $this->request->input('status') !== null ? (bool)$this->request->input('status') : false,
             'slug' => $this->request->input('slug'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -68,33 +90,35 @@ class BeneficioController extends Controller
             $beneficio->titulo = $this->request->input('titulo');
             $beneficio->conteudo =  $this->request->input('tinymce_editor');
             $beneficio->slug = $this->request->input('slug');
+            $beneficio->status = $this->request->input('status') !== null ? (bool)$this->request->input('status') : $beneficio->status;
             $beneficio->updated_at = Carbon::now();
 
             if ($beneficio->save()) {
-                // return response()->json(['success'=> true, 'message' => 'Notícia atualizada com sucesso'], 200);
                 return redirect()->route('beneficio.index')->with('success','Atualização efetuada com sucesso.');
             } else {
-                //return response()->json(['success'=> false,'message' => 'Erro ao atualizar o status'], 500);
                 return redirect()->route('beneficio.index')->with('danger','Erro ao atualizar.');
             }
         } catch (Throwable  $th){
-            return response()->json(['success' => false, 'message' => "Error não esperado em benefício : " . $th->getMessage()],500);
+            return redirect()->route('beneficio.index')->with('danger', 'Erro inesperado: ' . $th->getMessage());
         }
     }
 
     /**
      * Edita o video
      * @param $id
-     * @return JsonResponse
      */
     public function edit($id){
+        if(Auth::check() === true){
+            $user_data = User::where("id",auth()->user()->id)->first();
+            $beneficio = $this->beneficio->find($id);
 
-        $beneficio = $this->beneficio->find($id);
-
-        if (!$beneficio) {
-            abort(404); // Retorna um erro 404 se não for encontrada
+            if (!$beneficio) {
+                abort(404);
+            }
+            $images = GaleriaImagem::get();
+            return view('admin.beneficio_edit', compact('user_data', 'beneficio', 'images'));
         }
-        return response()->json(['success' => true, 'data' => $beneficio]);
+        return redirect()->route('login');
     }
 
     /**
