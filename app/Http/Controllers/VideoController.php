@@ -34,8 +34,20 @@ class VideoController extends Controller
     }
 
     /**
+     * Cria o vídeo
+     */
+    public function create()
+    {
+        if(Auth::check() === true){
+            $user_data = User::where("id",auth()->user()->id)->first();
+            return view('admin.videos.create', compact('user_data'));
+        }
+        return redirect()->route('login');
+    }
+
+    /**
      * Salva o vídeo
-    */
+     */
     public function store(){
 
         $link = $this->request->input('link');
@@ -49,7 +61,7 @@ class VideoController extends Controller
             'link' => $link,
             'titulo' => $this->request->input('titulo'),
             'subtitulo' => $this->request->input('subtitulo'),
-            'status' => false,
+            'status' => $this->request->input('status', 0),
             'slug' => $this->request->input('slug'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -81,14 +93,13 @@ class VideoController extends Controller
         $video->titulo = $this->request->input('titulo');
         $video->subtitulo =  $this->request->input('subtitulo');
         $video->link = $link;
+        $video->status = $this->request->input('status', 0);
         $video->slug = $this->request->input('slug');
         $video->updated_at = Carbon::now();
 
         if ($video->save()) {
-            // return response()->json(['success'=> true, 'message' => 'Notícia atualizada com sucesso'], 200);
             return redirect()->route('video.index')->with('success','Atualização efetuada com sucesso.');
         } else {
-            //return response()->json(['success'=> false,'message' => 'Erro ao atualizar o status'], 500);
             return redirect()->route('video.index')->with('danger','Erro ao atualizar.');
         }
     }
@@ -96,16 +107,19 @@ class VideoController extends Controller
     /**
      * Edita o video
      * @param $id
-     * @return JsonResponse
+     * @return \Illuminate\View\View
      */
     public function edit($id){
+        if(Auth::check() === true){
+            $user_data = User::where("id",auth()->user()->id)->first();
+            $video = $this->video->find($id);
 
-        $video = $this->video->find($id);
-
-        if (!$video) {
-            abort(404); // Retorna um erro 404 se não for encontrada
+            if (!$video) {
+                abort(404);
+            }
+            return view('admin.videos.edit', compact('video', 'user_data'));
         }
-        return response()->json(['success' => true, 'data' => $video]);
+        return redirect()->route('login');
     }
 
     /**

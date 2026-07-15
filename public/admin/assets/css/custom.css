@@ -111,3 +111,36 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
+
+/* Premium Zebra Striping with Subtle Blue Tone */
+.table tbody tr:nth-of-type(odd) {
+    background-color: rgba(65, 84, 241, 0.04) !important;
+}
+.table tbody tr:nth-of-type(even) {
+    background-color: #ffffff !important;
+}
+.table-hover tbody tr:hover {
+    background-color: rgba(65, 84, 241, 0.08) !important;
+}
+
+/* Gentle Blinking Pulse Animation for Active (Publicado) Status Badge */
+@keyframes softPulse {
+    0% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+    }
+    50% {
+        opacity: 0.82;
+        box-shadow: 0 0 10px 3px rgba(40, 167, 69, 0.45);
+    }
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+    }
+}
+
+.badge.bg-success {
+    animation: softPulse 2.2s infinite ease-in-out;
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+

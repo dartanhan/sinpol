@@ -188,7 +188,6 @@
   const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
 
   tinymce.init({
-    license_key: 'op59c4spowh6qvoqd3swhyqb20pm5ixuql7rq6ir09186kp0',
     selector: 'textarea.tinymce_editor',
     plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons accordion',
     editimage_cors_hosts: ['picsum.photos'],
@@ -234,6 +233,11 @@
     }),
     menubar: 'file edit view insert format tools table help',
     toolbar: "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl",
+    relative_urls: false,
+    remove_script_host: false,
+    convert_urls: false,
+    extended_valid_elements: 'iframe[src|frameborder|style|scrolling|key|width|height|allowfullscreen|allow],video[src|poster|width|height|controls|preload|autoplay|loop|muted],source[src|type]',
+    media_live_embeds: true,
     autosave_ask_before_unload: true,
     toolbar_sticky_offset: isSmallScreen ? 102 : 108,
     autosave_interval: '30s',
@@ -242,14 +246,27 @@
     autosave_retention: '2m',
     image_advtab: true,
     language: 'pt_BR',
-    link_list: [{
-      title: 'My page 1',
-      value: 'https://www.tiny.cloud'
-    },
-    {
-      title: 'My page 2',
-      value: 'http://www.moxiecode.com'
-    }
+    link_list: [
+      { title: 'Home', value: '/' },
+      { title: 'Benefícios', value: '/home/beneficio' },
+      { title: 'Notícias', value: '/home/outrasnoticias' },
+      { title: 'Galeria de Imagens', value: '/home/socialmedia' },
+      { title: 'Convênios', value: '/home/convenio' },
+      { title: 'Diretoria', value: '/home/diretoria' },
+      { title: 'História', value: '/home/historia' },
+      { title: 'Fale Conosco', value: '/home/fale-conosco' },
+      { title: 'Como Chegar', value: '/home/como-chegar' },
+      { title: 'Principais Links', value: '/home/principais-links' },
+      { title: 'Sinpol Animal', value: '/home/sinpol-animal' },
+      { title: 'Sinpol Mulher', value: '/home/sinpol-mulher' },
+      { title: 'Sinpol Permutas', value: '/home/sinpol-permutas' },
+      { title: 'Classificados', value: '/home/classificados-sinpol' },
+      { title: 'Sinpol Fiscaliza', value: '/home/sinpol-fiscaliza' },
+      { title: 'Sinpol Na Rua', value: '/home/sinpol-na-rua' },
+      { title: 'Sinpol Denúncias', value: '/home/sinpol-denuncias' },
+      { title: 'Sinpol Idoso', value: '/home/sinpol-idoso' },
+      { title: 'Sinpol Esportes', value: '/home/sinpol-esportes' },
+      { title: 'Sinpol Peritos', value: '/home/sinpol-peritos' }
     ],
     image_list: [{
       title: 'My page 1',
@@ -270,7 +287,99 @@
     }
     ],
     importcss_append: true,
-    height: 600,
+    file_picker_callback: (callback, value, meta) => {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+
+      if (meta.filetype === 'image') {
+        input.setAttribute('accept', 'image/*');
+      } else if (meta.filetype === 'media') {
+        input.setAttribute('accept', 'video/*,audio/*');
+      }
+
+      input.onchange = function () {
+        const file = this.files[0];
+        
+        // 30MB limit check
+        const maxBytes = 30 * 1024 * 1024;
+        if (file.size > maxBytes) {
+            const limitMsg = 'O arquivo selecionado é muito grande (excede o limite de tamanho permitido de 30MB).';
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro de Tamanho',
+                    text: limitMsg,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Entendido'
+                });
+            } else {
+                alert(limitMsg);
+            }
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file, file.name);
+
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+        xhr.open('POST', '/admin/upload/tinymce');
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        if (token) {
+            xhr.setRequestHeader("X-CSRF-Token", token);
+        }
+
+        xhr.onload = function () {
+          if (xhr.status < 200 || xhr.status >= 300) {
+            let errorMsg = 'Ocorreu um erro ao enviar o arquivo.';
+            if (xhr.status === 413 || xhr.statusText === 'Request Entity Too Large') {
+              errorMsg = 'O arquivo selecionado é muito grande (excede o limite de tamanho permitido no servidor: máximo de 30MB).';
+            } else if (xhr.status === 403 || xhr.status === 401) {
+              errorMsg = 'Você não tem permissão para realizar este envio. Sua sessão pode ter expirado.';
+            } else if (xhr.statusText) {
+              errorMsg = 'Erro: ' + xhr.statusText;
+            }
+
+            if (typeof Swal !== 'undefined') {
+              Swal.fire({
+                icon: 'error',
+                title: 'Erro de Envio',
+                text: errorMsg,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Entendido'
+              });
+            } else {
+              alert('Erro ao enviar arquivo: ' + errorMsg);
+            }
+            return;
+          }
+
+          const json = JSON.parse(xhr.responseText);
+          if (json && typeof json.location === 'string') {
+            callback(json.location, { text: file.name, title: file.name, alt: file.name });
+          }
+        };
+
+        xhr.onerror = function () {
+          if (typeof Swal !== 'undefined') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro de Conexão',
+              text: 'Não foi possível conectar ao servidor para enviar o arquivo. Verifique sua conexão com a internet.',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Entendido'
+            });
+          } else {
+            alert('Erro na conexão ao enviar o arquivo.');
+          }
+        };
+
+        xhr.send(formData);
+      };
+
+      input.click();
+    },
+    height: 400,
     image_caption: true,
     quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
     noneditable_class: 'mceNonEditable',
@@ -329,9 +438,6 @@
     });
   })
 
-  /**
-   * Autoresize echart charts
-   */
   const mainContainer = select('#main');
   if (mainContainer) {
     setTimeout(() => {
@@ -342,5 +448,153 @@
       }).observe(mainContainer);
     }, 200);
   }
+
+  // Disable Bootstrap focus trapping globally to prevent it from blocking TinyMCE inputs
+  if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+      if (bootstrap.Modal.Default) {
+          bootstrap.Modal.Default.focus = false;
+      }
+  }
+
+  document.addEventListener('focusin', function(e) {
+      if (e.target && e.target.closest && e.target.closest(".tox-tinymce-aux, .moxman-window, .tam-assetmanager-root, .tox-dialog")) {
+          const dialog = document.querySelector('.tox-dialog');
+          if (dialog) {
+              dialog.style.zIndex = '2003';
+          }
+          e.stopImmediatePropagation();
+      }
+  });
+
+  // Global loading state on form submit buttons (Vanilla JS)
+  document.addEventListener('submit', function(e) {
+      const form = e.target;
+      if (e.defaultPrevented) {
+          return;
+      }
+      
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) {
+          // If the form has TinyMCE, make sure it has content and trigger save
+          let hasEmptyTiny = false;
+          form.querySelectorAll('textarea.tinymce_editor').forEach(function(textarea) {
+              const editor = typeof tinymce !== 'undefined' ? tinymce.get(textarea.id) : null;
+              if (editor) {
+                  const content = editor.getContent().trim();
+                  if (content === "") {
+                      hasEmptyTiny = true;
+                  } else {
+                      editor.save();
+                  }
+              }
+          });
+
+          if (hasEmptyTiny) {
+              return; // Let the custom validator handle it
+          }
+
+          // Disable and add loading spinner
+          setTimeout(function() {
+              submitBtn.disabled = true;
+          }, 1);
+
+          const originalText = submitBtn.textContent.trim();
+          let loadingText = 'Aguarde...';
+          
+          if (originalText.toLowerCase().includes('salvar')) {
+              loadingText = 'Salvando...';
+          } else if (originalText.toLowerCase().includes('enviar')) {
+              loadingText = 'Enviando...';
+          } else if (originalText.toLowerCase().includes('entrar')) {
+              loadingText = 'Entrando...';
+          }
+
+          submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>${loadingText.toUpperCase()}`;
+      }
+  });
+
+  // Override HTMLFormElement.prototype.submit to trigger loading state on programmatic submit
+  const originalSubmit = HTMLFormElement.prototype.submit;
+  HTMLFormElement.prototype.submit = function() {
+      const submitBtn = this.querySelector('button[type="submit"]');
+      if (submitBtn) {
+          this.querySelectorAll('textarea.tinymce_editor').forEach(function(textarea) {
+              const editor = typeof tinymce !== 'undefined' ? tinymce.get(textarea.id) : null;
+              if (editor) {
+                  editor.save();
+              }
+          });
+
+          const originalText = submitBtn.textContent.trim();
+          let loadingText = 'Aguarde...';
+          
+          if (originalText.toLowerCase().includes('salvar')) {
+              loadingText = 'Salvando...';
+          } else if (originalText.toLowerCase().includes('enviar')) {
+              loadingText = 'Enviando...';
+          } else if (originalText.toLowerCase().includes('entrar')) {
+              loadingText = 'Entrando...';
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>${loadingText.toUpperCase()}`;
+      }
+      originalSubmit.apply(this);
+  };
+
+  // Global loading state on navigation/click buttons (Vanilla JS)
+  document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn');
+      if (!btn) {
+          return;
+      }
+
+      // Skip submit buttons (handled by submit event), dropdown/modal toggles, delete buttons (handled by SweetAlert)
+      if (btn.getAttribute('type') === 'submit' || 
+          btn.classList.contains('dropdown-toggle') || 
+          btn.classList.contains('btn-excluir-secao') || 
+          btn.classList.contains('btn-excluir')) {
+          return;
+      }
+
+      // Check if it's a Bootstrap modal trigger (like Galeria button)
+      if (btn.getAttribute('data-toggle') === 'modal' || 
+          btn.getAttribute('data-bs-toggle') === 'modal' || 
+          btn.getAttribute('data-target') || 
+          btn.getAttribute('data-bs-target') ||
+          btn.hasAttribute('data-toggle') ||
+          btn.hasAttribute('data-bs-toggle')) {
+          
+          if (btn.textContent.toLowerCase().includes('galeria')) {
+              const originalHtml = btn.innerHTML;
+              btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>GALERIA';
+              setTimeout(function() {
+                  btn.innerHTML = originalHtml;
+              }, 800);
+          }
+          return;
+      }
+
+      // Check if it's a standard link/redirect
+      const href = btn.getAttribute('href');
+      if (href && href !== '#' && !href.startsWith('javascript:')) {
+          const originalText = btn.textContent.trim();
+          let loadingText = 'Aguarde...';
+          
+          if (originalText.toLowerCase().includes('voltar')) {
+              loadingText = 'Voltando...';
+          } else if (originalText.toLowerCase().includes('nova') || originalText.toLowerCase().includes('adicionar') || originalText.toLowerCase().includes('cadastrar')) {
+               loadingText = 'Carregando...';
+          } else if (originalText.toLowerCase().includes('editar')) {
+              loadingText = 'Carregando...';
+          } else if (originalText.toLowerCase().includes('cancelar')) {
+              loadingText = 'Cancelando...';
+          }
+
+          btn.classList.add('disabled');
+          btn.style.pointerEvents = 'none';
+          btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>${loadingText.toUpperCase()}`;
+      }
+  });
 
 })();

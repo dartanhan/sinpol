@@ -282,6 +282,19 @@ document.querySelectorAll('.btn-excluir').forEach(btn => {
         confirmButtonText: 'Sim!'
     }).then((result) => {
         if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Excluindo...',
+                html: 'Por favor, aguarde.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            });
+
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+
             fetch(rota, {
                 method: 'DELETE',
                 headers: {
@@ -302,6 +315,8 @@ document.querySelectorAll('.btn-excluir').forEach(btn => {
                             }
                         });
                     } else {
+                        btn.disabled = false;
+                        btn.innerHTML = originalHtml;
                         Swal.fire({
                             title: 'Error!',
                             icon: 'error',
@@ -310,13 +325,16 @@ document.querySelectorAll('.btn-excluir').forEach(btn => {
                         });
                     }
                 })
-                .catch(error => Swal.fire({
+                .catch(error => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                    Swal.fire({
                         title: 'Error!',
                         icon: 'error',
                         html: error,
                         showConfirmButton: true
-                    })
-                );
+                    });
+                });
          }
         });
     });
@@ -327,99 +345,95 @@ document.querySelectorAll('.btn-excluir').forEach(btn => {
 /***
  * Adicione um ouvinte de eventos para o Atualiza o status da noticia
  * */
-document.querySelectorAll('.statusSwitch').forEach( function(element) {
-    element.addEventListener('click', function() {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const rota = $(this).data('rota');
-        const id = $(this).data('id');
-        let status = this.checked ? 1 : 0;
+$(document).on('click', '.statusSwitch', function() {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const rota = $(this).data('rota');
+    const id = $(this).data('id');
+    let status = this.checked ? 1 : 0;
 
-        fetch(rota, {
-            method: 'POST',
-            body: JSON.stringify({ id: id, status: status }),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
+    fetch(rota, {
+        method: 'POST',
+        body: JSON.stringify({ id: id, status: status }),
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    title: 'Sucesso!',
+                    html: data.message,
+                    icon: 'success',
+                    timer: 2000,
+                    willClose: () => {
+                        location.reload();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    icon: 'error',
+                    html: data.message,
+                    showConfirmButton: true
+                });
             }
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        title: 'Sucesso!',
-                        html: data.message,
-                        icon: 'success',
-                        timer: 2000,
-                        willClose: () => {
-                            location.reload();
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        icon: 'error',
-                        html: data.message,
-                        showConfirmButton: true
-                    });
-                }
+        .catch(error => Swal.fire({
+            title: 'Error!',
+            icon: 'error',
+            html: error,
+            showConfirmButton: true
             })
-            .catch(error => Swal.fire({
-                title: 'Error!',
-                icon: 'error',
-                html: error,
-                showConfirmButton: true
-                })
-            );
-    });
+        );
 });
 
 /***
  * Adicione um ouvinte de eventos para o Atualiza o destaque da noticia
  * */
-document.querySelectorAll('.destaqueSwitch').forEach( function(element) {
-    element.addEventListener('click', function() {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const rota = $(this).data('rota');
-        const id = $(this).data('id');
-        let status = this.checked ? 1 : 0;
+$(document).on('click', '.destaqueSwitch', function() {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const rota = $(this).data('rota');
+    const id = $(this).data('id');
+    let status = this.checked ? 1 : 0;
 
-        fetch(rota, {
-            method: 'POST',
-            body: JSON.stringify({ id: id, destaque: status }),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        title: 'Sucesso!',
-                        html: data.message,
-                        icon: 'success',
-                        timer: 2000,
-                        willClose: () => {
-                            location.reload();
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        icon: 'error',
-                        html: data.message,
-                        showConfirmButton: true
-                    });
-                }
-            })
-            .catch(error => Swal.fire({
+    fetch(rota, {
+        method: 'POST',
+        body: JSON.stringify({ id: id, destaque: status }),
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    title: 'Sucesso!',
+                    html: data.message,
+                    icon: 'success',
+                    timer: 2000,
+                    willClose: () => {
+                        location.reload();
+                    }
+                });
+            } else {
+                Swal.fire({
                     title: 'Error!',
                     icon: 'error',
-                    html: error,
+                    html: data.message,
                     showConfirmButton: true
-                })
-            );
-    });
+                });
+            }
+        })
+        .catch(error => Swal.fire({
+                title: 'Error!',
+                icon: 'error',
+                html: error,
+                showConfirmButton: true
+            })
+        );
 });
 
 /***

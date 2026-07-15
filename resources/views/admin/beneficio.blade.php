@@ -13,8 +13,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item">Beneficios</li>
-                <li class="breadcrumb-item active">Criar Benefício</li>
+                <li class="breadcrumb-item active">Benefícios</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -37,62 +36,15 @@
         @endif
     </section>
 
-    <!-- Modal Benefício -->
-    <div class="modal fade" id="modalBeneficio" tabindex="-1" role="dialog" aria-labelledby="beneficioModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <form method="POST" action="{{route('beneficio.store')}}" name="beneficioForm" id="beneficioForm" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-content shadow-lg border-0">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="beneficioModalLabel">
-                            <i class="bi bi-gem me-2"></i>Gerenciar Benefício
-                        </h5>
-                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-4 text-start">
-                        <div class="row g-3">
-                            <div class="col-md-8">
-                                <label for="titulo" class="form-label fw-bold">Título do Benefício</label>
-                                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Nome do benefício" maxlength="150" required>
-                                <small class="text-muted">Máximo 150 caracteres.</small>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="slug" class="form-label fw-bold">Slug</label>
-                                <input type="text" name="slug" id="slug" readonly class="form-control bg-light" placeholder="Gerado automaticamente">
-                            </div>
-                            
-                            <div class="col-12 mt-3">
-                                <div class="card border-0 shadow-sm">
-                                    <div class="card-header bg-light py-3">
-                                        <h6 class="m-0 fw-bold text-primary"><i class="bi bi-pencil-square me-2"></i>Detalhes do Benefício</h6>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <textarea class="tinymce_editor" name="tinymce_editor" id="tinymce_editor"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer border-top-0 pt-4 px-0">
-                            <button type="button" class="btn btn-light me-2 px-4" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary px-5 shadow-sm text-uppercase fw-bold">Salvar Benefício</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <div class="row mt-4">
         <div class="col-lg-12">
             <div class="card shadow-sm text-center">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h5 class="card-title m-0 p-0 text-uppercase">Gerenciar Benefícios</h5>
-                        <button type="button" class="btn btn-primary btnModalBeneficio px-4 shadow-sm" data-toggle="modal"
-                                data-target="#modalBeneficio" data-rota="{{route('beneficio.store')}}">
+                        <a href="{{route('beneficio.create')}}" class="btn btn-primary px-4 shadow-sm">
                             <i class="bi bi-plus-circle me-1"></i> Adicionar Benefício
-                        </button>
+                        </a>
                     </div>
 
                     <table class="table datatable table-hover align-middle">
@@ -113,28 +65,21 @@
                                         <div class="fw-bold text-dark">{{$beneficio->titulo}}</div>
                                         <small class="text-info">{{$beneficio->slug}}</small>
                                     </td>
-                                    <td>
-                                        <div class="form-check form-switch d-flex justify-content-center">
-                                            <input class="form-check-input statusSwitch" type="checkbox"
-                                                   data-toggle="tooltip" data-placement="top"
-                                                   title="{{$beneficio->status == 0 ? "Bloqueado" : "Liberado"}}"
-                                                   data-id="{{$beneficio->id}}"
-                                                   data-rota="{{route('atualizar-status-beneficio')}}"
-                                                   {{$beneficio->status == 0 ? "" : "checked"}}>
-                                        </div>
+                                    <td class="text-center">
+                                        @if($beneficio->status == 1)
+                                            <span class="badge bg-success text-uppercase">Publicado</span>
+                                        @else
+                                            <span class="badge bg-secondary text-uppercase">Rascunho</span>
+                                        @endif
                                     </td>
                                     <td>
-                                        <small class="text-muted">{{ \Carbon\Carbon::parse($beneficio->created_at)->format('d/m/Y H:i') }}</small>
+                                        <small class="text-muted">{{ \Carbon\Carbon::parse($beneficio->getRawOriginal('created_at'))->format('d/m/Y H:i') }}</small>
                                     </td>
                                     <td>
                                         <div class="btn-group shadow-sm">
-                                            <button class="btn btn-sm btn-outline-info btn-editar-beneficio" 
-                                                data-rota="{{route('beneficio.edit',$beneficio->id)}}"
-                                                data-rota-update="{{route('beneficio.update',$beneficio->id)}}"
-                                                data-toggle="modal" data-target="#modalBeneficio"
-                                                title="Editar">
+                                            <a href="{{route('beneficio.edit',$beneficio->id)}}" class="btn btn-sm btn-outline-info" title="Editar">
                                                 <i class="bi bi-pencil"></i>
-                                            </button>
+                                            </a>
                                             <button class="btn btn-sm btn-outline-danger btn-excluir"
                                                 data-rota="{{route('beneficio.destroy',$beneficio->id)}}"
                                                 title="Excluir">

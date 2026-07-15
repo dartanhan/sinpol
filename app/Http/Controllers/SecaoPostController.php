@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\GaleriaImagem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -46,6 +47,21 @@ class SecaoPostController extends Controller
         }
     }
 
+    public function create($tipo)
+    {
+        try {
+            if (Auth::check() === true) {
+                $user_data = User::where("id", auth()->user()->id)->first();
+                $images = GaleriaImagem::get();
+                return view('admin.secao_posts.create', compact('user_data', 'tipo', 'images'));
+            }
+            return redirect()->route('login');
+        } catch (Throwable $th) {
+            Log::error("Erro no create do SecaoPostController ($tipo): " . $th->getMessage());
+            return redirect()->back()->with('danger', 'Erro ao carregar formulário: ' . $th->getMessage());
+        }
+    }
+
     public function store($tipo)
     {
         try {
@@ -55,7 +71,7 @@ class SecaoPostController extends Controller
                 'tipo' => $tipo,
                 'titulo' => $tituloPadrao,
                 'conteudo' => $this->request->input('tinymce_editor'),
-                'status' => true,
+                'status' => $this->request->input('status', 1),
             ];
 
             if ($this->request->has('titulo') && !empty($this->request->input('titulo')) && $this->request->input('titulo') !== 'Sem título') {
@@ -63,15 +79,15 @@ class SecaoPostController extends Controller
             }
 
             if (empty($data['conteudo'])) {
-                return redirect()->back()->with('danger', 'O campo conteúdo não pode estar vazio.');
+                return redirect()->back()->withInput()->with('danger', 'O campo conteúdo não pode estar vazio.');
             }
 
             $this->secaoPost->create($data);
 
-            return redirect()->back()->with('success', 'Post criado com sucesso.');
+            return redirect()->route($tipo.'.index')->with('success', 'Post criado com sucesso.');
         } catch (Throwable $th) {
             Log::error("Erro no store do SecaoPostController ($tipo): " . $th->getMessage());
-            return redirect()->back()->with('danger', 'Erro ao salvar: ' . $th->getMessage());
+            return redirect()->back()->withInput()->with('danger', 'Erro ao salvar: ' . $th->getMessage());
         }
     }
 
@@ -105,7 +121,7 @@ class SecaoPostController extends Controller
             $post = $this->secaoPost->where('tipo', $tipo)->find($id);
 
             if (!$post) {
-                 return redirect()->back()->with('danger', 'Registro não encontrado.');
+                 return redirect()->route($tipo.'.index')->with('danger', 'Registro não encontrado.');
             }
 
             if ($this->request->has('titulo')) {
@@ -114,28 +130,37 @@ class SecaoPostController extends Controller
             
             $post->conteudo = $this->request->input('tinymce_editor');
 
+            if ($this->request->has('status')) {
+                $post->status = $this->request->input('status');
+            }
+
             if ($post->save()) {
-                return redirect()->back()->with('success', 'Atualização efetuada com sucesso.');
+                return redirect()->route($tipo.'.index')->with('success', 'Atualização efetuada com sucesso.');
             } else {
-                return redirect()->back()->with('danger', 'Erro ao atualizar.');
+                return redirect()->back()->withInput()->with('danger', 'Erro ao atualizar.');
             }
         } catch (Throwable $th) {
             Log::error("Erro no update do SecaoPostController ($tipo, $id): " . $th->getMessage());
-            return redirect()->back()->with('danger', 'Erro: ' . $th->getMessage());
+            return redirect()->back()->withInput()->with('danger', 'Erro: ' . $th->getMessage());
         }
     }
 
     public function edit($id, $tipo)
     {
         try {
-            $post = $this->secaoPost->where('tipo', $tipo)->find($id);
-            if (!$post) {
-                return response()->json(['success' => false, 'message' => 'Registro não encontrado (Tipo: '.$tipo.', ID: '.$id.').'], 404);
+            if (Auth::check() === true) {
+                $user_data = User::where("id", auth()->user()->id)->first();
+                $post = $this->secaoPost->where('tipo', $tipo)->find($id);
+                if (!$post) {
+                    return redirect()->route($tipo.'.index')->with('danger', 'Registro não encontrado.');
+                }
+                $images = GaleriaImagem::get();
+                return view('admin.secao_posts.edit', compact('post', 'user_data', 'tipo', 'images'));
             }
-            return response()->json(['success' => true, 'data' => $post]);
+            return redirect()->route('login');
         } catch (Throwable $th) {
             Log::error("Erro no edit do SecaoPostController ($tipo, $id): " . $th->getMessage());
-            return response()->json(['success' => false, 'message' => 'Erro interno: ' . $th->getMessage()], 500);
+            return redirect()->route($tipo.'.index')->with('danger', 'Erro ao carregar edição: ' . $th->getMessage());
         }
     }
 
